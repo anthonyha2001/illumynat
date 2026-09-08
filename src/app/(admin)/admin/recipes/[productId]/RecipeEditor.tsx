@@ -15,7 +15,7 @@ interface Ingredient {
   id?: string;
   rawMaterial: { id: string; name: string; consumptionUnit: string };
   quantity: number;
-  notes: string;
+  notes: string | null;
 }
 
 interface Version {

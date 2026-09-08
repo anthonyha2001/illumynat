@@ -335,7 +335,7 @@ export function ProductInfo({ product, imageUrl }: ProductInfoProps) {
             <p className="font-body text-sm text-text">{product.waxType}</p>
           </div>
         )}
-        {product.netWeight && (
+        {product.netWeight != null && (
           <div>
             <p className="font-body text-[10px] tracking-[0.18em] uppercase text-text-muted mb-0.5">Weight</p>
             <p className="font-body text-sm text-text">{String(product.netWeight)}</p>

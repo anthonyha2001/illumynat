@@ -115,7 +115,7 @@ async function main() {
     price: number;
     scentFamily: string;
     burnTime: string;
-    netWeight: number;
+    netWeight: string;
     waxType: string;
     fragranceNotes: string;
     categoryId: string;
