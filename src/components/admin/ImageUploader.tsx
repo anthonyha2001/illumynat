@@ -44,7 +44,10 @@ export function ImageUploader({ urls, onChange, maxImages = 10 }: Props) {
         headers: { "Content-Type": file.type },
         body: file,
       });
-      if (!uploadRes.ok) throw new Error("Upload to storage failed");
+      if (!uploadRes.ok) {
+        const body = await uploadRes.text().catch(() => "");
+        throw new Error(`Storage upload failed (${uploadRes.status})${body ? ": " + body : ""}`);
+      }
 
       // 3. Add public URL to list
       onChange([...urls, data.publicUrl]);
@@ -180,43 +183,6 @@ export function ImageUploader({ urls, onChange, maxImages = 10 }: Props) {
         </div>
       )}
 
-      {/* URL fallback */}
-      <details className="group">
-        <summary className="font-body text-[11px] text-text-muted hover:text-accent cursor-pointer list-none transition-colors duration-150">
-          + Add by URL instead
-        </summary>
-        <div className="mt-2 flex gap-2">
-          <input
-            type="url"
-            placeholder="https://…"
-            className="flex-1 bg-bg border border-border px-3 py-2 font-body text-sm text-text placeholder:text-text-faint focus:border-accent focus:outline-none transition-colors duration-200"
-            onKeyDown={(e) => {
-              if (e.key === "Enter") {
-                e.preventDefault();
-                const val = (e.target as HTMLInputElement).value.trim();
-                if (val && !urls.includes(val)) {
-                  onChange([...urls, val]);
-                  (e.target as HTMLInputElement).value = "";
-                }
-              }
-            }}
-          />
-          <button
-            type="button"
-            onClick={(e) => {
-              const input = (e.currentTarget.previousSibling as HTMLInputElement);
-              const val = input.value.trim();
-              if (val && !urls.includes(val)) {
-                onChange([...urls, val]);
-                input.value = "";
-              }
-            }}
-            className="px-3 py-2 bg-bg-subtle border border-border font-body text-[10px] tracking-widest uppercase text-text-muted hover:text-accent hover:border-accent transition-colors duration-150"
-          >
-            Add
-          </button>
-        </div>
-      </details>
     </div>
   );
 }
