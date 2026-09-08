@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { prisma } from "@/lib/prisma";
 import { ProductForm } from "../ProductForm";
+import { getScentFamilies } from "@/lib/data/siteContent";
 
 export const metadata = { title: "New Product — ILLUMYNAT Admin" };
 
@@ -16,9 +17,10 @@ async function generateUniqueSku(): Promise<string> {
 }
 
 export default async function NewProductPage() {
-  const [categories, sku] = await Promise.all([
+  const [categories, sku, scentFamilies] = await Promise.all([
     prisma.category.findMany({ orderBy: { name: "asc" }, select: { id: true, name: true } }),
     generateUniqueSku(),
+    getScentFamilies(),
   ]);
 
   return (
@@ -32,7 +34,7 @@ export default async function NewProductPage() {
         </Link>
         <h1 className="font-display text-4xl font-light italic text-text">New Product</h1>
       </div>
-      <ProductForm categories={categories} initial={{ sku }} />
+      <ProductForm categories={categories} scentFamilies={scentFamilies} initial={{ sku }} />
     </div>
   );
 }

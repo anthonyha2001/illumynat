@@ -30,6 +30,7 @@ interface ProductFormData {
 
 interface Props {
   categories: Category[];
+  scentFamilies: string[];
   initial?: Partial<ProductFormData>;
   productId?: string; // if editing
 }
@@ -40,8 +41,6 @@ const EMPTY: ProductFormData = {
   scentFamily: "", burnTime: "", netWeight: "", waxType: "",
   fragranceNotes: "", dimensions: "", imageUrls: [],
 };
-
-const SCENT_FAMILIES = ["Woody", "Fresh", "Floral", "Spiced", "Oriental", "Citrus", "Gourmand"];
 const STATUS_OPTIONS = ["DRAFT", "ACTIVE", "ARCHIVED"] as const;
 
 function slugify(str: string) {
@@ -81,7 +80,7 @@ function Textarea({ label, value, onChange, rows = 4, placeholder, hint }: {
   );
 }
 
-export function ProductForm({ categories, initial, productId }: Props) {
+export function ProductForm({ categories, scentFamilies, initial, productId }: Props) {
   const router  = useRouter();
   const isEdit  = !!productId;
 
@@ -180,7 +179,7 @@ export function ProductForm({ categories, initial, productId }: Props) {
                   className="w-full bg-bg border border-border px-3 py-3 font-body text-sm text-text focus:border-accent focus:outline-none transition-colors duration-200"
                 >
                   <option value="">— Select —</option>
-                  {SCENT_FAMILIES.map((s) => (
+                  {scentFamilies.map((s) => (
                     <option key={s} value={s}>{s}</option>
                   ))}
                 </select>

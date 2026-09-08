@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import { prisma } from "@/lib/prisma";
 import { ProductForm } from "../ProductForm";
+import { getScentFamilies } from "@/lib/data/siteContent";
 
 interface Props { params: Promise<{ id: string }> }
 
@@ -14,7 +15,7 @@ export async function generateMetadata({ params }: Props) {
 export default async function EditProductPage({ params }: Props) {
   const { id } = await params;
 
-  const [product, categories] = await Promise.all([
+  const [product, categories, scentFamilies] = await Promise.all([
     prisma.product.findUnique({
       where: { id },
       select: {
@@ -27,6 +28,7 @@ export default async function EditProductPage({ params }: Props) {
       },
     }),
     prisma.category.findMany({ orderBy: { name: "asc" }, select: { id: true, name: true } }),
+    getScentFamilies(),
   ]);
 
   if (!product) notFound();
@@ -60,6 +62,7 @@ export default async function EditProductPage({ params }: Props) {
 
       <ProductForm
         categories={categories}
+        scentFamilies={scentFamilies}
         productId={id}
         initial={{
           name:           product.name,

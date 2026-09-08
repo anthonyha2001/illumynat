@@ -140,6 +140,27 @@ export async function setPalette(content: PaletteContent) {
   });
 }
 
+// ── Scent Families ────────────────────────────────────────
+
+export const SCENT_FAMILY_DEFAULTS: string[] = [
+  "Woody", "Fresh", "Floral", "Spiced", "Oriental", "Citrus", "Gourmand",
+];
+
+export async function getScentFamilies(): Promise<string[]> {
+  const row = await prisma.siteContent.findUnique({ where: { key: "scent_families" } });
+  if (!row) return SCENT_FAMILY_DEFAULTS;
+  const val = row.value as { families?: string[] };
+  return Array.isArray(val?.families) ? val.families : SCENT_FAMILY_DEFAULTS;
+}
+
+export async function setScentFamilies(families: string[]) {
+  await prisma.siteContent.upsert({
+    where:  { key: "scent_families" },
+    update: { value: { families } },
+    create: { key: "scent_families", value: { families } },
+  });
+}
+
 /** Converts a PaletteContent object to a CSS :root block string */
 export function paletteToCSS(p: PaletteContent): string {
   return `:root {
