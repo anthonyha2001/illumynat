@@ -4,11 +4,22 @@ import { ProductForm } from "../ProductForm";
 
 export const metadata = { title: "New Product — ILLUMYNAT Admin" };
 
+async function generateUniqueSku(): Promise<string> {
+  for (let i = 0; i < 10; i++) {
+    const digits = Math.floor(100000 + Math.random() * 900000); // 6 random digits
+    const sku = `528${digits}`;
+    const existing = await prisma.product.findUnique({ where: { sku }, select: { id: true } });
+    if (!existing) return sku;
+  }
+  // Fallback: timestamp-based
+  return `528${Date.now().toString().slice(-6)}`;
+}
+
 export default async function NewProductPage() {
-  const categories = await prisma.category.findMany({
-    orderBy: { name: "asc" },
-    select: { id: true, name: true },
-  });
+  const [categories, sku] = await Promise.all([
+    prisma.category.findMany({ orderBy: { name: "asc" }, select: { id: true, name: true } }),
+    generateUniqueSku(),
+  ]);
 
   return (
     <div className="p-8">
@@ -21,7 +32,7 @@ export default async function NewProductPage() {
         </Link>
         <h1 className="font-display text-4xl font-light italic text-text">New Product</h1>
       </div>
-      <ProductForm categories={categories} />
+      <ProductForm categories={categories} initial={{ sku }} />
     </div>
   );
 }
