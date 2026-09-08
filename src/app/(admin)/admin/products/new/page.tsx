@@ -6,7 +6,7 @@ export const metadata = { title: "New Product — ILLUMYNAT Admin" };
 
 async function generateUniqueSku(): Promise<string> {
   for (let i = 0; i < 10; i++) {
-    const digits = Math.floor(100000 + Math.random() * 900000); // 6 random digits
+    const digits = Math.floor(1000000000 + Math.random() * 9000000000); // 10 random digits
     const sku = `528${digits}`;
     const existing = await prisma.product.findUnique({ where: { sku }, select: { id: true } });
     if (!existing) return sku;
