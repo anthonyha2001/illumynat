@@ -6,6 +6,8 @@ import { getActivePromoZone } from "@/lib/data/siteContent";
 import { createClient } from "@/lib/supabase/server";
 import { prisma } from "@/lib/prisma";
 
+export const dynamic = "force-dynamic";
+
 export default async function CustomerLayout({
   children,
 }: {
@@ -21,9 +23,10 @@ export default async function CustomerLayout({
   if (user) {
     const profile = await prisma.profile.findUnique({
       where: { id: user.id },
-      select: { firstName: true },
+      select: { firstName: true, email: true },
     });
-    firstName = profile?.firstName ?? null;
+    // Use firstName if set, otherwise fall back to the part before @ in email
+    firstName = profile?.firstName?.trim() || profile?.email?.split("@")[0] || null;
   }
 
   return (
