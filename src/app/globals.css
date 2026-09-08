@@ -1,0 +1,173 @@
+@import "tailwindcss";
+
+/* ═══════════════════════════════════════════════════════════
+   PALETTE — THE ONLY PLACE RAW HEX VALUES LIVE
+   Change these variables to repaint the entire platform.
+   ═══════════════════════════════════════════════════════════ */
+
+:root {
+  /* ── Core Brand Colors ── */
+  --palette-ivory:       #FDFAF6;
+  --palette-cream:       #F5EDE5;
+  --palette-parchment:   #EAD9D0;
+  --palette-warm-white:  #FDFAF6;
+  --palette-charcoal:    #2D0A12;
+  --palette-espresso:    #1A0008;
+  --palette-stone:       #6B1A2A;
+  --palette-ash:         #8A5A62;
+  --palette-mist:        #D4B8BC;
+  --palette-gold:        #B8972A;
+  --palette-gold-light:  #E8D5A0;
+  --palette-gold-dark:   #8A6E1A;
+  --palette-gold-pale:   #F5EDD0;
+
+  /* ── Status Colors ── */
+  --palette-success:     #4A7C59;
+  --palette-error:       #8B3A3A;
+  --palette-warning:     #B8843A;
+
+  /* ═══════════════════════════════════════════════════════════
+     SEMANTIC TOKENS — Reference palette above, never raw hex.
+     Named by PURPOSE so intent is always clear.
+     ═══════════════════════════════════════════════════════════ */
+
+  /* ── Backgrounds ── */
+  --color-bg:            var(--palette-ivory);
+  --color-bg-subtle:     var(--palette-cream);
+  --color-bg-muted:      var(--palette-parchment);
+  --color-bg-dark:       var(--palette-charcoal);
+  --color-bg-darker:     var(--palette-espresso);
+  --color-surface:       var(--palette-warm-white);
+
+  /* ── Text ── */
+  --color-text:          var(--palette-charcoal);
+  --color-text-subtle:   var(--palette-stone);
+  --color-text-muted:    var(--palette-ash);
+  --color-text-faint:    var(--palette-mist);
+  --color-text-inverse:  var(--palette-ivory);
+  --color-text-on-gold:  var(--palette-charcoal);
+
+  /* ── Accent (Gold) ── */
+  --color-accent:        var(--palette-gold);
+  --color-accent-light:  var(--palette-gold-light);
+  --color-accent-dark:   var(--palette-gold-dark);
+  --color-accent-pale:   var(--palette-gold-pale);
+
+  /* ── Borders ── */
+  --color-border:        var(--palette-mist);
+  --color-border-subtle: var(--palette-parchment);
+  --color-border-strong: var(--palette-ash);
+
+  /* ── Status ── */
+  --color-success:       var(--palette-success);
+  --color-error:         var(--palette-error);
+  --color-warning:       var(--palette-warning);
+
+  /* ── Typography ── */
+  --font-display:        var(--font-cormorant), Georgia, serif;
+  --font-body:           var(--font-inter), system-ui, sans-serif;
+
+  /* ── Motion ── */
+  --ease-luxury:         cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-smooth:         cubic-bezier(0.25, 0.1, 0.25, 1);
+  --ease-out:            cubic-bezier(0.0, 0.0, 0.2, 1);
+  --duration-fast:       200ms;
+  --duration-base:       350ms;
+  --duration-slow:       600ms;
+  --duration-enter:      700ms;
+
+  /* ── Radius ── */
+  --radius-xs:           2px;
+  --radius-sm:           4px;
+  --radius-md:           8px;
+  --radius-lg:           16px;
+  --radius-xl:           24px;
+  --radius-full:         9999px;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   TAILWIND v4 @theme — Registers tokens as Tailwind utilities.
+   bg-bg, text-muted, border-subtle, font-display etc.
+   all become valid Tailwind classes from here.
+   ═══════════════════════════════════════════════════════════ */
+
+@theme inline {
+  /* Backgrounds */
+  --color-bg:            var(--color-bg);
+  --color-bg-subtle:     var(--color-bg-subtle);
+  --color-bg-muted:      var(--color-bg-muted);
+  --color-bg-dark:       var(--color-bg-dark);
+  --color-bg-darker:     var(--color-bg-darker);
+  --color-surface:       var(--color-surface);
+
+  /* Text */
+  --color-text:          var(--color-text);
+  --color-text-subtle:   var(--color-text-subtle);
+  --color-text-muted:    var(--color-text-muted);
+  --color-text-faint:    var(--color-text-faint);
+  --color-text-inverse:  var(--color-text-inverse);
+  --color-text-on-gold:  var(--color-text-on-gold);
+
+  /* Accent */
+  --color-accent:        var(--color-accent);
+  --color-accent-light:  var(--color-accent-light);
+  --color-accent-dark:   var(--color-accent-dark);
+  --color-accent-pale:   var(--color-accent-pale);
+
+  /* Borders */
+  --color-border:        var(--color-border);
+  --color-border-subtle: var(--color-border-subtle);
+  --color-border-strong: var(--color-border-strong);
+
+  /* Status */
+  --color-success:       var(--color-success);
+  --color-error:         var(--color-error);
+  --color-warning:       var(--color-warning);
+
+  /* Typography */
+  --font-display:        var(--font-display);
+  --font-body:           var(--font-body);
+
+  /* Radius */
+  --radius-xs:           var(--radius-xs);
+  --radius-sm:           var(--radius-sm);
+  --radius-md:           var(--radius-md);
+  --radius-lg:           var(--radius-lg);
+  --radius-xl:           var(--radius-xl);
+  --radius-full:         var(--radius-full);
+}
+
+/* ═══════════════════════════════════════════════════════════
+   BASE STYLES
+   ═══════════════════════════════════════════════════════════ */
+
+html {
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  scroll-behavior: smooth;
+}
+
+body {
+  min-height: 100dvh;
+}
+
+/* Text selection */
+::selection {
+  background-color: var(--color-accent-pale);
+  color: var(--color-text);
+}
+
+/* Minimal luxury scrollbar */
+::-webkit-scrollbar        { width: 5px; height: 5px; }
+::-webkit-scrollbar-track  { background: var(--color-bg-subtle); }
+::-webkit-scrollbar-thumb  { background: var(--color-border); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--color-border-strong); }
+
+/* Gold-tinted focus ring */
+:focus-visible {
+  outline: 1.5px solid var(--color-accent);
+  outline-offset: 3px;
+}
