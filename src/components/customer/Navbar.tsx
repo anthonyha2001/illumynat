@@ -83,7 +83,7 @@ function CartButton({ mobile }: { mobile?: boolean }) {
 }
 
 // ── Navbar ─────────────────────────────────────────────────
-export function Navbar() {
+export function Navbar({ firstName }: { firstName?: string | null }) {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
 
@@ -141,8 +141,23 @@ export function Navbar() {
               <Link href="/account/wishlist" aria-label="Wishlist" className="hover:text-text transition-colors duration-200">
                 <IconHeart />
               </Link>
-              <Link href="/account" aria-label="Account" className="hover:text-text transition-colors duration-200">
-                <IconAccount />
+              <Link
+                href="/account"
+                aria-label="Account"
+                className="flex items-center gap-1.5 hover:text-text transition-colors duration-200"
+              >
+                {firstName ? (
+                  <>
+                    <span className="w-6 h-6 rounded-full bg-accent flex items-center justify-center font-body text-[10px] font-medium text-text-on-gold">
+                      {firstName.charAt(0).toUpperCase()}
+                    </span>
+                    <span className="font-body text-[11px] tracking-[0.1em] uppercase text-text">
+                      {firstName}
+                    </span>
+                  </>
+                ) : (
+                  <IconAccount />
+                )}
               </Link>
               <CartButton />
             </div>
@@ -182,8 +197,16 @@ export function Navbar() {
             </nav>
             <div className="flex items-center gap-6 pt-8">
               <Link href="/account" onClick={() => setOpen(false)} className="flex items-center gap-2 text-text-subtle">
-                <IconAccount />
-                <span className="font-body text-xs tracking-widest uppercase">Account</span>
+                {firstName ? (
+                  <span className="w-6 h-6 rounded-full bg-accent flex items-center justify-center font-body text-[10px] font-medium text-text-on-gold">
+                    {firstName.charAt(0).toUpperCase()}
+                  </span>
+                ) : (
+                  <IconAccount />
+                )}
+                <span className="font-body text-xs tracking-widest uppercase">
+                  {firstName ? `Hi, ${firstName}` : "Account"}
+                </span>
               </Link>
               <Link href="/account/wishlist" onClick={() => setOpen(false)} className="flex items-center gap-2 text-text-subtle">
                 <IconHeart />
