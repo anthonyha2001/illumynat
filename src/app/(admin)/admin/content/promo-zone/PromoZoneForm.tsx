@@ -180,6 +180,79 @@ export function PromoZoneForm({ initial }: { initial: PromoZoneContent }) {
         </div>
       </div>
 
+      {/* Promo Page */}
+      <div className="bg-surface border border-border-subtle p-6 space-y-5">
+        <div className="flex items-center justify-between">
+          <p className="font-body text-[11px] tracking-[0.15em] uppercase text-text-muted font-medium">Promo Page <span className="text-accent">/promo</span></p>
+          <button
+            type="button"
+            onClick={() => set("ctaHref", "/promo")}
+            className="font-body text-[10px] tracking-widest uppercase text-accent hover:underline"
+          >
+            Set CTA → /promo
+          </button>
+        </div>
+        <p className="font-body text-xs text-text-muted -mt-2">
+          A hidden landing page only accessible via the banner CTA. Not shown in navigation.
+        </p>
+
+        <div className="space-y-1">
+          <label className="font-body text-xs text-text-muted">Page Title</label>
+          <input
+            type="text"
+            value={form.pageTitle}
+            onChange={(e) => set("pageTitle", e.target.value)}
+            placeholder="e.g. Exclusive Summer Offer"
+            className="w-full bg-bg border border-border px-3 py-2 font-body text-sm text-text focus:border-accent focus:outline-none"
+          />
+        </div>
+
+        <div className="space-y-1">
+          <label className="font-body text-xs text-text-muted">Page Subtitle</label>
+          <input
+            type="text"
+            value={form.pageSubtitle}
+            onChange={(e) => set("pageSubtitle", e.target.value)}
+            placeholder="e.g. For a limited time only."
+            className="w-full bg-bg border border-border px-3 py-2 font-body text-sm text-text focus:border-accent focus:outline-none"
+          />
+        </div>
+
+        <div className="grid grid-cols-2 gap-4">
+          <div className="space-y-1">
+            <label className="font-body text-xs text-text-muted">Promo Code <span className="text-text-faint">(optional)</span></label>
+            <input
+              type="text"
+              value={form.promoCode ?? ""}
+              onChange={(e) => set("promoCode", e.target.value || null)}
+              placeholder="e.g. SUMMER20"
+              className="w-full bg-bg border border-border px-3 py-2 font-mono text-sm text-text focus:border-accent focus:outline-none uppercase"
+            />
+          </div>
+          <div className="space-y-1">
+            <label className="font-body text-xs text-text-muted">Discount Label <span className="text-text-faint">(optional)</span></label>
+            <input
+              type="text"
+              value={form.promoDiscount ?? ""}
+              onChange={(e) => set("promoDiscount", e.target.value || null)}
+              placeholder="e.g. 20% off all candles"
+              className="w-full bg-bg border border-border px-3 py-2 font-body text-sm text-text focus:border-accent focus:outline-none"
+            />
+          </div>
+        </div>
+
+        <div className="space-y-1">
+          <label className="font-body text-xs text-text-muted">Page Body <span className="text-text-faint">(optional)</span></label>
+          <textarea
+            value={form.pageBody}
+            onChange={(e) => set("pageBody", e.target.value)}
+            rows={3}
+            placeholder="Additional details, terms, or editorial copy shown on the promo page."
+            className="w-full bg-bg border border-border px-3 py-2 font-body text-sm text-text focus:border-accent focus:outline-none resize-y"
+          />
+        </div>
+      </div>
+
       {/* Preview */}
       <div className="space-y-2">
         <p className="font-body text-[11px] tracking-[0.15em] uppercase text-text-muted font-medium">Live Preview</p>

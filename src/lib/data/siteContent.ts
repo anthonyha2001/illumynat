@@ -45,6 +45,7 @@ export async function setHeroContent(content: HeroContent) {
 export type PromoTheme = "DARK" | "LIGHT" | "GOLD";
 
 export interface PromoZoneContent {
+  // ── Banner ──
   isActive:     boolean;
   badgeText:    string;
   headline:     string;
@@ -53,6 +54,13 @@ export interface PromoZoneContent {
   ctaHref:      string;
   theme:        PromoTheme;
   expiresAt:    string | null;   // ISO string or null
+
+  // ── Promo Page ──
+  pageTitle:      string;
+  pageSubtitle:   string;
+  promoCode:      string | null;
+  promoDiscount:  string | null; // e.g. "20% off all candles"
+  pageBody:       string;
 }
 
 export const PROMO_DEFAULTS: PromoZoneContent = {
@@ -64,6 +72,12 @@ export const PROMO_DEFAULTS: PromoZoneContent = {
   ctaHref:     "/shop",
   theme:       "DARK",
   expiresAt:   null,
+
+  pageTitle:     "Exclusive Offer",
+  pageSubtitle:  "For a limited time only.",
+  promoCode:     null,
+  promoDiscount: null,
+  pageBody:      "",
 };
 
 export async function getPromoZone(): Promise<PromoZoneContent> {
