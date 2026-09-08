@@ -77,23 +77,43 @@ export function HeroSection({ content = HERO_DEFAULTS }: { content?: HeroContent
         <motion.div style={{ y: textY }} className="max-w-xl w-full">
 
           {/* Eyebrow */}
-          <p className="font-body text-[11px] tracking-[0.25em] uppercase text-accent mb-4 md:mb-6">
+          <motion.p
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, delay: 0.1, ease: [0.21, 0.47, 0.32, 0.98] }}
+            className="font-body text-[11px] tracking-[0.25em] uppercase text-accent mb-4 md:mb-6"
+          >
             {content.eyebrow}
-          </p>
+          </motion.p>
 
           {/* Headline */}
-          <h1 className="font-display text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-light italic leading-[1.05] text-text-inverse mb-4 md:mb-6">
+          <motion.h1
+            initial={{ opacity: 0, y: 24 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.85, delay: 0.25, ease: [0.21, 0.47, 0.32, 0.98] }}
+            className="font-display text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-light italic leading-[1.05] text-text-inverse mb-4 md:mb-6"
+          >
             {content.headline}<br />
             <span className="not-italic font-light text-accent">{content.headlineAccent}</span>
-          </h1>
+          </motion.h1>
 
           {/* Sub-copy */}
-          <p className="font-body text-sm text-white/60 leading-relaxed max-w-sm mb-8 md:mb-10 hidden sm:block">
+          <motion.p
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, delay: 0.45, ease: [0.21, 0.47, 0.32, 0.98] }}
+            className="font-body text-sm text-white/60 leading-relaxed max-w-sm mb-8 md:mb-10 hidden sm:block"
+          >
             {content.subCopy}
-          </p>
+          </motion.p>
 
           {/* CTAs */}
-          <div className="flex items-center gap-6">
+          <motion.div
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.6, ease: [0.21, 0.47, 0.32, 0.98] }}
+            className="flex items-center gap-6"
+          >
             <Button href={content.primaryCtaHref} variant="primary" size="lg">{content.primaryCtaLabel}</Button>
             <Link
               href={content.secondaryCtaHref}
@@ -101,15 +121,24 @@ export function HeroSection({ content = HERO_DEFAULTS }: { content?: HeroContent
             >
               {content.secondaryCtaLabel}
             </Link>
-          </div>
+          </motion.div>
         </motion.div>
       </Container>
 
       {/* ── Scroll indicator ── */}
-      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-white/30">
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 1, delay: 1.1 }}
+        className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-white/30"
+      >
         <span className="font-body text-[10px] tracking-[0.2em] uppercase">Scroll</span>
-        <div className="w-px h-8 bg-gradient-to-b from-white/30 to-transparent" />
-      </div>
+        <motion.div
+          animate={{ y: [0, 6, 0] }}
+          transition={{ duration: 1.8, repeat: Infinity, ease: "easeInOut" }}
+          className="w-px h-8 bg-gradient-to-b from-white/30 to-transparent"
+        />
+      </motion.div>
     </section>
   );
 }
