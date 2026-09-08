@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { cn } from "@/utils/cn";
+import { useTransition } from "react";
 
 const STATUSES = ["PENDING", "PAID", "PROCESSING", "FULFILLED", "SHIPPED", "CANCELLED", "REFUNDED"] as const;
 type OrderStatus = typeof STATUSES[number];
@@ -25,11 +26,13 @@ interface Props {
 
 export function OrderActions({ orderId, currentStatus, adminNotes: initialNotes }: Props) {
   const router = useRouter();
-  const [status, setStatus]   = useState<string>(currentStatus);
-  const [notes, setNotes]     = useState(initialNotes);
-  const [loading, setLoading] = useState(false);
-  const [saved, setSaved]     = useState(false);
-  const [error, setError]     = useState<string | null>(null);
+  const [status, setStatus]       = useState<string>(currentStatus);
+  const [notes, setNotes]         = useState(initialNotes);
+  const [loading, setLoading]     = useState(false);
+  const [saved, setSaved]         = useState(false);
+  const [error, setError]         = useState<string | null>(null);
+  const [confirmDelete, setConfirmDelete] = useState(false);
+  const [deleting, startDelete]   = useTransition();
 
   async function handleSave() {
     setLoading(true);
@@ -116,6 +119,45 @@ export function OrderActions({ orderId, currentStatus, adminNotes: initialNotes 
       >
         {loading ? "Saving…" : saved ? "Saved ✓" : "Save Changes"}
       </button>
+
+      {/* Delete order */}
+      <div className="pt-3 border-t border-border-subtle">
+        {!confirmDelete ? (
+          <button
+            onClick={() => setConfirmDelete(true)}
+            className="w-full py-2.5 font-body text-[11px] tracking-[0.15em] uppercase border border-error/40 text-error hover:bg-error/5 transition-colors duration-150"
+          >
+            Delete Order
+          </button>
+        ) : (
+          <div className="space-y-2">
+            <p className="font-body text-xs text-error text-center">
+              This permanently deletes the order and all its data. Cannot be undone.
+            </p>
+            <div className="flex gap-2">
+              <button
+                onClick={() => {
+                  startDelete(async () => {
+                    const res = await fetch(`/api/admin/orders/${orderId}`, { method: "DELETE" });
+                    if (res.ok) router.push("/admin/orders");
+                    else setError("Failed to delete order.");
+                  });
+                }}
+                disabled={deleting}
+                className="flex-1 py-2 bg-error text-white font-body text-[11px] tracking-widest uppercase disabled:opacity-50"
+              >
+                {deleting ? "Deleting…" : "Yes, Delete"}
+              </button>
+              <button
+                onClick={() => setConfirmDelete(false)}
+                className="flex-1 py-2 border border-border text-text-muted font-body text-[11px] tracking-widest uppercase hover:border-accent hover:text-accent transition-colors"
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        )}
+      </div>
     </div>
   );
 }

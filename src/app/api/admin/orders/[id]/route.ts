@@ -82,3 +82,27 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
     return NextResponse.json({ error: "Server error" }, { status: 500 });
   }
 }
+
+export async function DELETE(_req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+  try {
+    const admin = await requireAdmin();
+    if (!admin) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+
+    const { id } = await params;
+
+    // Delete children first, then the order (cascade via Prisma)
+    await prisma.$transaction([
+      prisma.loyaltyTransaction.deleteMany({ where: { orderId: id } }),
+      prisma.returnItem.deleteMany({ where: { return: { orderId: id } } }),
+      prisma.return.deleteMany({ where: { orderId: id } }),
+      prisma.orderItem.deleteMany({ where: { orderId: id } }),
+      prisma.shipment.deleteMany({ where: { orderId: id } }),
+      prisma.order.delete({ where: { id } }),
+    ]);
+
+    return NextResponse.json({ ok: true });
+  } catch (err) {
+    console.error("[admin/orders DELETE]", err);
+    return NextResponse.json({ error: "Server error" }, { status: 500 });
+  }
+}
