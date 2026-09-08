@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import { prisma } from "@/lib/prisma";
 import { MaterialForm } from "../MaterialForm";
+import { StockLotDeleteButton } from "./StockLotDeleteButton";
 
 interface Props { params: Promise<{ id: string }> }
 
@@ -136,9 +137,12 @@ export default async function EditMaterialPage({ params }: Props) {
                       </p>
                     </div>
                   </div>
-                  <div className="flex items-center gap-4 font-body text-[10px] text-text-faint">
-                    <span>avg ${toNum(lot.avgCostBefore).toFixed(6)} → ${toNum(lot.avgCostAfter).toFixed(6)}</span>
-                    {lot.supplier && <span>· {lot.supplier}</span>}
+                  <div className="flex items-center justify-between gap-4">
+                    <div className="flex items-center gap-4 font-body text-[10px] text-text-faint">
+                      <span>avg ${toNum(lot.avgCostBefore).toFixed(6)} → ${toNum(lot.avgCostAfter).toFixed(6)}</span>
+                      {lot.supplier && <span>· {lot.supplier}</span>}
+                    </div>
+                    <StockLotDeleteButton lotId={lot.id} />
                   </div>
                   {lot.notes && (
                     <p className="font-body text-[11px] text-text-muted mt-1 italic">{lot.notes}</p>
