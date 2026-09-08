@@ -132,6 +132,7 @@ async function main() {
       sortOrder: number;
       options?: { label: string; priceModifier?: number; sortOrder: number }[];
     }[];
+    reviews?: { rating: number; title: string; body: string }[];
   }) {
     const product = await prisma.product.upsert({
       where:  { slug: data.slug },
