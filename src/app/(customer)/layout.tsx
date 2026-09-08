@@ -20,19 +20,21 @@ export default async function CustomerLayout({
 
   const { data: { user } } = await supabase.auth.getUser();
   let firstName: string | null = null;
+  let isAdmin = false;
   if (user) {
     const profile = await prisma.profile.findUnique({
       where: { id: user.id },
-      select: { firstName: true, email: true },
+      select: { firstName: true, email: true, role: true },
     });
     // Use firstName if set, otherwise fall back to the part before @ in email
     firstName = profile?.firstName?.trim() || profile?.email?.split("@")[0] || null;
+    isAdmin = profile?.role === "ADMIN";
   }
 
   return (
     <>
       {activePromo && <PromoZone promo={activePromo} />}
-      <Navbar firstName={firstName} />
+      <Navbar firstName={firstName} isAdmin={isAdmin} />
       <CartDrawer />
       <main className="flex-1">{children}</main>
       <Footer />

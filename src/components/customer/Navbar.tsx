@@ -83,7 +83,7 @@ function CartButton({ mobile }: { mobile?: boolean }) {
 }
 
 // ── Navbar ─────────────────────────────────────────────────
-export function Navbar({ firstName }: { firstName?: string | null }) {
+export function Navbar({ firstName, isAdmin }: { firstName?: string | null; isAdmin?: boolean }) {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
 
@@ -135,6 +135,14 @@ export function Navbar({ firstName }: { firstName?: string | null }) {
 
             {/* Desktop icons */}
             <div className="hidden md:flex items-center gap-5 text-text-subtle">
+              {isAdmin && (
+                <Link
+                  href="/admin"
+                  className="font-body text-[10px] tracking-[0.15em] uppercase px-3 py-1.5 border border-accent text-accent hover:bg-accent hover:text-text-on-gold transition-colors duration-200"
+                >
+                  Admin Portal
+                </Link>
+              )}
               <button aria-label="Search" className="hover:text-text transition-colors duration-200">
                 <IconSearch />
               </button>
@@ -195,6 +203,15 @@ export function Navbar({ firstName }: { firstName?: string | null }) {
                 </Link>
               ))}
             </nav>
+            {isAdmin && (
+              <Link
+                href="/admin"
+                onClick={() => setOpen(false)}
+                className="mt-8 w-full py-3 text-center font-body text-[11px] tracking-[0.15em] uppercase border border-accent text-accent hover:bg-accent hover:text-text-on-gold transition-colors duration-200"
+              >
+                Admin Portal
+              </Link>
+            )}
             <div className="flex items-center gap-6 pt-8">
               <Link href="/account" onClick={() => setOpen(false)} className="flex items-center gap-2 text-text-subtle">
                 {firstName ? (
