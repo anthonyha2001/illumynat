@@ -47,7 +47,7 @@ export async function DELETE(_req: NextRequest, { params }: { params: Promise<{ 
 
     const quantityReceived = toNum(lot.quantityReceived);
     const newStock = Math.max(0, toNum(material.currentStock) - quantityReceived);
-    const restoredAvgCost = toNum(lot.avgCostBefore);
+    const restoredAvgCost = newStock === 0 ? 0 : toNum(lot.avgCostBefore);
 
     await prisma.$transaction([
       prisma.stockLot.delete({ where: { id } }),
