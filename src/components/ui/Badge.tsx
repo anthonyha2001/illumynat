@@ -5,7 +5,7 @@ const variants = {
   // Storefront product signals
   new:       "bg-bg-dark text-text-inverse",
   bestseller:"bg-accent text-text-on-gold",
-  limited:   "bg-bg-dark text-accent border border-accent/30",
+  limited:   "bg-accent text-text-on-gold",
   lowstock:  "bg-warning/10 text-warning border border-warning/20",
   soldout:   "bg-bg-muted text-text-muted",
   sale:      "bg-error/10 text-error border border-error/20",

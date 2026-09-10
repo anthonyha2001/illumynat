@@ -26,7 +26,7 @@ export function GiftingBanner() {
 
               {/* Left — copy */}
               <div className="space-y-6">
-                <span className="font-body text-[10px] tracking-[0.25em] uppercase text-accent">
+                <span className="font-body text-[10px] tracking-[0.25em] uppercase text-gold">
                   For someone you love
                 </span>
                 <h2 className="font-display text-4xl md:text-5xl lg:text-6xl font-light italic text-text-inverse leading-[1.05]">

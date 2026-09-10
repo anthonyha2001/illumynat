@@ -29,7 +29,7 @@ export default function SignupPage() {
         {/* Divider */}
         <div className="flex items-center gap-4 my-8">
           <div className="flex-1 h-px bg-border" />
-          <span className="font-body text-[11px] text-text-faint tracking-wide">or</span>
+          <span className="font-body text-[11px] text-text-muted tracking-wide">or</span>
           <div className="flex-1 h-px bg-border" />
         </div>
 
@@ -48,7 +48,7 @@ export default function SignupPage() {
       {/* Trust signals */}
       <div className="mt-6 flex items-center justify-center gap-6">
         {["No spam, ever", "Cancel anytime", "Secure checkout"].map((t) => (
-          <span key={t} className="font-body text-[10px] text-text-faint tracking-wide flex items-center gap-1.5">
+          <span key={t} className="font-body text-[10px] text-text-muted tracking-wide flex items-center gap-1.5">
             <span className="text-accent">✓</span>
             {t}
           </span>

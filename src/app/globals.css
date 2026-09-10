@@ -7,23 +7,28 @@
 
 :root {
   /* ── Core Brand Colors ── */
-  --palette-ivory:       #FDFCFF;   /* near-pure white                  */
-  --palette-cream:       #F5F0FB;   /* white with a whisper of lavender */
-  --palette-parchment:   #EDE5F7;   /* light lavender-white             */
-  --palette-warm-white:  #FDFCFF;
-  --palette-charcoal:    #1A0C2E;   /* deep plum-black for text         */
-  --palette-espresso:    #0E0618;   /* darkest text / dark surfaces     */
-  --palette-stone:       #5A3878;   /* medium plum — secondary text     */
-  --palette-ash:         #8A70A0;   /* muted mauve                      */
-  --palette-mist:        #C0A8D8;   /* faint lavender                   */
-  --palette-gold:        #B8085A;   /* deep jewel magenta — accent      */
-  --palette-gold-light:  #D83888;   /* bright magenta                   */
-  --palette-gold-dark:   #7A0540;   /* deep wine-magenta                */
-  --palette-gold-pale:   #FAF0F6;   /* blush white — accent backgrounds */
+  --palette-ivory:       #F8F5F2;   /* warm white — main background         */
+  --palette-cream:       #F0EDE9;   /* off-white — subtle surfaces          */
+  --palette-parchment:   #E5E0DA;   /* warm grey — muted surfaces           */
+  --palette-warm-white:  #F8F5F2;
+  --palette-charcoal:    #402b11;   /* dark espresso brown — primary text   */
+  --palette-espresso:    #2a1a09;   /* deep brown — darkest text            */
+  --palette-stone:       #6B4830;   /* mid brown — secondary text           */
+  --palette-ash:         #7A4D5C;   /* dark mauve — readable muted text     */
+  --palette-ash-light:   #A67784;   /* light mauve — decorative only        */
+  --palette-mist:        #d9d6d2;   /* warm grey — borders / faint          */
+  --palette-gold:        #8B6830;   /* dark antique gold — readable on light */
+  --palette-gold-light:  #C4A26A;   /* muted gold — decorative / dark bg    */
+  --palette-gold-dark:   #6B4E20;   /* deep gold — hover emphasis           */
+  --palette-gold-pale:   #F7F1E8;   /* gold tint — accent backgrounds       */
 
-  /* ── Crystal Blue (secondary accent) ── */
-  --palette-crystal:     #4898C8;
-  --palette-crystal-light: #C8E4F5;
+  /* ── Burgundy (bold emphasis / dark surfaces) ── */
+  --palette-burgundy:    #8c3a40;   /* deep rose-red                        */
+  --palette-burgundy-dk: #400a0f;   /* near-black burgundy                  */
+
+  /* ── Warm Taupe (secondary accent) ── */
+  --palette-crystal:     #9c8478;
+  --palette-crystal-light: #d9d6d2;
 
   /* ── Info (PAID status / informational) ── */
   --palette-info:        #3A6EC4;
@@ -52,13 +57,22 @@
   --color-text-muted:    var(--palette-ash);
   --color-text-faint:    var(--palette-mist);
   --color-text-inverse:  var(--palette-ivory);
-  --color-text-on-gold:  var(--palette-ivory);
+  --color-text-on-gold:  var(--palette-ivory);      /* light text on dark gold CTA   */
 
-  /* ── Accent (Jewel Magenta) ── */
-  --color-accent:        var(--palette-gold);
-  --color-accent-light:  var(--palette-gold-light);
-  --color-accent-dark:   var(--palette-gold-dark);
-  --color-accent-pale:   var(--palette-gold-pale);
+  /* ── Accent (dark gold #8B6830 — readable on ALL backgrounds) ── */
+  --color-accent:        var(--palette-gold);        /* #8B6830 */
+  --color-accent-light:  var(--palette-gold-light);  /* #C4A26A */
+  --color-accent-dark:   var(--palette-gold-dark);   /* #6B4E20 */
+  --color-accent-pale:   var(--palette-gold-pale);   /* #F7F1E8 */
+
+  /* ── Gold (light #C4A26A — decorative ONLY, use on dark bg) ── */
+  --color-gold:          var(--palette-gold-light);  /* #C4A26A */
+  --color-gold-light:    var(--palette-gold-pale);   /* #F7F1E8 */
+  --color-gold-dark:     var(--palette-gold);        /* #8B6830 */
+
+  /* ── Burgundy (bold emphasis / dark surfaces) ── */
+  --color-burgundy:      var(--palette-burgundy);
+  --color-burgundy-dark: var(--palette-burgundy-dk);
 
   /* ── Borders ── */
   --color-border:        var(--palette-mist);
@@ -116,11 +130,21 @@
   --color-text-inverse:  var(--color-text-inverse);
   --color-text-on-gold:  var(--color-text-on-gold);
 
-  /* Accent */
+  /* Accent (rose-red) */
   --color-accent:        var(--color-accent);
   --color-accent-light:  var(--color-accent-light);
   --color-accent-dark:   var(--color-accent-dark);
   --color-accent-pale:   var(--color-accent-pale);
+
+  /* Gold (decorative — use on dark backgrounds only) */
+  --color-gold:          var(--color-gold);
+  --color-gold-light:    var(--color-gold-light);
+  --color-gold-dark:     var(--color-gold-dark);
+  --color-gold-pale:     var(--color-gold-pale);
+
+  /* Burgundy */
+  --color-burgundy:      var(--color-burgundy);
+  --color-burgundy-dark: var(--color-burgundy-dark);
 
   /* Borders */
   --color-border:        var(--color-border);
@@ -167,6 +191,13 @@ body {
 ::selection {
   background-color: var(--color-accent-pale);
   color: var(--color-text);
+}
+
+/* Scattered luxury motif — sparkles, crosses, dots on light backgrounds */
+body {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='600' height='600'%3E%3C!-- sparkles --%3E%3Cpath d='M70 70 L71.6 62.4 L79 61 L71.6 59.6 L70 52 L68.4 59.6 L61 61 L68.4 62.4 Z' fill='%238B6830' opacity='0.13'/%3E%3Cpath d='M230 145 L231 140 L236 139 L231 138 L230 133 L229 138 L224 139 L229 140 Z' fill='%238B6830' opacity='0.10'/%3E%3Cpath d='M420 75 L421 71.5 L424.5 71 L421 70.5 L420 67 L419 70.5 L415.5 71 L419 71.5 Z' fill='%238B6830' opacity='0.09'/%3E%3Cpath d='M520 250 L521 246.5 L524.5 246 L521 245.5 L520 242 L519 245.5 L515.5 246 L519 246.5 Z' fill='%23402b11' opacity='0.07'/%3E%3Cpath d='M110 360 L111 356.5 L114.5 356 L111 355.5 L110 352 L109 355.5 L105.5 356 L109 356.5 Z' fill='%238B6830' opacity='0.09'/%3E%3Cpath d='M340 440 L341.5 434.5 L347 433 L341.5 431.5 L340 426 L338.5 431.5 L333 433 L338.5 434.5 Z' fill='%238B6830' opacity='0.12'/%3E%3Cpath d='M560 420 L561 416.5 L564.5 416 L561 415.5 L560 412 L559 415.5 L555.5 416 L559 416.5 Z' fill='%23402b11' opacity='0.06'/%3E%3Cpath d='M50 510 L51 506.5 L54.5 506 L51 505.5 L50 502 L49 505.5 L45.5 506 L49 506.5 Z' fill='%238B6830' opacity='0.08'/%3E%3Cpath d='M280 540 L281 537 L284 536.5 L281 536 L280 533 L279 536 L276 536.5 L279 537 Z' fill='%238B6830' opacity='0.07'/%3E%3C!-- crosses --%3E%3Cline x1='180' y1='60' x2='180' y2='72' stroke='%238B6830' stroke-width='0.8' opacity='0.11'/%3E%3Cline x1='174' y1='66' x2='186' y2='66' stroke='%238B6830' stroke-width='0.8' opacity='0.11'/%3E%3Cline x1='490' y1='140' x2='490' y2='150' stroke='%238B6830' stroke-width='0.7' opacity='0.09'/%3E%3Cline x1='485' y1='145' x2='495' y2='145' stroke='%238B6830' stroke-width='0.7' opacity='0.09'/%3E%3Cline x1='30' y1='260' x2='30' y2='270' stroke='%23402b11' stroke-width='0.7' opacity='0.07'/%3E%3Cline x1='25' y1='265' x2='35' y2='265' stroke='%23402b11' stroke-width='0.7' opacity='0.07'/%3E%3Cline x1='390' y1='300' x2='390' y2='309' stroke='%238B6830' stroke-width='0.7' opacity='0.08'/%3E%3Cline x1='385.5' y1='304.5' x2='394.5' y2='304.5' stroke='%238B6830' stroke-width='0.7' opacity='0.08'/%3E%3Cline x1='150' y1='490' x2='150' y2='499' stroke='%238B6830' stroke-width='0.7' opacity='0.07'/%3E%3Cline x1='145.5' y1='494.5' x2='154.5' y2='494.5' stroke='%238B6830' stroke-width='0.7' opacity='0.07'/%3E%3C!-- dots --%3E%3Ccircle cx='310' cy='90' r='1.5' fill='%238B6830' opacity='0.12'/%3E%3Ccircle cx='480' cy='60' r='1' fill='%238B6830' opacity='0.09'/%3E%3Ccircle cx='90' cy='210' r='1.8' fill='%238B6830' opacity='0.10'/%3E%3Ccircle cx='450' cy='200' r='1.2' fill='%23402b11' opacity='0.08'/%3E%3Ccircle cx='200' cy='380' r='1.5' fill='%238B6830' opacity='0.09'/%3E%3Ccircle cx='540' cy='360' r='1' fill='%238B6830' opacity='0.07'/%3E%3Ccircle cx='60' cy='450' r='1.8' fill='%238B6830' opacity='0.09'/%3E%3Ccircle cx='460' cy='500' r='1.3' fill='%23402b11' opacity='0.07'/%3E%3Ccircle cx='330' cy='220' r='1' fill='%238B6830' opacity='0.07'/%3E%3C!-- tiny ring --%3E%3Ccircle cx='558' cy='75' r='6' stroke='%238B6830' stroke-width='0.6' fill='none' opacity='0.08'/%3E%3Ccircle cx='20' cy='380' r='5' stroke='%238B6830' stroke-width='0.5' fill='none' opacity='0.06'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 600px 600px;
 }
 
 /* Minimal luxury scrollbar */

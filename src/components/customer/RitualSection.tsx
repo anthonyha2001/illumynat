@@ -58,9 +58,9 @@ export function RitualSection() {
             <h2 className="font-display text-4xl md:text-5xl font-light italic text-text leading-tight max-w-lg">
               A candle is the sum<br />of every decision made.
             </h2>
-            <p className="font-body text-sm text-text-muted leading-relaxed max-w-md">
+            <p className="font-body text-sm text-text-subtle leading-relaxed max-w-md">
               From ingredient sourcing to final inspection, nothing at
-              LUMYNAT is left to chance. This is what we believe making
+              MAISON is left to chance. This is what we believe making
               something great actually means.
             </p>
           </div>
@@ -70,7 +70,7 @@ export function RitualSection() {
         <div ref={lineRef} className="flex justify-center mb-20">
           <motion.div
             style={{ scaleX: lineScaleX, transformOrigin: "left" }}
-            className="w-full max-w-3xl h-px bg-gradient-to-r from-transparent via-accent/40 to-transparent"
+            className="w-full max-w-3xl h-px bg-gradient-to-r from-transparent via-gold/60 to-transparent"
           />
         </div>
 
@@ -79,14 +79,14 @@ export function RitualSection() {
           {STEPS.map((step, i) => (
             <FadeIn key={step.number} delay={i * 0.1}>
               <div className="flex flex-col gap-4">
-                <span className="font-display text-5xl font-light text-accent/30 leading-none">
+                <span className="font-display text-5xl font-light text-gold/70 leading-none">
                   {step.number}
                 </span>
-                <div className="w-8 h-px bg-accent/50" />
+                <div className="w-8 h-[1.5px] bg-gold/60" />
                 <h3 className="font-display text-xl font-light text-text">
                   {step.heading}
                 </h3>
-                <p className="font-body text-sm text-text-muted leading-relaxed">
+                <p className="font-body text-sm text-text-subtle leading-relaxed">
                   {step.body}
                 </p>
               </div>

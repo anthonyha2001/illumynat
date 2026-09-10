@@ -31,7 +31,7 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
 
       {/* Slim footer */}
       <footer className="py-6 text-center">
-        <p className="font-body text-[11px] text-text-faint tracking-wide">
+        <p className="font-body text-[11px] text-text-muted tracking-wide">
           © {new Date().getFullYear()} LUMYNAT. All rights reserved.
         </p>
       </footer>

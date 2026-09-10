@@ -29,7 +29,7 @@ export default function LoginPage() {
         {/* Divider */}
         <div className="flex items-center gap-4 my-8">
           <div className="flex-1 h-px bg-border" />
-          <span className="font-body text-[11px] text-text-faint tracking-wide">or</span>
+          <span className="font-body text-[11px] text-text-muted tracking-wide">or</span>
           <div className="flex-1 h-px bg-border" />
         </div>
 
@@ -46,7 +46,7 @@ export default function LoginPage() {
       </div>
 
       {/* Guest checkout note */}
-      <p className="mt-6 text-center font-body text-[11px] text-text-faint leading-relaxed">
+      <p className="mt-6 text-center font-body text-[11px] text-text-muted leading-relaxed">
         You can also{" "}
         <a href="/checkout" className="underline underline-offset-4 hover:text-text-muted transition-colors duration-200">
           check out as a guest

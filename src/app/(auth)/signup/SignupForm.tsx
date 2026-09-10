@@ -90,7 +90,7 @@ export function SignupForm() {
         </p>
       )}
 
-      <p className="font-body text-[11px] text-text-faint leading-relaxed">
+      <p className="font-body text-[11px] text-text-muted leading-relaxed">
         By creating an account you agree to our{" "}
         <a href="/privacy" className="underline underline-offset-4 hover:text-text-muted transition-colors duration-200">
           Privacy Policy
