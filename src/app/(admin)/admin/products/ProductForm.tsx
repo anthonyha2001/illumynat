@@ -26,6 +26,7 @@ interface ProductFormData {
   fragranceNotes: string;
   dimensions: string;
   imageUrls: string[];
+  tags: string[];
 }
 
 interface Props {
@@ -39,9 +40,17 @@ const EMPTY: ProductFormData = {
   name: "", slug: "", sku: "", description: "", story: "",
   price: "", taxable: true, status: "DRAFT", categoryId: "",
   scentFamily: "", burnTime: "", netWeight: "", waxType: "",
-  fragranceNotes: "", dimensions: "", imageUrls: [],
+  fragranceNotes: "", dimensions: "", imageUrls: [], tags: [],
 };
 const STATUS_OPTIONS = ["DRAFT", "ACTIVE", "ARCHIVED"] as const;
+const TAG_OPTIONS = [
+  { value: "NEW",            label: "New Arrival" },
+  { value: "BESTSELLER",     label: "Bestseller" },
+  { value: "LIMITED_EDITION",label: "Limited Edition" },
+  { value: "PROMOTED",       label: "Promoted" },
+  { value: "COMING_SOON",    label: "Coming Soon" },
+  { value: "SALE",           label: "On Sale" },
+] as const;
 
 function slugify(str: string) {
   return str.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
@@ -276,6 +285,32 @@ export function ProductForm({ categories, scentFamilies, initial, productId }: P
                   <option key={c.id} value={c.id}>{c.name}</option>
                 ))}
               </select>
+            </div>
+          </Section>
+
+          <Section title="Labels & Tags">
+            <div className="space-y-2">
+              {TAG_OPTIONS.map((tag) => {
+                const checked = form.tags.includes(tag.value);
+                return (
+                  <label key={tag.value} className="flex items-center gap-3 cursor-pointer">
+                    <input
+                      type="checkbox"
+                      checked={checked}
+                      onChange={() =>
+                        setForm((f) => ({
+                          ...f,
+                          tags: checked
+                            ? f.tags.filter((t) => t !== tag.value)
+                            : [...f.tags, tag.value],
+                        }))
+                      }
+                      className="w-4 h-4 accent-[var(--color-accent)]"
+                    />
+                    <span className="font-body text-sm text-text-subtle">{tag.label}</span>
+                  </label>
+                );
+              })}
             </div>
           </Section>
         </div>

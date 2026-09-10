@@ -20,7 +20,7 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
     const {
       name, slug, sku, description, story, price, taxable, status,
       categoryId, scentFamily, burnTime, netWeight, waxType,
-      fragranceNotes, dimensions, imageUrls,
+      fragranceNotes, dimensions, imageUrls, tags,
     } = body;
 
     // Update product fields
@@ -39,6 +39,7 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
         waxType:        waxType        || null,
         fragranceNotes: fragranceNotes || null,
         dimensions:     dimensions     || null,
+        tags:           Array.isArray(tags) ? tags : undefined,
       },
       select: { id: true, slug: true },
     });

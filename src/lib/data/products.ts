@@ -31,6 +31,7 @@ const productSelect = {
   burnTime: true,
   netWeight: true,
   status: true,
+  tags: true,
   images: {
     where: { isPrimary: true },
     take: 1,

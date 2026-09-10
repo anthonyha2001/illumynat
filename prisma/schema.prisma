@@ -232,6 +232,7 @@ model Product {
   waxType        String?
   fragranceNotes String?
   scentFamily    String?
+  tags           String[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

@@ -43,6 +43,15 @@ function IconHeart({ filled, className }: { filled?: boolean; className?: string
 
 // ── ProductCard ────────────────────────────────────────────
 
+const TAG_BADGE: Record<string, { label: string; variant: "new" | "bestseller" | "limited" | "lowstock" }> = {
+  NEW:             { label: "New",            variant: "new" },
+  BESTSELLER:      { label: "Best Seller",    variant: "bestseller" },
+  LIMITED_EDITION: { label: "Limited",        variant: "limited" },
+  PROMOTED:        { label: "Featured",       variant: "new" },
+  COMING_SOON:     { label: "Coming Soon",    variant: "lowstock" },
+  SALE:            { label: "Sale",           variant: "limited" },
+};
+
 interface ProductCardProps {
   product: ProductListItem;
   badge?: "new" | "bestseller" | "limited";
@@ -150,7 +159,15 @@ export function ProductCard({ product, badge, priority = false, initialWishliste
 
         {/* Badges */}
         <div className="absolute top-3 left-3 flex flex-col gap-1.5">
-          {badge && <Badge variant={badge}>{badge === "bestseller" ? "Best Seller" : badge === "limited" ? "Limited" : "New"}</Badge>}
+          {/* Tags from database */}
+          {(product.tags ?? []).slice(0, 2).map((tag) => {
+            const cfg = TAG_BADGE[tag];
+            return cfg ? <Badge key={tag} variant={cfg.variant}>{cfg.label}</Badge> : null;
+          })}
+          {/* Fallback manual badge prop */}
+          {!(product.tags ?? []).length && badge && (
+            <Badge variant={badge}>{badge === "bestseller" ? "Best Seller" : badge === "limited" ? "Limited" : "New"}</Badge>
+          )}
           {stockSignal === "lowstock" && (
             <Badge variant="lowstock">Only {qty} left</Badge>
           )}

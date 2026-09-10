@@ -23,7 +23,7 @@ export default async function EditProductPage({ params }: Props) {
         description: true, story: true, price: true,
         taxable: true, status: true, categoryId: true,
         scentFamily: true, burnTime: true, netWeight: true,
-        waxType: true, fragranceNotes: true, dimensions: true,
+        waxType: true, fragranceNotes: true, dimensions: true, tags: true,
         images: { orderBy: { position: "asc" }, select: { url: true } },
       },
     }),
@@ -81,6 +81,7 @@ export default async function EditProductPage({ params }: Props) {
           fragranceNotes: product.fragranceNotes ?? "",
           dimensions:     product.dimensions ?? "",
           imageUrls:      product.images.map((i) => i.url),
+          tags:           product.tags,
         }}
       />
     </div>

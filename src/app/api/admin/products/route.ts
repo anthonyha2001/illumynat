@@ -19,7 +19,7 @@ export async function POST(req: NextRequest) {
     const {
       name, slug, sku, description, story, price, taxable, status,
       categoryId, scentFamily, burnTime, netWeight, waxType,
-      fragranceNotes, dimensions, imageUrls,
+      fragranceNotes, dimensions, imageUrls, tags,
     } = body;
 
     if (!name || !slug || !sku || !description || !price || !categoryId) {
@@ -40,6 +40,7 @@ export async function POST(req: NextRequest) {
         waxType:        waxType     || null,
         fragranceNotes: fragranceNotes || null,
         dimensions:     dimensions  || null,
+        tags:           Array.isArray(tags) ? tags : [],
         images: imageUrls?.length ? {
           create: (imageUrls as string[]).map((url: string, i: number) => ({
             url,
