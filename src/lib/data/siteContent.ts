@@ -27,9 +27,13 @@ export const HERO_DEFAULTS: HeroContent = {
 };
 
 export async function getHeroContent(): Promise<HeroContent> {
-  const row = await prisma.siteContent.findUnique({ where: { key: "hero" } });
-  if (!row) return HERO_DEFAULTS;
-  return { ...HERO_DEFAULTS, ...(row.value as Partial<HeroContent>) };
+  try {
+    const row = await prisma.siteContent.findUnique({ where: { key: "hero" } });
+    if (!row) return HERO_DEFAULTS;
+    return { ...HERO_DEFAULTS, ...(row.value as Partial<HeroContent>) };
+  } catch {
+    return HERO_DEFAULTS;
+  }
 }
 
 export async function setHeroContent(content: HeroContent) {
@@ -81,9 +85,13 @@ export const PROMO_DEFAULTS: PromoZoneContent = {
 };
 
 export async function getPromoZone(): Promise<PromoZoneContent> {
-  const row = await prisma.siteContent.findUnique({ where: { key: "promo_zone" } });
-  if (!row) return PROMO_DEFAULTS;
-  return { ...PROMO_DEFAULTS, ...(row.value as Partial<PromoZoneContent>) };
+  try {
+    const row = await prisma.siteContent.findUnique({ where: { key: "promo_zone" } });
+    if (!row) return PROMO_DEFAULTS;
+    return { ...PROMO_DEFAULTS, ...(row.value as Partial<PromoZoneContent>) };
+  } catch {
+    return PROMO_DEFAULTS;
+  }
 }
 
 export async function setPromoZone(content: PromoZoneContent) {
@@ -141,9 +149,13 @@ export const PALETTE_DEFAULTS: PaletteContent = {
 };
 
 export async function getPalette(): Promise<PaletteContent> {
-  const row = await prisma.siteContent.findUnique({ where: { key: "palette" } });
-  if (!row) return PALETTE_DEFAULTS;
-  return { ...PALETTE_DEFAULTS, ...(row.value as Partial<PaletteContent>) };
+  try {
+    const row = await prisma.siteContent.findUnique({ where: { key: "palette" } });
+    if (!row) return PALETTE_DEFAULTS;
+    return { ...PALETTE_DEFAULTS, ...(row.value as Partial<PaletteContent>) };
+  } catch {
+    return PALETTE_DEFAULTS;
+  }
 }
 
 export async function setPalette(content: PaletteContent) {
@@ -161,10 +173,14 @@ export const SCENT_FAMILY_DEFAULTS: string[] = [
 ];
 
 export async function getScentFamilies(): Promise<string[]> {
-  const row = await prisma.siteContent.findUnique({ where: { key: "scent_families" } });
-  if (!row) return SCENT_FAMILY_DEFAULTS;
-  const val = row.value as { families?: string[] };
-  return Array.isArray(val?.families) ? val.families : SCENT_FAMILY_DEFAULTS;
+  try {
+    const row = await prisma.siteContent.findUnique({ where: { key: "scent_families" } });
+    if (!row) return SCENT_FAMILY_DEFAULTS;
+    const val = row.value as { families?: string[] };
+    return Array.isArray(val?.families) ? val.families : SCENT_FAMILY_DEFAULTS;
+  } catch {
+    return SCENT_FAMILY_DEFAULTS;
+  }
 }
 
 export async function setScentFamilies(families: string[]) {

@@ -25,19 +25,23 @@ const DEFAULTS: SiteSettings = {
 };
 
 export async function getSettings(): Promise<SiteSettings> {
-  const rows = await prisma.setting.findMany();
-  const map = Object.fromEntries(rows.map((r) => [r.key, r.value]));
-  return {
-    TAX_RATE:                 parseFloat(map.TAX_RATE                 ?? String(DEFAULTS.TAX_RATE)),
-    FREE_SHIPPING_THRESHOLD:  parseFloat(map.FREE_SHIPPING_THRESHOLD  ?? String(DEFAULTS.FREE_SHIPPING_THRESHOLD)),
-    SHIPPING_FEE:             parseFloat(map.SHIPPING_FEE             ?? String(DEFAULTS.SHIPPING_FEE)),
-    POINTS_PER_DOLLAR:        parseFloat(map.POINTS_PER_DOLLAR        ?? String(DEFAULTS.POINTS_PER_DOLLAR)),
-    POINTS_SIGNUP_BONUS:      parseInt(  map.POINTS_SIGNUP_BONUS      ?? String(DEFAULTS.POINTS_SIGNUP_BONUS), 10),
-    POINTS_REVIEW_BONUS:      parseInt(  map.POINTS_REVIEW_BONUS      ?? String(DEFAULTS.POINTS_REVIEW_BONUS), 10),
-    STORE_NAME:                           map.STORE_NAME               ?? DEFAULTS.STORE_NAME,
-    STORE_EMAIL:                          map.STORE_EMAIL              ?? DEFAULTS.STORE_EMAIL,
-    STORE_PHONE:                          map.STORE_PHONE              ?? DEFAULTS.STORE_PHONE,
-  };
+  try {
+    const rows = await prisma.setting.findMany();
+    const map = Object.fromEntries(rows.map((r) => [r.key, r.value]));
+    return {
+      TAX_RATE:                 parseFloat(map.TAX_RATE                 ?? String(DEFAULTS.TAX_RATE)),
+      FREE_SHIPPING_THRESHOLD:  parseFloat(map.FREE_SHIPPING_THRESHOLD  ?? String(DEFAULTS.FREE_SHIPPING_THRESHOLD)),
+      SHIPPING_FEE:             parseFloat(map.SHIPPING_FEE             ?? String(DEFAULTS.SHIPPING_FEE)),
+      POINTS_PER_DOLLAR:        parseFloat(map.POINTS_PER_DOLLAR        ?? String(DEFAULTS.POINTS_PER_DOLLAR)),
+      POINTS_SIGNUP_BONUS:      parseInt(  map.POINTS_SIGNUP_BONUS      ?? String(DEFAULTS.POINTS_SIGNUP_BONUS), 10),
+      POINTS_REVIEW_BONUS:      parseInt(  map.POINTS_REVIEW_BONUS      ?? String(DEFAULTS.POINTS_REVIEW_BONUS), 10),
+      STORE_NAME:                           map.STORE_NAME               ?? DEFAULTS.STORE_NAME,
+      STORE_EMAIL:                          map.STORE_EMAIL              ?? DEFAULTS.STORE_EMAIL,
+      STORE_PHONE:                          map.STORE_PHONE              ?? DEFAULTS.STORE_PHONE,
+    };
+  } catch {
+    return DEFAULTS;
+  }
 }
 
 export async function updateSettings(partial: Partial<SiteSettings>) {
