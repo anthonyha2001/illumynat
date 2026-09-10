@@ -1,11 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
-import Stripe from "stripe";
 import { prisma } from "@/lib/prisma";
 import { createClient } from "@/lib/supabase/server";
-
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY ?? "", {
-  apiVersion: "2026-08-26.dahlia",
-});
+import { getStripe } from "@/lib/stripe";
 
 export async function POST(req: NextRequest) {
   try {
@@ -29,6 +25,7 @@ export async function POST(req: NextRequest) {
     }
 
     // Create Stripe PaymentIntent
+    const stripe = getStripe();
     const paymentIntent = await stripe.paymentIntents.create({
       amount:   amountCents,
       currency: "usd",

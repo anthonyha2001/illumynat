@@ -1,11 +1,7 @@
 import { NextResponse } from "next/server";
-import Stripe from "stripe";
 import { prisma } from "@/lib/prisma";
 import { createClient } from "@/lib/supabase/server";
-
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY ?? "", {
-  apiVersion: "2026-08-26.dahlia",
-});
+import { getStripe } from "@/lib/stripe";
 
 function toNum(v: unknown): number {
   if (typeof v === "number") return v;
@@ -48,6 +44,7 @@ export async function POST(req: Request, { params }: Props) {
     const pi = order.payments[0]?.stripePaymentIntentId;
     if (!pi) return NextResponse.json({ error: "No completed payment found to refund" }, { status: 400 });
 
+    const stripe = getStripe();
     // Retrieve PaymentIntent to get charge id
     const paymentIntent = await stripe.paymentIntents.retrieve(pi);
     const chargeId = typeof paymentIntent.latest_charge === "string"

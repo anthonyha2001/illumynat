@@ -1,13 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
-import Stripe from "stripe";
 import { prisma } from "@/lib/prisma";
 import { createClient } from "@/lib/supabase/server";
 import { getSettings } from "@/lib/data/settings";
+import { getStripe } from "@/lib/stripe";
 import type { CartItem } from "@/stores/cartStore";
-
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY ?? "", {
-  apiVersion: "2026-08-26.dahlia",
-});
 
 interface RequestBody {
   cart: CartItem[];
@@ -165,6 +161,7 @@ export async function POST(req: NextRequest) {
     });
 
     // ── Create Stripe PaymentIntent ────────────────────────
+    const stripe = getStripe();
     const paymentIntent = await stripe.paymentIntents.create({
       amount:   serverTotal,
       currency: "usd",

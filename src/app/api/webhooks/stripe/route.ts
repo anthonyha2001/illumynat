@@ -5,14 +5,12 @@ import { resend, FROM_EMAIL } from "@/lib/resend";
 import { orderConfirmationHtml, orderConfirmationText } from "@/lib/emails/orderConfirmation";
 import { giftCardIssuedHtml, giftCardIssuedText } from "@/lib/emails/giftCardIssued";
 import { awardPurchasePoints } from "@/lib/data/loyalty";
-
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY ?? "", {
-  apiVersion: "2026-08-26.dahlia",
-});
+import { getStripe } from "@/lib/stripe";
 
 export async function POST(req: NextRequest) {
   const body      = await req.text();
   const signature = req.headers.get("stripe-signature") ?? "";
+  const stripe    = getStripe();
 
   let event: Stripe.Event;
 
