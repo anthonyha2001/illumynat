@@ -80,14 +80,35 @@ export function ScrollCandle({ className = "", variant = "accent" }: Props) {
 }
 
 // ── CandleOrnament ──────────────────────────────────────────
-// Section-header ornament: thin rule — scroll candle — thin rule
-// Drop-in replacement for the ✦ + lines ornament used across sections.
+// Section-header ornament: thin rule — minimal line-art candle — thin rule
 export function CandleOrnament({ className = "" }: { className?: string }) {
   return (
     <div className={`flex items-center gap-3 w-36 ${className}`}>
-      <div className="flex-1 h-px bg-current opacity-25" />
-      <ScrollCandle className="w-[14px] h-9 flex-shrink-0" variant="accent" />
-      <div className="flex-1 h-px bg-current opacity-25" />
+      <div className="flex-1 h-px bg-current opacity-20" />
+
+      {/* Minimal stroke-only candle */}
+      <svg
+        viewBox="0 0 20 48"
+        fill="none"
+        aria-hidden="true"
+        className="w-[13px] h-8 flex-shrink-0"
+        stroke="currentColor"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      >
+        {/* Flame — outline only */}
+        <path
+          d="M10 4 C7.5 7, 6.5 12, 8 16 C8.8 18.5, 10 19, 10 19 C10 19, 11.2 18.5, 12 16 C13.5 12, 12.5 7, 10 4 Z"
+          strokeWidth="0.7"
+          opacity="0.7"
+        />
+        {/* Wick */}
+        <line x1="10" y1="19" x2="10" y2="23" strokeWidth="0.6" opacity="0.5" />
+        {/* Body */}
+        <rect x="4.5" y="23" width="11" height="22" rx="0.3" strokeWidth="0.7" />
+      </svg>
+
+      <div className="flex-1 h-px bg-current opacity-20" />
     </div>
   );
 }
