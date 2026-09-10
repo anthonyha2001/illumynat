@@ -3,7 +3,7 @@
 import { useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { Container } from "@/components/ui/Container";
-import { ScrollCandle, CandleOrnament } from "@/components/customer/ScrollCandle";
+import { CandleOrnament } from "@/components/customer/ScrollCandle";
 
 const EASE = [0.21, 0.47, 0.32, 0.98] as const;
 
@@ -43,16 +43,7 @@ export function RitualSection() {
   return (
     <section ref={sectionRef} className="relative py-28 md:py-36 bg-bg overflow-hidden">
 
-      {/* Decorative candle — right side */}
-      <div
-        aria-hidden="true"
-        className="absolute top-12 right-6 md:right-14 lg:right-20
-                   pointer-events-none select-none hidden md:block"
-      >
-        <ScrollCandle className="w-10 h-28 text-accent/[0.16]" variant="accent" />
-      </div>
-
-      <Container className="relative z-10">
+<Container className="relative z-10">
 
         {/* Section header */}
         <motion.div
