@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { createClient } from "@/lib/supabase/server";
-import { resend, FROM_EMAIL } from "@/lib/resend";
+import { getResend, FROM_EMAIL } from "@/lib/resend";
 import { orderShippedHtml, orderShippedText } from "@/lib/emails/orderShipped";
 
 async function requireAdmin() {
@@ -48,6 +48,7 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
       const siteUrl   = process.env.NEXT_PUBLIC_SITE_URL ?? "https://lumynat.com";
 
       if (email) {
+        const resend = getResend();
         try {
           await resend.emails.send({
             from:    FROM_EMAIL,

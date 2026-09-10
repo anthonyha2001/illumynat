@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import Stripe from "stripe";
 import { prisma } from "@/lib/prisma";
-import { resend, FROM_EMAIL } from "@/lib/resend";
+import { getResend, FROM_EMAIL } from "@/lib/resend";
 import { orderConfirmationHtml, orderConfirmationText } from "@/lib/emails/orderConfirmation";
 import { giftCardIssuedHtml, giftCardIssuedText } from "@/lib/emails/giftCardIssued";
 import { awardPurchasePoints } from "@/lib/data/loyalty";
@@ -47,6 +47,7 @@ export async function POST(req: NextRequest) {
 }
 
 async function handlePaymentSucceeded(pi: Stripe.PaymentIntent) {
+  const resend = getResend();
   // ── Gift card purchase ─────────────────────────────────
   if (pi.metadata?.type === "gift_card") {
     await handleGiftCardIssued(pi);
@@ -179,6 +180,7 @@ async function handlePaymentSucceeded(pi: Stripe.PaymentIntent) {
 }
 
 async function handleGiftCardIssued(pi: Stripe.PaymentIntent) {
+  const resend = getResend();
   const { recipientEmail, recipientName, profileId } = pi.metadata ?? {};
   const amountDollars = pi.amount / 100;
 
