@@ -9,7 +9,7 @@ import { createClient } from "@/lib/supabase/server";
 import { prisma } from "@/lib/prisma";
 
 export const metadata = {
-  title: "Gifting — ILLUMYNAT",
+  title: "Gifting — LUMYNAT",
   description: "Candles as gifts. Thoughtfully chosen, beautifully presented.",
 };
 
@@ -76,7 +76,7 @@ export default async function GiftingPage() {
               <span className="not-italic text-accent">atmosphere.</span>
             </h1>
             <p className="font-body text-sm text-text-inverse/50 leading-relaxed max-w-sm mb-10">
-              An ILLUMYNAT candle is not a placeholder gift. It is a considered one —
+              An LUMYNAT candle is not a placeholder gift. It is a considered one —
               something the recipient will light on purpose, in a room they want to feel different.
             </p>
             <Link
@@ -222,7 +222,7 @@ export default async function GiftingPage() {
       </div>
       </AnimateIn>
 
-      {/* ── Why gift ILLUMYNAT ── */}
+      {/* ── Why gift LUMYNAT ── */}
       <AnimateIn>
       <Container className="py-20 md:py-28">
         <div className="text-center mb-14">

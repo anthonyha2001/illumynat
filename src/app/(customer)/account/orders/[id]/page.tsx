@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/Button";
 import { createClient } from "@/lib/supabase/server";
 import { getOrderById } from "@/lib/data/orders";
 
-export const metadata = { title: "Order Detail — ILLUMYNAT" };
+export const metadata = { title: "Order Detail — LUMYNAT" };
 
 const STATUS_STEPS = ["PENDING", "PAID", "PROCESSING", "FULFILLED", "SHIPPED"];
 

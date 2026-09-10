@@ -66,7 +66,7 @@ export function Footer() {
               Scent is the strongest<br />form of memory.
             </p>
             <p className="font-body text-sm text-text-inverse/50 leading-relaxed max-w-sm">
-              Each ILLUMYNAT candle is hand-poured in small batches using the
+              Each LUMYNAT candle is hand-poured in small batches using the
               finest raw materials, crafted to become part of your daily ritual.
             </p>
           </div>
@@ -75,7 +75,7 @@ export function Footer() {
           <div className="space-y-4 lg:pt-2">
             <div className="space-y-1">
               <p className="font-body text-[11px] tracking-[0.18em] uppercase text-text-inverse/50">
-                The ILLUMYNAT Circle
+                The LUMYNAT Circle
               </p>
               <p className="font-display text-2xl font-light text-text-inverse">
                 Join our community
@@ -94,7 +94,7 @@ export function Footer() {
           {/* Logo col */}
           <div className="col-span-2 md:col-span-1 space-y-4">
             <Link href="/" className="font-display text-2xl font-light tracking-[0.25em] uppercase text-text-inverse">
-              ILLUMYNAT
+              LUMYNAT
             </Link>
             <div className="flex items-center gap-4 pt-2">
               <a href="#" aria-label="Instagram" className="text-text-inverse/40 hover:text-accent transition-colors duration-200">
@@ -155,7 +155,7 @@ export function Footer() {
         {/* Bottom bar */}
         <div className="flex flex-col md:flex-row items-center justify-between gap-4 pt-8">
           <p className="font-body text-[11px] text-text-inverse/30 tracking-wide">
-            © {new Date().getFullYear()} ILLUMYNAT. All rights reserved.
+            © {new Date().getFullYear()} LUMYNAT. All rights reserved.
           </p>
           <div className="flex items-center gap-6">
             {["Privacy Policy", "Terms of Service", "Cookie Settings"].map((l) => (

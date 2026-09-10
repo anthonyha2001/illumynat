@@ -6,7 +6,7 @@ import { createClient } from "@/lib/supabase/server";
 import { prisma } from "@/lib/prisma";
 import { WishlistGrid } from "./WishlistGrid";
 
-export const metadata = { title: "Wishlist — ILLUMYNAT" };
+export const metadata = { title: "Wishlist — LUMYNAT" };
 
 export default async function WishlistPage() {
   const supabase = await createClient();

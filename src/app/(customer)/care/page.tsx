@@ -4,8 +4,8 @@ import { FadeIn } from "@/components/ui/FadeIn";
 import Link from "next/link";
 
 export const metadata = {
-  title: "Care Guide — ILLUMYNAT",
-  description: "How to get the most from your ILLUMYNAT candle. First burn, wick trimming, safe burning, and more.",
+  title: "Care Guide — LUMYNAT",
+  description: "How to get the most from your LUMYNAT candle. First burn, wick trimming, safe burning, and more.",
 };
 
 const STEPS = [

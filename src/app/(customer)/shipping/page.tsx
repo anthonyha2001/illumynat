@@ -4,7 +4,7 @@ import { FadeIn } from "@/components/ui/FadeIn";
 import Link from "next/link";
 
 export const metadata = {
-  title: "Shipping & Returns — ILLUMYNAT",
+  title: "Shipping & Returns — LUMYNAT",
   description: "Our shipping policy, delivery times, and hassle-free return process.",
 };
 
@@ -30,7 +30,7 @@ const SHIPPING_OPTIONS = [
 ];
 
 const RETURN_STEPS = [
-  { step: "01", title: "Contact us", body: "Email us at returns@illumynat.com within 30 days of receiving your order. Include your order number and a brief note about why you are returning." },
+  { step: "01", title: "Contact us", body: "Email us at returns@lumynat.com within 30 days of receiving your order. Include your order number and a brief note about why you are returning." },
   { step: "02", title: "We send a label", body: "We will send you a prepaid return shipping label within 24 hours. You do not need to arrange anything — just print and attach." },
   { step: "03", title: "Drop it off", body: "Pack the item securely and drop it off at any courier location. The item must be unused and in its original packaging." },
   { step: "04", title: "Refund processed", body: "Once we receive and inspect the return, your refund is processed within 3–5 business days to your original payment method." },

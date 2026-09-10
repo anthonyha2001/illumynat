@@ -1,7 +1,7 @@
 import { LoginForm } from "./LoginForm";
 
 export const metadata = {
-  title: "Sign In — ILLUMYNAT",
+  title: "Sign In — LUMYNAT",
 };
 
 export default function LoginPage() {
@@ -35,7 +35,7 @@ export default function LoginPage() {
 
         {/* Switch to signup */}
         <p className="font-body text-sm text-text-muted text-center">
-          New to ILLUMYNAT?{" "}
+          New to LUMYNAT?{" "}
           <a
             href="/signup"
             className="text-text underline underline-offset-4 hover:text-accent transition-colors duration-200"

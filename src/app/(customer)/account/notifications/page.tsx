@@ -3,7 +3,7 @@ import { createClient } from "@/lib/supabase/server";
 import { prisma } from "@/lib/prisma";
 import { CustomerNotificationsClient } from "./CustomerNotificationsClient";
 
-export const metadata = { title: "Notifications — ILLUMYNAT" };
+export const metadata = { title: "Notifications — LUMYNAT" };
 
 export default async function AccountNotificationsPage() {
   const supabase = await createClient();

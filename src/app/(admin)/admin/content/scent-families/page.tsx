@@ -2,7 +2,7 @@ import Link from "next/link";
 import { getScentFamilies } from "@/lib/data/siteContent";
 import { ScentFamiliesForm } from "./ScentFamiliesForm";
 
-export const metadata = { title: "Scent Families — ILLUMYNAT Admin" };
+export const metadata = { title: "Scent Families — LUMYNAT Admin" };
 
 export default async function ScentFamiliesPage() {
   const families = await getScentFamilies();

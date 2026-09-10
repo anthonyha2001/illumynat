@@ -1,7 +1,7 @@
 import { prisma } from "@/lib/prisma";
 import { StockInForm } from "./StockInForm";
 
-export const metadata = { title: "Receive Stock — ILLUMYNAT Admin" };
+export const metadata = { title: "Receive Stock — LUMYNAT Admin" };
 
 interface Props {
   searchParams: Promise<{ materialId?: string }>;

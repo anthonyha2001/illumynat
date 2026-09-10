@@ -9,7 +9,7 @@ interface Props { params: Promise<{ id: string }> }
 export async function generateMetadata({ params }: Props) {
   const { id } = await params;
   const product = await prisma.product.findUnique({ where: { id }, select: { name: true } });
-  return { title: `Edit ${product?.name ?? "Product"} — ILLUMYNAT Admin` };
+  return { title: `Edit ${product?.name ?? "Product"} — LUMYNAT Admin` };
 }
 
 export default async function EditProductPage({ params }: Props) {

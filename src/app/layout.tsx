@@ -22,8 +22,8 @@ const inter = Inter({
 
 export const metadata: Metadata = {
   title: {
-    default: "ILLUMYNAT — Artisanal Candles",
-    template: "%s | ILLUMYNAT",
+    default: "LUMYNAT — Artisanal Candles",
+    template: "%s | LUMYNAT",
   },
   description:
     "Handcrafted luxury candles made in small batches. Each fragrance tells a story.",

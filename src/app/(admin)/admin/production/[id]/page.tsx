@@ -25,7 +25,7 @@ const BATCH_CLS: Record<string, string> = {
 export async function generateMetadata({ params }: Props) {
   const { id } = await params;
   const b = await prisma.productionBatch.findUnique({ where: { id }, select: { product: { select: { name: true } } } });
-  return { title: `Batch — ${b?.product.name ?? "Production"} — ILLUMYNAT Admin` };
+  return { title: `Batch — ${b?.product.name ?? "Production"} — LUMYNAT Admin` };
 }
 
 export default async function BatchDetailPage({ params }: Props) {

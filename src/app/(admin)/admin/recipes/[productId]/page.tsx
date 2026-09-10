@@ -8,7 +8,7 @@ interface Props { params: Promise<{ productId: string }> }
 export async function generateMetadata({ params }: Props) {
   const { productId } = await params;
   const p = await prisma.product.findUnique({ where: { id: productId }, select: { name: true } });
-  return { title: `Recipe — ${p?.name ?? "Product"} — ILLUMYNAT Admin` };
+  return { title: `Recipe — ${p?.name ?? "Product"} — LUMYNAT Admin` };
 }
 
 export default async function RecipePage({ params }: Props) {

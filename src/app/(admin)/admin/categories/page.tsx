@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { prisma } from "@/lib/prisma";
 
-export const metadata = { title: "Categories — ILLUMYNAT Admin" };
+export const metadata = { title: "Categories — LUMYNAT Admin" };
 
 export default async function AdminCategoriesPage() {
   const categories = await prisma.category.findMany({

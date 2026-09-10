@@ -16,8 +16,8 @@ export async function generateMetadata({ params }: Props) {
   const { slug } = await params;
   const categories = await getActiveCategories();
   const cat = categories.find((c) => c.slug === slug);
-  if (!cat) return { title: "Not Found — ILLUMYNAT" };
-  return { title: `${cat.name} Collection — ILLUMYNAT` };
+  if (!cat) return { title: "Not Found — LUMYNAT" };
+  return { title: `${cat.name} Collection — LUMYNAT` };
 }
 
 export default async function CollectionPage({ params }: Props) {

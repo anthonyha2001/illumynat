@@ -50,7 +50,7 @@ export function orderConfirmationHtml(d: OrderConfirmationData): string {
 
   return `<!DOCTYPE html>
 <html lang="en">
-<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Order Confirmed — ILLUMYNAT</title></head>
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Order Confirmed — LUMYNAT</title></head>
 <body style="margin:0;padding:0;background:#F7F4EF;font-family:'Georgia',serif;">
   <table width="100%" cellpadding="0" cellspacing="0" style="background:#F7F4EF;padding:40px 20px;">
     <tr><td align="center">
@@ -59,7 +59,7 @@ export function orderConfirmationHtml(d: OrderConfirmationData): string {
         <!-- Header -->
         <tr>
           <td style="background:#2D0A12;padding:32px 40px;text-align:center;">
-            <p style="margin:0;font-size:24px;font-style:italic;font-weight:300;color:#B8972A;letter-spacing:0.05em;">ILLUMYNAT</p>
+            <p style="margin:0;font-size:24px;font-style:italic;font-weight:300;color:#B8972A;letter-spacing:0.05em;">LUMYNAT</p>
             <p style="margin:8px 0 0;font-size:11px;letter-spacing:0.2em;text-transform:uppercase;color:#B8972A;opacity:0.7;font-family:sans-serif;">Luxury Candles</p>
           </td>
         </tr>
@@ -129,7 +129,7 @@ export function orderConfirmationHtml(d: OrderConfirmationData): string {
         <!-- Footer -->
         <tr>
           <td style="padding:24px 40px;border-top:1px solid #EDE9E3;text-align:center;">
-            <p style="margin:0;font-family:sans-serif;font-size:11px;color:#8A5A62;">Questions? Reply to this email or visit illumynat.com</p>
+            <p style="margin:0;font-family:sans-serif;font-size:11px;color:#8A5A62;">Questions? Reply to this email or visit lumynat.com</p>
           </td>
         </tr>
 
@@ -142,5 +142,5 @@ export function orderConfirmationHtml(d: OrderConfirmationData): string {
 
 export function orderConfirmationText(d: OrderConfirmationData): string {
   const items = d.items.map((i) => `  ${i.name} (×${i.quantity}) — $${i.subtotal.toFixed(2)}`).join("\n");
-  return `Order Confirmed — ILLUMYNAT\n\nHi ${d.customerName},\n\nThank you for your order! Here's your summary:\n\nOrder: ${d.orderNumber}\n\nItems:\n${items}\n\nSubtotal: $${d.subtotal.toFixed(2)}\nTax: $${d.taxAmount.toFixed(2)}\nTotal: $${d.total.toFixed(2)}\n\nShipping to:\n${d.shippingAddress.line1}\n${d.shippingAddress.city}, ${d.shippingAddress.state} ${d.shippingAddress.zip}\n\nTrack your order: ${d.orderUrl}\n\n— ILLUMYNAT`;
+  return `Order Confirmed — LUMYNAT\n\nHi ${d.customerName},\n\nThank you for your order! Here's your summary:\n\nOrder: ${d.orderNumber}\n\nItems:\n${items}\n\nSubtotal: $${d.subtotal.toFixed(2)}\nTax: $${d.taxAmount.toFixed(2)}\nTotal: $${d.total.toFixed(2)}\n\nShipping to:\n${d.shippingAddress.line1}\n${d.shippingAddress.city}, ${d.shippingAddress.state} ${d.shippingAddress.zip}\n\nTrack your order: ${d.orderUrl}\n\n— LUMYNAT`;
 }

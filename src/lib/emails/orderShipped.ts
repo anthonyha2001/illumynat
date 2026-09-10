@@ -21,7 +21,7 @@ export function orderShippedHtml(d: OrderShippedData): string {
 
   return `<!DOCTYPE html>
 <html lang="en">
-<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Your Order Has Shipped — ILLUMYNAT</title></head>
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Your Order Has Shipped — LUMYNAT</title></head>
 <body style="margin:0;padding:0;background:#F7F4EF;font-family:'Georgia',serif;">
   <table width="100%" cellpadding="0" cellspacing="0" style="background:#F7F4EF;padding:40px 20px;">
     <tr><td align="center">
@@ -29,7 +29,7 @@ export function orderShippedHtml(d: OrderShippedData): string {
 
         <tr>
           <td style="background:#2D0A12;padding:32px 40px;text-align:center;">
-            <p style="margin:0;font-size:24px;font-style:italic;font-weight:300;color:#B8972A;letter-spacing:0.05em;">ILLUMYNAT</p>
+            <p style="margin:0;font-size:24px;font-style:italic;font-weight:300;color:#B8972A;letter-spacing:0.05em;">LUMYNAT</p>
             <p style="margin:8px 0 0;font-size:11px;letter-spacing:0.2em;text-transform:uppercase;color:#B8972A;opacity:0.7;font-family:sans-serif;">Luxury Candles</p>
           </td>
         </tr>
@@ -38,7 +38,7 @@ export function orderShippedHtml(d: OrderShippedData): string {
           <td style="padding:40px;">
             <p style="margin:0 0 8px;font-size:11px;letter-spacing:0.2em;text-transform:uppercase;color:#B8972A;font-family:sans-serif;">On Its Way</p>
             <h1 style="margin:0 0 4px;font-size:28px;font-weight:300;font-style:italic;color:#2D0A12;">Your order has shipped</h1>
-            <p style="margin:0 0 32px;font-size:14px;color:#8A5A62;font-family:sans-serif;">Good news, ${d.customerName} — your ILLUMYNAT order <strong style="color:#2D0A12;">${d.orderNumber}</strong> is on its way.</p>
+            <p style="margin:0 0 32px;font-size:14px;color:#8A5A62;font-family:sans-serif;">Good news, ${d.customerName} — your LUMYNAT order <strong style="color:#2D0A12;">${d.orderNumber}</strong> is on its way.</p>
 
             ${trackingSection}
 
@@ -56,7 +56,7 @@ export function orderShippedHtml(d: OrderShippedData): string {
 
         <tr>
           <td style="padding:24px 40px;border-top:1px solid #EDE9E3;text-align:center;">
-            <p style="margin:0;font-family:sans-serif;font-size:11px;color:#8A5A62;">Questions? Reply to this email or visit illumynat.com</p>
+            <p style="margin:0;font-family:sans-serif;font-size:11px;color:#8A5A62;">Questions? Reply to this email or visit lumynat.com</p>
           </td>
         </tr>
 
@@ -71,5 +71,5 @@ export function orderShippedText(d: OrderShippedData): string {
   const tracking = d.trackingNumber
     ? `\nTracking: ${d.carrier ? `${d.carrier} — ` : ""}${d.trackingNumber}${d.estimatedDelivery ? `\nEst. delivery: ${new Date(d.estimatedDelivery).toLocaleDateString()}` : ""}\n`
     : "";
-  return `Your Order Has Shipped — ILLUMYNAT\n\nHi ${d.customerName},\n\nYour order ${d.orderNumber} is on its way!${tracking}\nView order: ${d.orderUrl}\n\n— ILLUMYNAT`;
+  return `Your Order Has Shipped — LUMYNAT\n\nHi ${d.customerName},\n\nYour order ${d.orderNumber} is on its way!${tracking}\nView order: ${d.orderUrl}\n\n— LUMYNAT`;
 }

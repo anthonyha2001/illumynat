@@ -27,7 +27,7 @@ const STATUS_CLS: Record<string, string> = {
 export async function generateMetadata({ params }: Props) {
   const { id } = await params;
   const p = await prisma.profile.findUnique({ where: { id }, select: { firstName: true, lastName: true } });
-  return { title: `${p ? `${p.firstName} ${p.lastName}` : "Customer"} — ILLUMYNAT Admin` };
+  return { title: `${p ? `${p.firstName} ${p.lastName}` : "Customer"} — LUMYNAT Admin` };
 }
 
 export default async function AdminCustomerDetailPage({ params }: Props) {

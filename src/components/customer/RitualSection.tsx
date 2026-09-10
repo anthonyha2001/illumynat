@@ -60,7 +60,7 @@ export function RitualSection() {
             </h2>
             <p className="font-body text-sm text-text-muted leading-relaxed max-w-md">
               From ingredient sourcing to final inspection, nothing at
-              ILLUMYNAT is left to chance. This is what we believe making
+              LUMYNAT is left to chance. This is what we believe making
               something great actually means.
             </p>
           </div>

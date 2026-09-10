@@ -8,7 +8,7 @@ import { Spinner } from "@/components/ui/Spinner";
 import { createClient } from "@/lib/supabase/server";
 import { prisma } from "@/lib/prisma";
 
-export const metadata = { title: "Shop — ILLUMYNAT" };
+export const metadata = { title: "Shop — LUMYNAT" };
 
 interface Props {
   searchParams: Promise<{

@@ -4,14 +4,14 @@ import { FadeIn } from "@/components/ui/FadeIn";
 import Link from "next/link";
 
 export const metadata = {
-  title: "Press — ILLUMYNAT",
-  description: "Media coverage, editorial features, and press resources for ILLUMYNAT.",
+  title: "Press — LUMYNAT",
+  description: "Media coverage, editorial features, and press resources for LUMYNAT.",
 };
 
 const PRESS = [
   {
     outlet: "Vogue Living",
-    quote: "ILLUMYNAT has done something rare: created a candle that smells exactly as its name suggests, every single time.",
+    quote: "LUMYNAT has done something rare: created a candle that smells exactly as its name suggests, every single time.",
     issue: "October 2024",
     category: "Home & Design",
   },
@@ -23,7 +23,7 @@ const PRESS = [
   },
   {
     outlet: "Monocle",
-    quote: "Small-batch, single-city, obsessively made. ILLUMYNAT is the benchmark for what artisan candlemaking can be.",
+    quote: "Small-batch, single-city, obsessively made. LUMYNAT is the benchmark for what artisan candlemaking can be.",
     issue: "August 2024",
     category: "Lifestyle",
   },
@@ -62,7 +62,7 @@ export default function PressPage() {
               Press
             </h1>
             <p className="font-body text-sm text-text-muted max-w-md mx-auto leading-relaxed">
-              Editorial coverage, features, and what the world is saying about ILLUMYNAT.
+              Editorial coverage, features, and what the world is saying about LUMYNAT.
             </p>
           </FadeIn>
         </Container>

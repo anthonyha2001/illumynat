@@ -2,7 +2,7 @@ import Link from "next/link";
 import { prisma } from "@/lib/prisma";
 import { GiftSetForm } from "../GiftSetForm";
 
-export const metadata = { title: "New Gift Set — ILLUMYNAT Admin" };
+export const metadata = { title: "New Gift Set — LUMYNAT Admin" };
 
 export default async function NewGiftSetPage() {
   const products = await prisma.product.findMany({

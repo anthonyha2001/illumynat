@@ -1,7 +1,7 @@
 import { Container } from "@/components/ui/Container";
 import { GiftCardClient } from "./GiftCardClient";
 
-export const metadata = { title: "Gift Cards — ILLUMYNAT" };
+export const metadata = { title: "Gift Cards — LUMYNAT" };
 
 export default function GiftCardPage() {
   return (

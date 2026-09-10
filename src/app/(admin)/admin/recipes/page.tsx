@@ -2,7 +2,7 @@ import Link from "next/link";
 import { prisma } from "@/lib/prisma";
 import { cn } from "@/utils/cn";
 
-export const metadata = { title: "Recipes — ILLUMYNAT Admin" };
+export const metadata = { title: "Recipes — LUMYNAT Admin" };
 
 export default async function AdminRecipesPage() {
   const products = await prisma.product.findMany({

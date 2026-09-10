@@ -1,6 +1,6 @@
 import { IssueGiftCardForm } from "./IssueGiftCardForm";
 
-export const metadata = { title: "Issue Gift Card — ILLUMYNAT Admin" };
+export const metadata = { title: "Issue Gift Card — LUMYNAT Admin" };
 
 export default function AdminIssueGiftCardPage() {
   return (

@@ -18,7 +18,7 @@ export const HERO_DEFAULTS: HeroContent = {
   eyebrow:           "Hand-poured in small batches",
   headline:          "Light the moment.",
   headlineAccent:    "Own the room.",
-  subCopy:           "Each ILLUMYNAT candle begins with a single idea: that fragrance is not decoration — it is atmosphere. Discover collections designed to transform every room into a ritual.",
+  subCopy:           "Each LUMYNAT candle begins with a single idea: that fragrance is not decoration — it is atmosphere. Discover collections designed to transform every room into a ritual.",
   primaryCtaLabel:   "Shop Collection",
   primaryCtaHref:    "/shop",
   secondaryCtaLabel: "Our Story",

@@ -139,7 +139,7 @@ export default async function InvoicePage({ params }: Props) {
           {/* Brand */}
           <div>
             <div style={{ fontSize: 34, fontWeight: 300, fontStyle: "italic", letterSpacing: "0.12em", color: "#1a0008", lineHeight: 1 }}>
-              ILLUMYNAT
+              LUMYNAT
             </div>
             <div style={{ fontSize: 9, letterSpacing: "0.3em", textTransform: "uppercase", color: "#8a5a62", marginTop: 6 }}>
               Handcrafted Candles
@@ -326,7 +326,7 @@ export default async function InvoicePage({ params }: Props) {
             Thank you for your order
           </div>
           <div style={{ fontSize: 10, color: "#aaa", letterSpacing: "0.1em" }}>
-            illumynat.com
+            lumynat.com
           </div>
         </div>
       </div>

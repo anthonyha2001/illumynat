@@ -166,7 +166,7 @@ export function Navbar({ firstName, isAdmin }: { firstName?: string | null; isAd
               onClick={() => setOpen(false)}
               className="font-display text-2xl md:text-3xl font-light tracking-[0.25em] uppercase text-text"
             >
-              ILLUMYNAT
+              LUMYNAT
             </Link>
 
             {/* Desktop nav links */}

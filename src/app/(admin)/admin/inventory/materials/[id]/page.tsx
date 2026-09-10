@@ -9,7 +9,7 @@ interface Props { params: Promise<{ id: string }> }
 export async function generateMetadata({ params }: Props) {
   const { id } = await params;
   const m = await prisma.rawMaterial.findUnique({ where: { id }, select: { name: true } });
-  return { title: `${m?.name ?? "Material"} — ILLUMYNAT Admin` };
+  return { title: `${m?.name ?? "Material"} — LUMYNAT Admin` };
 }
 
 function toNum(v: unknown): number {

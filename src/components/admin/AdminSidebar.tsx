@@ -124,7 +124,7 @@ export function AdminSidebar({ badges = {} }: AdminSidebarProps) {
       {/* Logo */}
       <div className="px-6 py-5 border-b border-text-inverse/5">
         <Link href="/admin" className="font-display text-xl font-light tracking-[0.2em] uppercase text-text-inverse">
-          ILLUMYNAT
+          LUMYNAT
         </Link>
         <p className="font-body text-[10px] tracking-widest uppercase text-text-inverse/30 mt-0.5">
           Admin Portal

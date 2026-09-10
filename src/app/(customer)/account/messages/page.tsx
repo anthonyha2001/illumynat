@@ -4,7 +4,7 @@ import { prisma } from "@/lib/prisma";
 import CustomerMessagesClient from "./CustomerMessagesClient";
 
 export const dynamic = "force-dynamic";
-export const metadata = { title: "My Messages — ILLUMYNAT" };
+export const metadata = { title: "My Messages — LUMYNAT" };
 
 export default async function CustomerMessagesPage() {
   const supabase = await createClient();

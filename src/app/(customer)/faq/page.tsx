@@ -21,7 +21,7 @@ const CATEGORIES = [
       },
       {
         q: "Can I change or cancel my order after placing it?",
-        a: "You can modify or cancel an order within 2 hours of placing it by contacting us at orders@illumynat.com. After that window, the order may already be in production and we cannot guarantee changes.",
+        a: "You can modify or cancel an order within 2 hours of placing it by contacting us at orders@lumynat.com. After that window, the order may already be in production and we cannot guarantee changes.",
       },
       {
         q: "Do you ship internationally?",
@@ -37,7 +37,7 @@ const CATEGORIES = [
     label: "Products & Scents",
     questions: [
       {
-        q: "How long do ILLUMYNAT candles burn?",
+        q: "How long do LUMYNAT candles burn?",
         a: "Burn time depends on the vessel size. Our standard 8oz candles burn for approximately 50–55 hours with proper care. The 12oz burns for 70–80 hours. Always follow the care guide for maximum burn time.",
       },
       {
@@ -63,7 +63,7 @@ const CATEGORIES = [
     questions: [
       {
         q: "What is your return policy?",
-        a: "We accept returns within 30 days of delivery for unused items in their original packaging. Contact us at returns@illumynat.com with your order number and we will send a prepaid return label within 24 hours.",
+        a: "We accept returns within 30 days of delivery for unused items in their original packaging. Contact us at returns@lumynat.com with your order number and we will send a prepaid return label within 24 hours.",
       },
       {
         q: "My candle arrived damaged. What do I do?",

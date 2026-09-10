@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { prisma } from "@/lib/prisma";
 
-export const metadata = { title: "Gift Sets — ILLUMYNAT Admin" };
+export const metadata = { title: "Gift Sets — LUMYNAT Admin" };
 
 function toNum(v: unknown): number {
   if (typeof v === "number") return v;

@@ -4,7 +4,7 @@ import { createClient } from "@/lib/supabase/server";
 import { prisma } from "@/lib/prisma";
 import { getSettings } from "@/lib/data/settings";
 
-export const metadata = { title: "Checkout — ILLUMYNAT" };
+export const metadata = { title: "Checkout — LUMYNAT" };
 
 export default async function CheckoutPage() {
   const settings = await getSettings();

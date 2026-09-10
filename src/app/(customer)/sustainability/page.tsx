@@ -4,7 +4,7 @@ import { FadeIn } from "@/components/ui/FadeIn";
 import Link from "next/link";
 
 export const metadata = {
-  title: "Sustainability — ILLUMYNAT",
+  title: "Sustainability — LUMYNAT",
   description: "Our commitment to the environment, from materials to packaging to the way we ship.",
 };
 
@@ -106,7 +106,7 @@ export default function SustainabilityPage() {
               &ldquo;We will never grow so fast that we compromise on material standards.
               Speed and scale are not goals. Quality and care are.&rdquo;
             </blockquote>
-            <p className="font-body text-[11px] tracking-[0.2em] uppercase text-accent mt-8">— ILLUMYNAT</p>
+            <p className="font-body text-[11px] tracking-[0.2em] uppercase text-accent mt-8">— LUMYNAT</p>
           </Container>
         </div>
       </AnimateIn>

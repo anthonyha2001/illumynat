@@ -5,7 +5,7 @@ import { FadeIn } from "@/components/ui/FadeIn";
 import { AnimateIn } from "@/components/ui/AnimateIn";
 import { getActiveCategories } from "@/lib/data/products";
 
-export const metadata = { title: "Collections — ILLUMYNAT" };
+export const metadata = { title: "Collections — LUMYNAT" };
 
 export default async function CollectionsPage() {
   const categories = await getActiveCategories();

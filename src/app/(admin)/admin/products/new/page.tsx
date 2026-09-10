@@ -3,7 +3,7 @@ import { prisma } from "@/lib/prisma";
 import { ProductForm } from "../ProductForm";
 import { getScentFamilies } from "@/lib/data/siteContent";
 
-export const metadata = { title: "New Product — ILLUMYNAT Admin" };
+export const metadata = { title: "New Product — LUMYNAT Admin" };
 
 async function generateUniqueSku(): Promise<string> {
   for (let i = 0; i < 10; i++) {

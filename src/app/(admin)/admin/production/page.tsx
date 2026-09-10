@@ -2,7 +2,7 @@ import Link from "next/link";
 import { prisma } from "@/lib/prisma";
 import { cn } from "@/utils/cn";
 
-export const metadata = { title: "Production — ILLUMYNAT Admin" };
+export const metadata = { title: "Production — LUMYNAT Admin" };
 
 const BATCH_CLS: Record<string, string> = {
   PENDING:     "bg-warning/10 text-warning border-warning/20",

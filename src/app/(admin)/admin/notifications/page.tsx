@@ -1,7 +1,7 @@
 import { prisma } from "@/lib/prisma";
 import { NotificationsClient } from "./NotificationsClient";
 
-export const metadata = { title: "Notifications — ILLUMYNAT Admin" };
+export const metadata = { title: "Notifications — LUMYNAT Admin" };
 
 export default async function AdminNotificationsPage() {
   const [raw, customers] = await Promise.all([

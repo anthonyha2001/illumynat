@@ -19,8 +19,8 @@ const DEFAULTS: SiteSettings = {
   POINTS_PER_DOLLAR: 1,
   POINTS_SIGNUP_BONUS: 100,
   POINTS_REVIEW_BONUS: 50,
-  STORE_NAME: "ILLUMYNAT",
-  STORE_EMAIL: "hello@illumynat.com",
+  STORE_NAME: "LUMYNAT",
+  STORE_EMAIL: "hello@lumynat.com",
   STORE_PHONE: "+961 1 000 000",
 };
 

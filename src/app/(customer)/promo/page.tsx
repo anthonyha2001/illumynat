@@ -7,7 +7,7 @@ import { Countdown } from "./Countdown";
 import { CopyButton } from "./CopyButton";
 
 export const dynamic = "force-dynamic";
-export const metadata = { title: "Special Offer — ILLUMYNAT", robots: "noindex" };
+export const metadata = { title: "Special Offer — LUMYNAT", robots: "noindex" };
 
 export default async function PromoPage() {
   const promo = await getPromoZone();
@@ -32,7 +32,7 @@ export default async function PromoPage() {
     return (
       <div className="min-h-screen bg-bg flex items-center justify-center">
         <div className="text-center space-y-3">
-          <p className="font-body text-[11px] tracking-[0.2em] uppercase text-accent">ILLUMYNAT</p>
+          <p className="font-body text-[11px] tracking-[0.2em] uppercase text-accent">LUMYNAT</p>
           <h1 className="font-display text-4xl font-light italic text-text">Nothing here right now.</h1>
           <p className="font-body text-sm text-text-muted">Check back soon for exclusive offers.</p>
         </div>

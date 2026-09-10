@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/Button";
 import { createClient } from "@/lib/supabase/server";
 import { getOrdersByProfile } from "@/lib/data/orders";
 
-export const metadata = { title: "My Orders — ILLUMYNAT" };
+export const metadata = { title: "My Orders — LUMYNAT" };
 
 const STATUS_LABEL: Record<string, { label: string; cls: string }> = {
   PENDING:    { label: "Pending",    cls: "text-warning" },

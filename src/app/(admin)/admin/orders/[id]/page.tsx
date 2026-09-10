@@ -20,7 +20,7 @@ function toNum(v: unknown): number {
 export async function generateMetadata({ params }: Props) {
   const { id } = await params;
   const order = await prisma.order.findUnique({ where: { id }, select: { orderNumber: true } });
-  return { title: `${order?.orderNumber ?? "Order"} — ILLUMYNAT Admin` };
+  return { title: `${order?.orderNumber ?? "Order"} — LUMYNAT Admin` };
 }
 
 export default async function AdminOrderDetailPage({ params }: Props) {

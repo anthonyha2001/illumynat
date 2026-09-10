@@ -4,9 +4,9 @@ import { Container } from "@/components/ui/Container";
 import { AnimateIn } from "@/components/ui/AnimateIn";
 
 export const metadata = {
-  title: "Our Story — ILLUMYNAT",
+  title: "Our Story — LUMYNAT",
   description:
-    "ILLUMYNAT began with a single candle poured on a kitchen counter. Learn how obsession with fragrance became a craft.",
+    "LUMYNAT began with a single candle poured on a kitchen counter. Learn how obsession with fragrance became a craft.",
 };
 
 // ── Editorial sections ─────────────────────────────────────
@@ -73,7 +73,7 @@ export default function OurStoryPage() {
             <span className="not-italic font-light text-accent">Meant to last.</span>
           </h1>
           <p className="font-body text-sm text-text-inverse/50 max-w-sm leading-relaxed">
-            ILLUMYNAT began with a question: why does a room smell like nothing?
+            LUMYNAT began with a question: why does a room smell like nothing?
             Four years and ten thousand pours later, we&apos;re still answering it.
           </p>
         </div>
@@ -102,7 +102,7 @@ export default function OurStoryPage() {
               </p>
               <p>
                 We gave twelve away to friends. Three of them asked where they could buy more.
-                That was the moment ILLUMYNAT became real.
+                That was the moment LUMYNAT became real.
               </p>
             </div>
           </div>
@@ -219,7 +219,7 @@ export default function OurStoryPage() {
             you pass through and a room you remember.&rdquo;
           </blockquote>
           <p className="font-body text-[11px] tracking-[0.2em] uppercase text-accent mt-8">
-            — ILLUMYNAT, 2019
+            — LUMYNAT, 2019
           </p>
         </Container>
       </div>

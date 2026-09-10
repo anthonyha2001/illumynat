@@ -2,7 +2,7 @@ import Link from "next/link";
 import { prisma } from "@/lib/prisma";
 import { OrderFilters } from "./OrderFilters";
 
-export const metadata = { title: "Orders — ILLUMYNAT Admin" };
+export const metadata = { title: "Orders — LUMYNAT Admin" };
 
 function toNum(v: unknown): number {
   if (typeof v === "number") return v;

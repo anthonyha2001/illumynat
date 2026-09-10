@@ -45,7 +45,7 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
       const email     = order.profile?.email ?? order.guestEmail;
       const firstName = order.profile?.firstName ?? order.shippingFirstName;
       const lastName  = order.profile?.lastName  ?? order.shippingLastName;
-      const siteUrl   = process.env.NEXT_PUBLIC_SITE_URL ?? "https://illumynat.com";
+      const siteUrl   = process.env.NEXT_PUBLIC_SITE_URL ?? "https://lumynat.com";
 
       if (email) {
         try {

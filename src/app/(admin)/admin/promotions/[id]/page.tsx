@@ -8,7 +8,7 @@ interface Props { params: Promise<{ id: string }> }
 export async function generateMetadata({ params }: Props) {
   const { id } = await params;
   const p = await prisma.promoCode.findUnique({ where: { id }, select: { code: true } });
-  return { title: `${p?.code ?? "Promo"} — ILLUMYNAT Admin` };
+  return { title: `${p?.code ?? "Promo"} — LUMYNAT Admin` };
 }
 
 export default async function EditPromoPage({ params }: Props) {

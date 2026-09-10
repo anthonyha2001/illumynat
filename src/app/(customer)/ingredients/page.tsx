@@ -4,7 +4,7 @@ import { FadeIn } from "@/components/ui/FadeIn";
 import Link from "next/link";
 
 export const metadata = {
-  title: "Ingredients — ILLUMYNAT",
+  title: "Ingredients — LUMYNAT",
   description: "Every ingredient in our candles, explained. We believe in radical transparency about what you burn in your home.",
 };
 
@@ -30,7 +30,7 @@ const INGREDIENTS = [
   {
     name: "Borosilicate Glass Vessels",
     tag: "Vessel",
-    body: "Every ILLUMYNAT candle comes in heat-resistant borosilicate glass — the same material used in laboratory glassware. It handles thermal stress better than standard soda-lime glass, making it safer and more durable throughout the candle's life.",
+    body: "Every LUMYNAT candle comes in heat-resistant borosilicate glass — the same material used in laboratory glassware. It handles thermal stress better than standard soda-lime glass, making it safer and more durable throughout the candle's life.",
     detail: "Once your candle is finished, the vessel is fully reusable. Clean it out with warm water and use it as a glass, pen holder, or planter. We designed it to last.",
   },
   {

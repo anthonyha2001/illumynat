@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { PromoForm } from "../PromoForm";
 
-export const metadata = { title: "New Promo Code — ILLUMYNAT Admin" };
+export const metadata = { title: "New Promo Code — LUMYNAT Admin" };
 
 export default function NewPromoPage() {
   return (

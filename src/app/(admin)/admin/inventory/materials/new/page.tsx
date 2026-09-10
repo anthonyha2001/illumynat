@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { MaterialForm } from "../MaterialForm";
 
-export const metadata = { title: "New Material — ILLUMYNAT Admin" };
+export const metadata = { title: "New Material — LUMYNAT Admin" };
 
 export default function NewMaterialPage() {
   return (

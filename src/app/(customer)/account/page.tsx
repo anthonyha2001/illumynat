@@ -10,7 +10,7 @@ import { getOrdersByProfile } from "@/lib/data/orders";
 import { signOut } from "@/lib/actions/auth";
 import { awardSignupBonus } from "@/lib/data/loyalty";
 
-export const metadata = { title: "Account — ILLUMYNAT" };
+export const metadata = { title: "Account — LUMYNAT" };
 
 function StatusBadge({ status }: { status: string }) {
   const map: Record<string, string> = {

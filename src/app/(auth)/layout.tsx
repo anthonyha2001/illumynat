@@ -14,7 +14,7 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
           href="/"
           className="font-display text-xl font-light tracking-[0.25em] uppercase text-text hover:text-accent transition-colors duration-200"
         >
-          ILLUMYNAT
+          LUMYNAT
         </Link>
         <Link
           href="/"
@@ -32,7 +32,7 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
       {/* Slim footer */}
       <footer className="py-6 text-center">
         <p className="font-body text-[11px] text-text-faint tracking-wide">
-          © {new Date().getFullYear()} ILLUMYNAT. All rights reserved.
+          © {new Date().getFullYear()} LUMYNAT. All rights reserved.
         </p>
       </footer>
 

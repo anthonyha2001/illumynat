@@ -12,7 +12,7 @@ export async function POST(req: NextRequest) {
       data: {
         type: "NEWSLETTER_SIGNUP",
         title: "New newsletter subscriber",
-        body: `${email} joined the ILLUMYNAT Circle.`,
+        body: `${email} joined the LUMYNAT Circle.`,
         metadata: { email },
       },
     });

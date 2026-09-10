@@ -52,7 +52,7 @@ export function GiftingBanner() {
                   { label: "Personalised label engraving", detail: "Up to 40 characters" },
                   { label: "Hand-tied satin ribbon", detail: "Four colours available" },
                   { label: "Gift message card", detail: "Handwritten on ivory stock" },
-                  { label: "Luxury matte gift box", detail: "Signature ILLUMYNAT packaging" },
+                  { label: "Luxury matte gift box", detail: "Signature LUMYNAT packaging" },
                 ].map((item, i) => (
                   <div key={i} className="flex items-center gap-5 group">
                     <div className="w-px h-8 bg-accent/40 group-hover:bg-accent transition-colors duration-300 shrink-0" />

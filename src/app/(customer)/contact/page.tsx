@@ -3,7 +3,7 @@ import { prisma } from "@/lib/prisma";
 import { Container } from "@/components/ui/Container";
 import ContactForm from "./ContactForm";
 
-export const metadata = { title: "Contact Us — ILLUMYNAT" };
+export const metadata = { title: "Contact Us — LUMYNAT" };
 
 export default async function ContactPage() {
   const supabase = await createClient();
@@ -28,8 +28,8 @@ export default async function ContactPage() {
           <p className="font-body text-sm text-text-muted max-w-md leading-relaxed">
             We respond to every message within 24 hours on business days.
             For urgent matters, reach us directly at{" "}
-            <a href="mailto:hello@illumynat.com" className="text-accent hover:underline underline-offset-2">
-              hello@illumynat.com
+            <a href="mailto:hello@lumynat.com" className="text-accent hover:underline underline-offset-2">
+              hello@lumynat.com
             </a>.
           </p>
         </Container>
@@ -53,9 +53,9 @@ export default async function ContactPage() {
               <p className="font-body text-[11px] tracking-[0.2em] uppercase text-accent mb-4">Email Directly</p>
               <div className="space-y-3">
                 {[
-                  { label: "General",           email: "hello@illumynat.com" },
-                  { label: "Orders & Returns",  email: "orders@illumynat.com" },
-                  { label: "Press",             email: "press@illumynat.com" },
+                  { label: "General",           email: "hello@lumynat.com" },
+                  { label: "Orders & Returns",  email: "orders@lumynat.com" },
+                  { label: "Press",             email: "press@lumynat.com" },
                 ].map(({ label, email }) => (
                   <div key={email}>
                     <p className="font-body text-[11px] text-text-muted uppercase tracking-widest mb-1">{label}</p>

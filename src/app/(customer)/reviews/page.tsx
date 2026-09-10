@@ -5,8 +5,8 @@ import { prisma } from "@/lib/prisma";
 import Link from "next/link";
 
 export const metadata = {
-  title: "Customer Reviews — ILLUMYNAT",
-  description: "Real reviews from real customers. See what people are saying about ILLUMYNAT candles.",
+  title: "Customer Reviews — LUMYNAT",
+  description: "Real reviews from real customers. See what people are saying about LUMYNAT candles.",
 };
 
 function StarRow({ rating, size = "sm" }: { rating: number; size?: "sm" | "md" }) {

@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/Button";
 import { Divider } from "@/components/ui/Divider";
 import { getOrderById } from "@/lib/data/orders";
 
-export const metadata = { title: "Order Confirmed — ILLUMYNAT" };
+export const metadata = { title: "Order Confirmed — LUMYNAT" };
 
 function StatusBadge({ status }: { status: string }) {
   const map: Record<string, string> = {

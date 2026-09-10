@@ -27,7 +27,7 @@ export function NewsletterForm() {
   if (state === "done") {
     return (
       <p className="font-body text-sm text-accent leading-relaxed">
-        ✓ You&apos;re in. Welcome to the ILLUMYNAT Circle.
+        ✓ You&apos;re in. Welcome to the LUMYNAT Circle.
       </p>
     );
   }

@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { CategoryForm } from "../CategoryForm";
 
-export const metadata = { title: "New Category — ILLUMYNAT Admin" };
+export const metadata = { title: "New Category — LUMYNAT Admin" };
 
 export default function NewCategoryPage() {
   return (

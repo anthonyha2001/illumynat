@@ -1,7 +1,7 @@
 import { SignupForm } from "./SignupForm";
 
 export const metadata = {
-  title: "Create Account — ILLUMYNAT",
+  title: "Create Account — LUMYNAT",
 };
 
 export default function SignupPage() {
@@ -14,7 +14,7 @@ export default function SignupPage() {
         {/* Header */}
         <div className="mb-10 space-y-2">
           <p className="font-body text-[10px] tracking-[0.22em] uppercase text-accent">
-            Join ILLUMYNAT
+            Join LUMYNAT
           </p>
           <h1 className="font-display text-3xl font-light italic text-text">
             Create your account

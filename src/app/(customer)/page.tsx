@@ -10,7 +10,7 @@ import { createClient } from "@/lib/supabase/server";
 import { prisma } from "@/lib/prisma";
 
 export const metadata = {
-  title: "ILLUMYNAT — Luxury Artisan Candles",
+  title: "LUMYNAT — Luxury Artisan Candles",
   description:
     "Hand-poured in small batches using the finest raw materials. Discover candles crafted to become part of your daily ritual.",
 };

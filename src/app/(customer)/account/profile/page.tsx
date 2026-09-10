@@ -5,7 +5,7 @@ import { createClient } from "@/lib/supabase/server";
 import { prisma } from "@/lib/prisma";
 import { ProfileForm } from "./ProfileForm";
 
-export const metadata = { title: "Edit Profile — ILLUMYNAT" };
+export const metadata = { title: "Edit Profile — LUMYNAT" };
 
 export default async function ProfilePage() {
   const supabase = await createClient();

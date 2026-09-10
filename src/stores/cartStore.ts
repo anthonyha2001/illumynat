@@ -104,7 +104,7 @@ export const useCartStore = create<CartStore>()(
       clearCart: () => set({ items: [] }),
     }),
     {
-      name: "illumynat-cart",   // localStorage key
+      name: "lumynat-cart",   // localStorage key
       partialize: (s) => ({ items: s.items }), // don't persist drawer state
     }
   )

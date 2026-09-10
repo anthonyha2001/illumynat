@@ -3,7 +3,7 @@ import { prisma } from "@/lib/prisma";
 import { cn } from "@/utils/cn";
 import { ReviewActions } from "./ReviewActions";
 
-export const metadata = { title: "Reviews — ILLUMYNAT Admin" };
+export const metadata = { title: "Reviews — LUMYNAT Admin" };
 
 const STATUS_CLS: Record<string, string> = {
   PENDING:   "bg-warning/10 text-warning border-warning/20",

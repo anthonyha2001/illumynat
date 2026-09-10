@@ -8,7 +8,7 @@ interface Props { params: Promise<{ id: string }> }
 export async function generateMetadata({ params }: Props) {
   const { id } = await params;
   const s = await prisma.giftSet.findUnique({ where: { id }, select: { name: true } });
-  return { title: `${s?.name ?? "Gift Set"} — ILLUMYNAT Admin` };
+  return { title: `${s?.name ?? "Gift Set"} — LUMYNAT Admin` };
 }
 
 export default async function EditGiftSetPage({ params }: Props) {

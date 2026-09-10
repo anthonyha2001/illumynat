@@ -5,7 +5,7 @@ import { createClient } from "@/lib/supabase/server";
 import { prisma } from "@/lib/prisma";
 import { AddressBook } from "./AddressBook";
 
-export const metadata = { title: "Addresses — ILLUMYNAT" };
+export const metadata = { title: "Addresses — LUMYNAT" };
 
 export default async function AddressesPage() {
   const supabase = await createClient();

@@ -2,7 +2,7 @@ import Link from "next/link";
 import { prisma } from "@/lib/prisma";
 import { NewBatchForm } from "./NewBatchForm";
 
-export const metadata = { title: "New Batch — ILLUMYNAT Admin" };
+export const metadata = { title: "New Batch — LUMYNAT Admin" };
 
 export default async function NewBatchPage() {
   // Only products with an ACTIVE recipe version that has at least one ingredient
