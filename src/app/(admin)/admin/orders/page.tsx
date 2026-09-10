@@ -15,7 +15,7 @@ function toNum(v: unknown): number {
 
 const STATUS_CLS: Record<string, string> = {
   PENDING:    "bg-warning/10 text-warning border-warning/20",
-  PAID:       "bg-blue-50 text-blue-600 border-blue-200",
+  PAID:       "bg-info/10 text-info border-info/20",
   PROCESSING: "bg-accent/10 text-accent border-accent/20",
   FULFILLED:  "bg-success/10 text-success border-success/20",
   SHIPPED:    "bg-success/10 text-success border-success/20",

@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Container } from "@/components/ui/Container";
 import { ProductCard } from "@/components/customer/ProductCard";
+import { FadeInStagger, FadeInItem } from "@/components/ui/FadeIn";
 import { getActiveCategories, getProducts } from "@/lib/data/products";
 import { createClient } from "@/lib/supabase/server";
 import { prisma } from "@/lib/prisma";
@@ -63,7 +64,7 @@ export default async function CollectionPage({ params }: Props) {
             {cat.name}
           </h1>
           {cat.description && (
-            <p className="font-body text-sm text-white/60 max-w-md leading-relaxed">
+            <p className="font-body text-sm text-text-inverse/60 max-w-md leading-relaxed">
               {cat.description}
             </p>
           )}
@@ -111,11 +112,13 @@ export default async function CollectionPage({ params }: Props) {
             </Link>
           </div>
         ) : (
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-6 gap-y-12">
+          <FadeInStagger className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-6 gap-y-12">
             {products.map((product, i) => (
-              <ProductCard key={product.id} product={product} priority={i < 4} initialWishlisted={wishlistedIds.has(product.id)} />
+              <FadeInItem key={product.id}>
+                <ProductCard product={product} priority={i < 4} initialWishlisted={wishlistedIds.has(product.id)} />
+              </FadeInItem>
             ))}
-          </div>
+          </FadeInStagger>
         )}
       </Container>
 

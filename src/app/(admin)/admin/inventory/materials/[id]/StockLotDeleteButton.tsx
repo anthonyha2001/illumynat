@@ -41,7 +41,7 @@ export function StockLotDeleteButton({ lotId }: Props) {
             }
           });
         }}
-        className="font-body text-[10px] tracking-widest uppercase text-white bg-error px-2 py-0.5 disabled:opacity-50"
+        className="font-body text-[10px] tracking-widest uppercase text-text-inverse bg-error px-2 py-0.5 disabled:opacity-50"
       >
         {deleting ? "…" : "Confirm"}
       </button>

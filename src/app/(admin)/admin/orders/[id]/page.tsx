@@ -1,6 +1,5 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import Image from "next/image";
 import { prisma } from "@/lib/prisma";
 import { Divider } from "@/components/ui/Divider";
 import { OrderActions } from "./OrderActions";
@@ -128,9 +127,10 @@ export default async function AdminOrderDetailPage({ params }: Props) {
               {order.items.map((item, i) => (
                 <div key={item.id}>
                   <div className="flex gap-4">
-                    <div className="relative w-14 h-18 bg-bg-subtle shrink-0 overflow-hidden" style={{ height: 72 }}>
+                    <div className="w-14 bg-bg-subtle shrink-0 overflow-hidden" style={{ height: 72 }}>
                       {item.product.images[0]?.url ? (
-                        <Image src={item.product.images[0].url} alt={item.name} fill sizes="56px" className="object-cover" />
+                        // eslint-disable-next-line @next/next/no-img-element
+                        <img src={item.product.images[0].url} alt={item.name} className="w-full h-full object-cover" />
                       ) : (
                         <div className="w-full h-full flex items-center justify-center">
                           <span className="font-display text-xl italic text-text-faint">I</span>

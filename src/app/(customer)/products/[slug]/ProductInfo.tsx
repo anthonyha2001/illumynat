@@ -195,7 +195,7 @@ function CheckboxCustomization({
         )}
       >
         {value && (
-          <svg className="w-2.5 h-2.5 text-white" viewBox="0 0 10 10" fill="none" stroke="currentColor" strokeWidth={2}>
+          <svg className="w-2.5 h-2.5 text-text-inverse" viewBox="0 0 10 10" fill="none" stroke="currentColor" strokeWidth={2}>
             <path d="M1.5 5l2.5 2.5 4.5-4.5" strokeLinecap="round" strokeLinejoin="round" />
           </svg>
         )}

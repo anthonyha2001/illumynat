@@ -107,7 +107,7 @@ export function BatchActions({ batchId, status, targetQuantity }: Props) {
             disabled={loading}
             className={cn(
               "w-full py-2.5 font-body text-[11px] tracking-[0.15em] uppercase transition-all duration-200",
-              "bg-success text-white hover:opacity-90 disabled:opacity-50"
+              "bg-success text-text-inverse hover:opacity-90 disabled:opacity-50"
             )}
           >
             {loading ? "Completing…" : "Complete Batch"}

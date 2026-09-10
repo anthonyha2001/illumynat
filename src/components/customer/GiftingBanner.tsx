@@ -33,14 +33,14 @@ export function GiftingBanner() {
                   The gift they&apos;ll<br />
                   remember you by.
                 </h2>
-                <p className="font-body text-sm text-white/55 leading-relaxed max-w-sm">
+                <p className="font-body text-sm text-text-inverse/55 leading-relaxed max-w-sm">
                   Personalised labels. Hand-tied ribbon. A gift message in your
                   own words. We take care of everything — you take the credit.
                 </p>
                 <div className="flex items-center gap-4 pt-2">
                   <Button href="/gifting" variant="primary" size="lg">Build a Gift Set</Button>
                   <Button href="/shop?filter=limited" variant="ghost" size="lg"
-                    className="text-white/70 border-white/20 hover:border-white/50 hover:text-white hover:bg-white/5">
+                    className="text-text-inverse/70 border-text-inverse/20 hover:border-text-inverse/50 hover:text-text-inverse hover:bg-text-inverse/5">
                     Limited Editions
                   </Button>
                 </div>
@@ -57,10 +57,10 @@ export function GiftingBanner() {
                   <div key={i} className="flex items-center gap-5 group">
                     <div className="w-px h-8 bg-accent/40 group-hover:bg-accent transition-colors duration-300 shrink-0" />
                     <div>
-                      <p className="font-body text-sm text-white/80 leading-none mb-1">
+                      <p className="font-body text-sm text-text-inverse/80 leading-none mb-1">
                         {item.label}
                       </p>
-                      <p className="font-body text-[11px] text-white/35">
+                      <p className="font-body text-[11px] text-text-inverse/35">
                         {item.detail}
                       </p>
                     </div>

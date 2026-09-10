@@ -2,6 +2,7 @@
 
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
+import { prisma } from "@/lib/prisma";
 
 export type AuthState = { error?: string };
 
@@ -27,7 +28,16 @@ export async function signUp(
 
   if (error) return { error: error.message };
 
-  // Profile row created automatically by Supabase trigger.
+  // Fire admin notification — non-blocking, never blocks the redirect
+  prisma.adminNotification.create({
+    data: {
+      type: "NEW_CUSTOMER",
+      title: "New customer joined",
+      body: `${firstName} ${lastName} (${email}) created an account.`,
+      metadata: { email, firstName, lastName },
+    },
+  }).catch(() => {});
+
   redirect("/account");
 }
 

@@ -3,6 +3,7 @@ import { RitualSection } from "@/components/customer/RitualSection";
 import { ScentFamilySection } from "@/components/customer/ScentFamilySection";
 import { CollectionSection } from "@/components/customer/CollectionSection";
 import { GiftingBanner } from "@/components/customer/GiftingBanner";
+import { AnimateIn } from "@/components/ui/AnimateIn";
 import { getFeaturedProducts, getBestSellers, getNewArrivals } from "@/lib/data/products";
 import { getHeroContent } from "@/lib/data/siteContent";
 import { createClient } from "@/lib/supabase/server";
@@ -36,46 +37,58 @@ export default async function HomePage() {
       {/* 1. Full-viewport hero with parallax */}
       <HeroSection content={hero} />
 
-      {/* 2. Featured collection — above the fold products */}
-      <CollectionSection
-        eyebrow="The collection"
-        title="Crafted for your space."
-        products={featured}
-        viewAllHref="/shop"
-        wishlistedIds={wishlistedIds}
-      />
-
-      {/* 3. Brand story — the craft / ritual steps */}
-      <RitualSection />
-
-      {/* 4. Best sellers — social proof anchor */}
-      {bestSellers.length > 0 && (
+      {/* 2. Featured collection */}
+      <AnimateIn>
         <CollectionSection
-          eyebrow="Most loved"
-          title="The ones they keep coming back for."
-          products={bestSellers}
-          viewAllHref="/shop?filter=bestsellers"
-          badge="bestseller"
+          eyebrow="The collection"
+          title="Crafted for your space."
+          products={featured}
+          viewAllHref="/shop"
           wishlistedIds={wishlistedIds}
         />
+      </AnimateIn>
+
+      {/* 3. Brand story */}
+      <AnimateIn delay={50}>
+        <RitualSection />
+      </AnimateIn>
+
+      {/* 4. Best sellers */}
+      {bestSellers.length > 0 && (
+        <AnimateIn delay={50}>
+          <CollectionSection
+            eyebrow="Most loved"
+            title="The ones they keep coming back for."
+            products={bestSellers}
+            viewAllHref="/shop?filter=bestsellers"
+            badge="bestseller"
+            wishlistedIds={wishlistedIds}
+          />
+        </AnimateIn>
       )}
 
       {/* 5. Gifting editorial banner */}
-      <GiftingBanner />
+      <AnimateIn animation="fade-in">
+        <GiftingBanner />
+      </AnimateIn>
 
-      {/* 6. Scent family explorer — browse by mood */}
-      <ScentFamilySection />
+      {/* 6. Scent family explorer */}
+      <AnimateIn delay={50}>
+        <ScentFamilySection />
+      </AnimateIn>
 
-      {/* 7. New arrivals — FOMO / recency effect */}
+      {/* 7. New arrivals */}
       {newArrivals.length > 0 && (
-        <CollectionSection
-          eyebrow="Just in"
-          title="New arrivals."
-          products={newArrivals}
-          viewAllHref="/shop?filter=new"
-          badge="new"
-          wishlistedIds={wishlistedIds}
-        />
+        <AnimateIn delay={50}>
+          <CollectionSection
+            eyebrow="Just in"
+            title="New arrivals."
+            products={newArrivals}
+            viewAllHref="/shop?filter=new"
+            badge="new"
+            wishlistedIds={wishlistedIds}
+          />
+        </AnimateIn>
       )}
     </>
   );

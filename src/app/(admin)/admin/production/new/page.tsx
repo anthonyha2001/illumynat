@@ -5,12 +5,17 @@ import { NewBatchForm } from "./NewBatchForm";
 export const metadata = { title: "New Batch — ILLUMYNAT Admin" };
 
 export default async function NewBatchPage() {
-  // Only products with an ACTIVE recipe version can be batched
+  // Only products with an ACTIVE recipe version that has at least one ingredient
   const products = await prisma.product.findMany({
     where: {
       status: "ACTIVE",
       recipe: {
-        versions: { some: { status: "ACTIVE" } },
+        versions: {
+          some: {
+            status: "ACTIVE",
+            ingredients: { some: {} },
+          },
+        },
       },
     },
     orderBy: { name: "asc" },

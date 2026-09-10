@@ -37,6 +37,7 @@ export function FadeIn({
     <motion.div
       ref={ref}
       className={className}
+      style={{ overflowAnchor: "none" }}
       initial={initial}
       animate={isInView ? { opacity: 1, y: 0, x: 0 } : initial}
       transition={{ duration, delay, ease: EASE }}

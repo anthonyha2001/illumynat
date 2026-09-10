@@ -37,6 +37,23 @@ export default async function AdminInventoryPage({ searchParams }: Props) {
             status: true,
             price: true,
             images: { where: { isPrimary: true }, take: 1, select: { url: true } },
+            recipe: {
+              select: {
+                versions: {
+                  orderBy: { versionNumber: "desc" },
+                  select: {
+                    status: true,
+                    yieldQuantity: true,
+                    ingredients: {
+                      select: {
+                        quantity: true,
+                        rawMaterial: { select: { averageCost: true } },
+                      },
+                    },
+                  },
+                },
+              },
+            },
           },
         },
       },
@@ -56,12 +73,33 @@ export default async function AdminInventoryPage({ searchParams }: Props) {
     }),
   ]);
 
+  function recipeUnitCost(fg: typeof finishedGoods[number]): number | null {
+    const versions = fg.product.recipe?.versions ?? [];
+    if (versions.length === 0) return null;
+    // Prefer ACTIVE version, fall back to latest by versionNumber
+    const version = versions.find((v) => v.status === "ACTIVE") ?? versions[0];
+    if (!version || version.ingredients.length === 0) return null;
+    const batchCost = version.ingredients.reduce(
+      (sum, ing) => sum + toNum(ing.quantity) * toNum(ing.rawMaterial.averageCost),
+      0
+    );
+    return batchCost / (version.yieldQuantity || 1);
+  }
+
   const totalFinishedValue = finishedGoods.reduce(
     (sum, fg) => sum + toNum(fg.quantityOnHand) * toNum(fg.averageCost),
     0
   );
-  const lowStockCount = finishedGoods.filter((fg) => fg.quantityOnHand <= 5).length;
+  const lowStockCount   = finishedGoods.filter((fg) => fg.quantityOnHand <= 5).length;
   const outOfStockCount = finishedGoods.filter((fg) => fg.quantityOnHand === 0).length;
+
+  const totalEstimatedProfit = finishedGoods.reduce((sum, fg) => {
+    const cost   = recipeUnitCost(fg);
+    const price  = toNum(fg.product.price);
+    const qty    = fg.quantityOnHand;
+    if (cost === null || price === 0) return sum;
+    return sum + (price - cost) * qty;
+  }, 0);
 
   const totalMaterialValue = rawMaterials.reduce(
     (sum, rm) => sum + toNum(rm.currentStock) * toNum(rm.averageCost),
@@ -99,16 +137,16 @@ export default async function AdminInventoryPage({ searchParams }: Props) {
       {/* Summary cards */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
         {[
-          { label: "Finished Goods Value", value: `$${totalFinishedValue.toFixed(2)}` },
-          { label: "Out of Stock",         value: outOfStockCount,  danger: outOfStockCount > 0 },
-          { label: "Low Stock (≤ 5)",      value: lowStockCount,    warn: lowStockCount > 0 },
-          { label: "Materials Below Reorder", value: belowReorderCount, warn: belowReorderCount > 0 },
+          { label: "Finished Goods Value",    value: `$${totalFinishedValue.toFixed(2)}` },
+          { label: "Est. Total Profit",        value: `$${totalEstimatedProfit.toFixed(2)}`, accent: true },
+          { label: "Out of Stock",             value: outOfStockCount,  danger: outOfStockCount > 0 },
+          { label: "Materials Below Reorder",  value: belowReorderCount, warn: belowReorderCount > 0 },
         ].map((card) => (
           <div key={card.label} className="bg-surface border border-border-subtle p-5">
             <p className="font-body text-[10px] tracking-[0.15em] uppercase text-text-muted mb-2">{card.label}</p>
             <p className={cn(
               "font-display text-3xl font-light",
-              card.danger ? "text-error" : card.warn ? "text-warning" : "text-text"
+              card.danger ? "text-error" : card.warn ? "text-warning" : card.accent ? "text-accent" : "text-text"
             )}>
               {card.value}
             </p>
@@ -140,7 +178,7 @@ export default async function AdminInventoryPage({ searchParams }: Props) {
           <table className="w-full">
             <thead>
               <tr className="border-b border-border-subtle">
-                {["Product", "SKU", "On Hand", "Avg Cost", "Stock Value", "Status", ""].map((h) => (
+                {["Product", "SKU", "On Hand", "Recipe Cost", "Sell Price", "Profit / Unit", "Total Profit", "Status", ""].map((h) => (
                   <th key={h} className="px-4 py-3 text-left font-body text-[10px] tracking-[0.15em] uppercase text-text-muted">
                     {h}
                   </th>
@@ -149,12 +187,15 @@ export default async function AdminInventoryPage({ searchParams }: Props) {
             </thead>
             <tbody className="divide-y divide-border-subtle">
               {finishedGoods.map((fg) => {
-                const qty   = fg.quantityOnHand;
-                const value = toNum(fg.quantityOnHand) * toNum(fg.averageCost);
-                const stockCls =
-                  qty === 0    ? "text-error font-medium" :
-                  qty <= 5     ? "text-warning font-medium" :
-                                 "text-text";
+                const qty        = fg.quantityOnHand;
+                const price      = toNum(fg.product.price);
+                const cost       = recipeUnitCost(fg);
+                const profitUnit = cost !== null ? price - cost : null;
+                const totalProfit = profitUnit !== null ? profitUnit * qty : null;
+                const stockCls   =
+                  qty === 0 ? "text-error font-medium" :
+                  qty <= 5  ? "text-warning font-medium" :
+                              "text-text";
                 return (
                   <tr key={fg.id} className="hover:bg-bg-subtle transition-colors duration-100 group">
                     <td className="px-4 py-3 font-body text-sm font-medium text-text">
@@ -165,10 +206,24 @@ export default async function AdminInventoryPage({ searchParams }: Props) {
                       {qty === 0 ? "Out of stock" : qty <= 5 ? `${qty} — Low` : qty}
                     </td>
                     <td className="px-4 py-3 font-body text-sm text-text-muted">
-                      ${toNum(fg.averageCost).toFixed(4)}
+                      {cost !== null ? `$${cost.toFixed(4)}` : <span className="text-text-faint italic text-[11px]">No recipe</span>}
                     </td>
-                    <td className="px-4 py-3 font-display text-base font-light text-text">
-                      ${value.toFixed(2)}
+                    <td className="px-4 py-3 font-body text-sm text-text">
+                      ${price.toFixed(2)}
+                    </td>
+                    <td className="px-4 py-3 font-body text-sm font-medium">
+                      {profitUnit !== null ? (
+                        <span className={profitUnit >= 0 ? "text-success" : "text-error"}>
+                          {profitUnit >= 0 ? "+" : ""}${profitUnit.toFixed(2)}
+                        </span>
+                      ) : <span className="text-text-faint">—</span>}
+                    </td>
+                    <td className="px-4 py-3 font-display text-base font-light">
+                      {totalProfit !== null ? (
+                        <span className={totalProfit >= 0 ? "text-accent" : "text-error"}>
+                          {totalProfit >= 0 ? "+" : ""}${totalProfit.toFixed(2)}
+                        </span>
+                      ) : <span className="text-text-faint">—</span>}
                     </td>
                     <td className="px-4 py-3">
                       <span className={cn(

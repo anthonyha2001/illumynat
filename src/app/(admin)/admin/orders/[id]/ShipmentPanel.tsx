@@ -157,7 +157,7 @@ export function ShipmentPanel({ orderId, shipment }: Props) {
         className={cn(
           "w-full py-2.5 font-body text-[11px] tracking-[0.15em] uppercase transition-all duration-200",
           saved
-            ? "bg-success text-white border border-success"
+            ? "bg-success text-text-inverse border border-success"
             : isDirty
             ? "bg-accent text-text-on-gold border border-accent hover:opacity-90"
             : "bg-bg-subtle text-text-muted border border-border cursor-not-allowed"

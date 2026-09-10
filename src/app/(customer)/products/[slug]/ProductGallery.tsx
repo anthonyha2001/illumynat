@@ -71,7 +71,7 @@ export function ProductGallery({ images, productName }: ProductGalleryProps) {
         {/* Image counter */}
         {images.length > 1 && (
           <div className="absolute bottom-4 right-4 bg-bg-dark/60 backdrop-blur-sm px-2.5 py-1">
-            <span className="font-body text-[10px] text-white/70 tracking-wider">
+            <span className="font-body text-[10px] text-text-inverse/70 tracking-wider">
               {active + 1} / {images.length}
             </span>
           </div>

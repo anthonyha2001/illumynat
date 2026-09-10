@@ -141,6 +141,8 @@ export default async function AccountPage() {
               </p>
               {[
                 { label: "All Orders",    href: "/account/orders" },
+                { label: "Messages",      href: "/account/messages" },
+                { label: "Notifications", href: "/account/notifications" },
                 { label: "Wishlist",      href: "/account/wishlist" },
                 { label: "Addresses",     href: "/account/addresses" },
                 { label: "Edit Profile",  href: "/account/profile" },

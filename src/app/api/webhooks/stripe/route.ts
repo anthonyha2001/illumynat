@@ -146,6 +146,21 @@ async function handlePaymentSucceeded(pi: Stripe.PaymentIntent) {
     }
   }
 
+  // Fire admin notification for the new paid order
+  prisma.adminNotification.create({
+    data: {
+      type: "NEW_ORDER",
+      title: `New order — ${order.orderNumber}`,
+      body: `${order.profile?.firstName ?? order.shippingFirstName} ${order.profile?.lastName ?? order.shippingLastName} placed an order for $${Number(order.total).toFixed(2)}.`,
+      metadata: {
+        orderId: order.id,
+        orderNumber: order.orderNumber,
+        amount: Number(order.total),
+        email: order.profile?.email ?? order.guestEmail,
+      },
+    },
+  }).catch(() => {});
+
   // Award loyalty points if this was a logged-in customer
   if (order.profile) {
     try {

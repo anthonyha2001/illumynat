@@ -48,7 +48,7 @@ export default async function RecipePage({ params }: Props) {
     prisma.rawMaterial.findMany({
       where: { isActive: true },
       orderBy: { name: "asc" },
-      select: { id: true, name: true, consumptionUnit: true, currentStock: true },
+      select: { id: true, name: true, consumptionUnit: true, currentStock: true, averageCost: true },
     }),
   ]);
 
@@ -58,6 +58,7 @@ export default async function RecipePage({ params }: Props) {
   const serializedMaterials = materials.map((m) => ({
     ...m,
     currentStock: Number(m.currentStock),
+    averageCost:  Number(m.averageCost),
   }));
 
   const serializedVersions = product.recipe?.versions.map((v) => ({

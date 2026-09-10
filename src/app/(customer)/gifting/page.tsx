@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { Container } from "@/components/ui/Container";
+import { AnimateIn } from "@/components/ui/AnimateIn";
 import { ProductCard } from "@/components/customer/ProductCard";
 import { getFeaturedProducts } from "@/lib/data/products";
 import { getActiveGiftSets } from "@/lib/data/giftSets";
@@ -74,7 +75,7 @@ export default async function GiftingPage() {
               The gift of<br />
               <span className="not-italic text-accent">atmosphere.</span>
             </h1>
-            <p className="font-body text-sm text-white/50 leading-relaxed max-w-sm mb-10">
+            <p className="font-body text-sm text-text-inverse/50 leading-relaxed max-w-sm mb-10">
               An ILLUMYNAT candle is not a placeholder gift. It is a considered one —
               something the recipient will light on purpose, in a room they want to feel different.
             </p>
@@ -90,6 +91,7 @@ export default async function GiftingPage() {
 
       {/* ── Gift sets ── */}
       {giftSets.length > 0 && (
+        <AnimateIn>
         <Container className="py-20 md:py-28">
           <div className="text-center mb-14">
             <p className="font-body text-[11px] tracking-[0.25em] uppercase text-accent mb-4">
@@ -137,7 +139,7 @@ export default async function GiftingPage() {
                     />
                   ) : (
                     <div className="w-full h-full flex items-center justify-center">
-                      <span className="font-display text-5xl font-light italic text-white/10">I</span>
+                      <span className="font-display text-5xl font-light italic text-text-inverse/10">I</span>
                     </div>
                   )}
                   <div className="absolute inset-0 bg-gradient-to-t from-bg-dark/60 to-transparent" />
@@ -187,9 +189,11 @@ export default async function GiftingPage() {
             ))}
           </div>
         </Container>
+        </AnimateIn>
       )}
 
       {/* ── Individual picks ── */}
+      <AnimateIn>
       <div className="bg-bg-subtle border-y border-border-subtle">
         <Container className="py-20 md:py-24">
           <div className="flex items-end justify-between mb-10">
@@ -216,8 +220,10 @@ export default async function GiftingPage() {
           </div>
         </Container>
       </div>
+      </AnimateIn>
 
       {/* ── Why gift ILLUMYNAT ── */}
+      <AnimateIn>
       <Container className="py-20 md:py-28">
         <div className="text-center mb-14">
           <p className="font-body text-[11px] tracking-[0.25em] uppercase text-accent mb-4">
@@ -238,8 +244,10 @@ export default async function GiftingPage() {
           ))}
         </div>
       </Container>
+      </AnimateIn>
 
       {/* ── Gift card CTA ── */}
+      <AnimateIn animation="fade-in">
       <div className="bg-bg-dark">
         <Container className="py-20 md:py-24">
           <div className="flex flex-col md:flex-row items-center justify-between gap-8">
@@ -250,7 +258,7 @@ export default async function GiftingPage() {
               <h2 className="font-display text-3xl md:text-4xl font-light italic text-text-inverse mb-3">
                 Send a gift card.
               </h2>
-              <p className="font-body text-sm text-white/50 leading-relaxed max-w-sm">
+              <p className="font-body text-sm text-text-inverse/50 leading-relaxed max-w-sm">
                 Let them choose. Available in any amount from $25. Delivered by email
                 and redeemable on any order.
               </p>
@@ -266,6 +274,7 @@ export default async function GiftingPage() {
           </div>
         </Container>
       </div>
+      </AnimateIn>
 
       {/* ── Corporate ── */}
       <Container className="py-16 text-center">

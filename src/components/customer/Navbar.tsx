@@ -1,10 +1,43 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { cn } from "@/utils/cn";
 import { useCartStore, useCartItemCount } from "@/stores/cartStore";
 import { Container } from "@/components/ui/Container";
+import { CustomerNotificationBell } from "@/components/customer/CustomerNotificationBell";
+
+interface SearchResult {
+  id: string;
+  name: string;
+  slug: string;
+  price: number;
+  scentFamily: string | null;
+  category: string;
+  imageUrl: string | null;
+}
+
+function useSearch(query: string) {
+  const [results, setResults] = useState<SearchResult[]>([]);
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    if (query.trim().length < 2) { setResults([]); return; }
+    setLoading(true);
+    const timer = setTimeout(async () => {
+      try {
+        const res = await fetch(`/api/search?q=${encodeURIComponent(query)}`);
+        const data = await res.json();
+        setResults(data.results ?? []);
+      } catch { setResults([]); }
+      finally { setLoading(false); }
+    }, 250);
+    return () => clearTimeout(timer);
+  }, [query]);
+
+  return { results, loading };
+}
 
 const NAV_LINKS = [
   { label: "Shop",        href: "/shop" },
@@ -84,14 +117,37 @@ function CartButton({ mobile }: { mobile?: boolean }) {
 
 // ── Navbar ─────────────────────────────────────────────────
 export function Navbar({ firstName, isAdmin }: { firstName?: string | null; isAdmin?: boolean }) {
+  const router = useRouter();
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
+  const [searchOpen, setSearchOpen] = useState(false);
+  const [query, setQuery] = useState("");
+  const inputRef = useRef<HTMLInputElement>(null);
+  const { results, loading } = useSearch(query);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 60);
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
+
+  useEffect(() => {
+    if (!searchOpen) { setQuery(""); return; }
+    setTimeout(() => inputRef.current?.focus(), 50);
+  }, [searchOpen]);
+
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => { if (e.key === "Escape") setSearchOpen(false); };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, []);
+
+  function handleSearchSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    if (!query.trim()) return;
+    setSearchOpen(false);
+    router.push(`/shop?search=${encodeURIComponent(query.trim())}`);
+  }
 
   return (
     <>
@@ -143,9 +199,14 @@ export function Navbar({ firstName, isAdmin }: { firstName?: string | null; isAd
                   Admin Portal
                 </Link>
               )}
-              <button aria-label="Search" className="hover:text-text transition-colors duration-200">
+              <button
+                aria-label="Search"
+                onClick={() => setSearchOpen((v) => !v)}
+                className={cn("hover:text-text transition-colors duration-200", searchOpen && "text-accent")}
+              >
                 <IconSearch />
               </button>
+              <CustomerNotificationBell />
               <Link href="/account/wishlist" aria-label="Wishlist" className="hover:text-text transition-colors duration-200">
                 <IconHeart />
               </Link>
@@ -187,9 +248,95 @@ export function Navbar({ firstName, isAdmin }: { firstName?: string | null; isAd
         </Container>
       </header>
 
+      {/* Search overlay */}
+      {searchOpen && (
+        <>
+          {/* Backdrop */}
+          <div
+            className="fixed inset-0 z-40 bg-text/30 backdrop-blur-sm"
+            onClick={() => setSearchOpen(false)}
+          />
+          {/* Panel */}
+          <div className="animate-slide-down fixed top-16 md:top-20 left-0 right-0 z-50 bg-bg border-b border-border-subtle shadow-lg">
+            <Container>
+              <form onSubmit={handleSearchSubmit} className="py-5">
+                <div className="relative flex items-center gap-3">
+                  <span className="text-text-muted shrink-0"><IconSearch /></span>
+                  <input
+                    ref={inputRef}
+                    type="text"
+                    value={query}
+                    onChange={(e) => setQuery(e.target.value)}
+                    placeholder="Search candles, scents, collections…"
+                    className="flex-1 bg-transparent font-body text-lg text-text placeholder:text-text-muted outline-none"
+                  />
+                  {query && (
+                    <button
+                      type="button"
+                      onClick={() => setQuery("")}
+                      className="text-text-muted hover:text-text transition-colors duration-150 shrink-0"
+                    >
+                      <IconClose />
+                    </button>
+                  )}
+                </div>
+              </form>
+
+              {/* Results */}
+              {query.trim().length >= 2 && (
+                <div className="pb-5">
+                  {loading && (
+                    <p className="font-body text-sm text-text-muted pb-4">Searching…</p>
+                  )}
+                  {!loading && results.length === 0 && (
+                    <p className="font-body text-sm text-text-muted pb-4">
+                      No results for <span className="text-text font-medium">"{query}"</span>
+                    </p>
+                  )}
+                  {!loading && results.length > 0 && (
+                    <ul className="space-y-1 pb-2">
+                      {results.map((r) => (
+                        <li key={r.id}>
+                          <Link
+                            href={`/products/${r.slug}`}
+                            onClick={() => setSearchOpen(false)}
+                            className="flex items-center gap-4 py-2 px-2 -mx-2 hover:bg-bg-subtle transition-colors duration-150 group"
+                          >
+                            <div className="w-10 h-12 bg-bg-muted shrink-0 overflow-hidden">
+                              {r.imageUrl
+                                ? <img src={r.imageUrl} alt={r.name} className="w-full h-full object-cover" />
+                                : <span className="w-full h-full flex items-center justify-center font-display text-xl italic text-text-faint">I</span>
+                              }
+                            </div>
+                            <div className="flex-1 min-w-0">
+                              <p className="font-body text-sm text-text group-hover:text-accent transition-colors duration-150 truncate">{r.name}</p>
+                              <p className="font-body text-[11px] text-text-muted">{r.category}{r.scentFamily ? ` · ${r.scentFamily}` : ""}</p>
+                            </div>
+                            <span className="font-display text-base font-light text-text shrink-0">${r.price.toFixed(2)}</span>
+                          </Link>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                  {!loading && results.length > 0 && (
+                    <Link
+                      href={`/shop?search=${encodeURIComponent(query.trim())}`}
+                      onClick={() => setSearchOpen(false)}
+                      className="block font-body text-[11px] tracking-widest uppercase text-accent hover:underline pt-2 border-t border-border-subtle"
+                    >
+                      View all results for "{query}" →
+                    </Link>
+                  )}
+                </div>
+              )}
+            </Container>
+          </div>
+        </>
+      )}
+
       {/* Mobile menu */}
       {open && (
-        <div className="fixed inset-0 z-40 bg-bg pt-16 flex flex-col overflow-y-auto md:hidden">
+        <div className="animate-fade-in fixed inset-0 z-40 bg-bg pt-16 flex flex-col overflow-y-auto md:hidden">
           <Container className="flex flex-col pb-12">
             <nav className="flex flex-col">
               {NAV_LINKS.map((link) => (

@@ -95,7 +95,7 @@ function WishlistCard({ item, onRemove }: { item: WishlistItem; onRemove: (id: s
         )}
         {isSoldOut && (
           <div className="absolute inset-0 bg-bg-dark/50 flex items-center justify-center">
-            <span className="font-body text-[11px] tracking-widest uppercase text-white/80 bg-bg-dark/70 px-3 py-1">
+            <span className="font-body text-[11px] tracking-widest uppercase text-text-inverse/80 bg-bg-dark/70 px-3 py-1">
               Sold Out
             </span>
           </div>

@@ -76,6 +76,33 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
       }
     }
 
+    // Push CustomerNotification when status changes for a logged-in customer
+    if (status && status !== prevOrder?.status) {
+      const profileId = await prisma.order.findUnique({
+        where: { id },
+        select: { profileId: true },
+      }).then((o) => o?.profileId);
+
+      if (profileId) {
+        const STATUS_LABELS: Record<string, string> = {
+          PAID:       "Payment confirmed",
+          PROCESSING: "Being prepared",
+          FULFILLED:  "Ready for dispatch",
+          SHIPPED:    "On its way",
+          CANCELLED:  "Cancelled",
+          REFUNDED:   "Refunded",
+        };
+        prisma.customerNotification.create({
+          data: {
+            profileId,
+            title: `Order ${order.orderNumber} — ${STATUS_LABELS[status] ?? status}`,
+            body: `Your order status has been updated to ${status.toLowerCase()}.`,
+            metadata: { orderId: id, orderNumber: order.orderNumber, status, href: `/account/orders/${id}` },
+          },
+        }).catch(() => {});
+      }
+    }
+
     return NextResponse.json({ order: { id: order.id, status: order.status } });
   } catch (err) {
     console.error("[admin/orders PATCH]", err);

@@ -79,8 +79,8 @@ export function GiftCardActions({ id, isActive, currentBalance }: Props) {
           className={cn(
             "w-full px-4 py-2.5 font-body text-[11px] tracking-[0.12em] uppercase border transition-colors duration-200 disabled:opacity-50",
             isActive
-              ? "border-error text-error hover:bg-error hover:text-white"
-              : "border-success text-success hover:bg-success hover:text-white"
+              ? "border-error text-error hover:bg-error hover:text-text-inverse"
+              : "border-success text-success hover:bg-success hover:text-text-inverse"
           )}
         >
           {isActive ? "Deactivate Card" : "Activate Card"}

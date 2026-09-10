@@ -7,37 +7,44 @@
 
 :root {
   /* ── Core Brand Colors ── */
-  --palette-ivory:       #FDFAF6;
-  --palette-cream:       #F5EDE5;
-  --palette-parchment:   #EAD9D0;
-  --palette-warm-white:  #FDFAF6;
-  --palette-charcoal:    #2D0A12;
-  --palette-espresso:    #1A0008;
-  --palette-stone:       #6B1A2A;
-  --palette-ash:         #8A5A62;
-  --palette-mist:        #D4B8BC;
-  --palette-gold:        #B8972A;
-  --palette-gold-light:  #E8D5A0;
-  --palette-gold-dark:   #8A6E1A;
-  --palette-gold-pale:   #F5EDD0;
+  --palette-ivory:       #FDFCFF;   /* near-pure white                  */
+  --palette-cream:       #F5F0FB;   /* white with a whisper of lavender */
+  --palette-parchment:   #EDE5F7;   /* light lavender-white             */
+  --palette-warm-white:  #FDFCFF;
+  --palette-charcoal:    #1A0C2E;   /* deep plum-black for text         */
+  --palette-espresso:    #0E0618;   /* darkest text / dark surfaces     */
+  --palette-stone:       #5A3878;   /* medium plum — secondary text     */
+  --palette-ash:         #8A70A0;   /* muted mauve                      */
+  --palette-mist:        #C0A8D8;   /* faint lavender                   */
+  --palette-gold:        #B8085A;   /* deep jewel magenta — accent      */
+  --palette-gold-light:  #D83888;   /* bright magenta                   */
+  --palette-gold-dark:   #7A0540;   /* deep wine-magenta                */
+  --palette-gold-pale:   #FAF0F6;   /* blush white — accent backgrounds */
+
+  /* ── Crystal Blue (secondary accent) ── */
+  --palette-crystal:     #4898C8;
+  --palette-crystal-light: #C8E4F5;
+
+  /* ── Info (PAID status / informational) ── */
+  --palette-info:        #3A6EC4;
 
   /* ── Status Colors ── */
-  --palette-success:     #4A7C59;
-  --palette-error:       #8B3A3A;
-  --palette-warning:     #B8843A;
+  --palette-success:     #1A7A50;
+  --palette-error:       #C02848;
+  --palette-warning:     #B87020;
 
   /* ═══════════════════════════════════════════════════════════
      SEMANTIC TOKENS — Reference palette above, never raw hex.
      Named by PURPOSE so intent is always clear.
      ═══════════════════════════════════════════════════════════ */
 
-  /* ── Backgrounds ── */
+  /* ── Backgrounds — white dominant ── */
   --color-bg:            var(--palette-ivory);
   --color-bg-subtle:     var(--palette-cream);
   --color-bg-muted:      var(--palette-parchment);
   --color-bg-dark:       var(--palette-charcoal);
   --color-bg-darker:     var(--palette-espresso);
-  --color-surface:       var(--palette-warm-white);
+  --color-surface:       var(--palette-ivory);
 
   /* ── Text ── */
   --color-text:          var(--palette-charcoal);
@@ -45,9 +52,9 @@
   --color-text-muted:    var(--palette-ash);
   --color-text-faint:    var(--palette-mist);
   --color-text-inverse:  var(--palette-ivory);
-  --color-text-on-gold:  var(--palette-charcoal);
+  --color-text-on-gold:  var(--palette-ivory);
 
-  /* ── Accent (Gold) ── */
+  /* ── Accent (Jewel Magenta) ── */
   --color-accent:        var(--palette-gold);
   --color-accent-light:  var(--palette-gold-light);
   --color-accent-dark:   var(--palette-gold-dark);
@@ -59,6 +66,7 @@
   --color-border-strong: var(--palette-ash);
 
   /* ── Status ── */
+  --color-info:          var(--palette-info);
   --color-success:       var(--palette-success);
   --color-error:         var(--palette-error);
   --color-warning:       var(--palette-warning);
@@ -120,6 +128,7 @@
   --color-border-strong: var(--color-border-strong);
 
   /* Status */
+  --color-info:          var(--color-info);
   --color-success:       var(--color-success);
   --color-error:         var(--color-error);
   --color-warning:       var(--color-warning);
@@ -166,8 +175,62 @@ body {
 ::-webkit-scrollbar-thumb  { background: var(--color-border); border-radius: 3px; }
 ::-webkit-scrollbar-thumb:hover { background: var(--color-border-strong); }
 
-/* Gold-tinted focus ring */
+/* Magenta focus ring */
 :focus-visible {
   outline: 1.5px solid var(--color-accent);
   outline-offset: 3px;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   MICRO-ANIMATIONS
+   ═══════════════════════════════════════════════════════════ */
+
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(18px); }
+  to   { opacity: 1; transform: translateY(0);    }
+}
+@keyframes fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+@keyframes slide-down {
+  from { opacity: 0; transform: translateY(-10px); }
+  to   { opacity: 1; transform: translateY(0);     }
+}
+@keyframes scale-in {
+  from { opacity: 0; transform: scale(0.96); }
+  to   { opacity: 1; transform: scale(1);    }
+}
+@keyframes shimmer {
+  from { background-position: -200% center; }
+  to   { background-position:  200% center; }
+}
+
+/* Utility classes */
+.animate-fade-up    { animation: fade-up    0.55s var(--ease-luxury) both; }
+.animate-fade-in    { animation: fade-in    0.35s ease both; }
+.animate-slide-down { animation: slide-down 0.28s var(--ease-luxury) both; }
+.animate-scale-in   { animation: scale-in   0.28s var(--ease-luxury) both; }
+
+/* Stagger helpers — apply to children via selector or manually */
+.animation-delay-75  { animation-delay:  75ms; }
+.animation-delay-150 { animation-delay: 150ms; }
+.animation-delay-225 { animation-delay: 225ms; }
+.animation-delay-300 { animation-delay: 300ms; }
+.animation-delay-400 { animation-delay: 400ms; }
+.animation-delay-500 { animation-delay: 500ms; }
+
+/* Button press micro-feedback */
+button:not(:disabled):active,
+[role="button"]:not([aria-disabled="true"]):active {
+  transform: scale(0.975);
+  transition: transform 80ms ease;
+}
+
+/* Link color transition (already in Tailwind classes but make it global) */
+a { transition-property: color; transition-duration: 200ms; transition-timing-function: ease; }
+
+/* Input focus transition */
+input, textarea, select {
+  transition: border-color 200ms ease, box-shadow 200ms ease;
 }

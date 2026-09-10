@@ -12,7 +12,13 @@ function toNum(v: unknown): number {
   return 0;
 }
 
-export default async function PackingSlipPage({ params }: Props) {
+function fmt(date: Date | string) {
+  return new Date(date).toLocaleDateString("en-US", {
+    month: "long", day: "numeric", year: "numeric",
+  });
+}
+
+export default async function InvoicePage({ params }: Props) {
   const { id } = await params;
 
   const order = await prisma.order.findUnique({
@@ -25,6 +31,7 @@ export default async function PackingSlipPage({ params }: Props) {
       discountAmount: true,
       taxAmount: true,
       total: true,
+      giftCardAmount: true,
       customerNotes: true,
       shippingFirstName: true,
       shippingLastName: true,
@@ -35,172 +42,292 @@ export default async function PackingSlipPage({ params }: Props) {
       shippingZipCode: true,
       shippingCountry: true,
       guestEmail: true,
-      profile: { select: { email: true } },
+      guestPhone: true,
+      profile: { select: { firstName: true, lastName: true, email: true, phone: true } },
       items: {
-        select: { name: true, sku: true, price: true, quantity: true, subtotal: true },
+        select: {
+          name: true, sku: true, price: true,
+          quantity: true, subtotal: true,
+          customizations: { select: { label: true, value: true, priceModifier: true } },
+        },
         orderBy: { name: "asc" },
       },
+      payments: { select: { method: true, status: true, amount: true, confirmedAt: true } },
       shipment: { select: { carrier: true, trackingNumber: true, estimatedDelivery: true } },
     },
   });
 
   if (!order) notFound();
 
-  const email = order.profile?.email ?? order.guestEmail ?? "";
+  const customerName  = order.profile
+    ? `${order.profile.firstName} ${order.profile.lastName}`
+    : `${order.shippingFirstName} ${order.shippingLastName}`;
+  const customerEmail = order.profile?.email ?? order.guestEmail ?? "";
+  const customerPhone = order.profile?.phone ?? order.guestPhone ?? "";
+  const confirmedPayment = order.payments.find((p) => p.status === "COMPLETED");
+
+  const s: Record<string, string | number> = {
+    // base typography
+    fontFamily:   "'Georgia', 'Times New Roman', serif",
+    fontSize:     13,
+    lineHeight:   1.6,
+    color:        "#1a1a1a",
+  };
 
   return (
     <>
-      {/* Print-only styles */}
       <style>{`
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { background: #fff; }
         @media print {
           .no-print { display: none !important; }
           body { margin: 0; }
         }
-        @page { margin: 20mm; size: A4; }
+        @page {
+          size: A4;
+          margin: 18mm 18mm 22mm 18mm;
+        }
       `}</style>
 
-      {/* Print / close bar — hidden when printing */}
-      <div className="no-print fixed top-0 left-0 right-0 z-50 bg-text text-text-inverse px-6 py-3 flex items-center justify-between">
-        <span className="font-body text-[11px] tracking-[0.15em] uppercase">
-          Packing Slip — {order.orderNumber}
+      {/* ── Toolbar (screen only) ── */}
+      <div className="no-print" style={{
+        position: "fixed", top: 0, left: 0, right: 0, zIndex: 50,
+        background: "#1a0008", padding: "12px 24px",
+        display: "flex", alignItems: "center", justifyContent: "space-between",
+      }}>
+        <span style={{ fontFamily: "Georgia, serif", fontSize: 12, letterSpacing: "0.2em", color: "#e8d5a0", textTransform: "uppercase" }}>
+          Invoice — {order.orderNumber}
         </span>
-        <div className="flex gap-4">
+        <div style={{ display: "flex", gap: 12 }}>
           <button
             onClick={() => window.print()}
-            className="font-body text-[11px] tracking-[0.12em] uppercase bg-accent text-text-on-gold px-4 py-1.5 hover:opacity-90 transition-opacity"
+            style={{
+              background: "#b8972a", color: "#1a0008",
+              border: "none", padding: "8px 20px",
+              fontFamily: "Georgia, serif", fontSize: 11,
+              letterSpacing: "0.15em", textTransform: "uppercase",
+              cursor: "pointer",
+            }}
           >
-            Print
+            Print / Save PDF
           </button>
           <button
             onClick={() => window.close()}
-            className="font-body text-[11px] tracking-[0.12em] uppercase text-white/50 hover:text-white transition-colors"
+            style={{
+              background: "transparent", color: "rgba(255,255,255,0.4)",
+              border: "1px solid rgba(255,255,255,0.15)", padding: "8px 16px",
+              fontFamily: "Georgia, serif", fontSize: 11,
+              letterSpacing: "0.12em", textTransform: "uppercase",
+              cursor: "pointer",
+            }}
           >
             Close
           </button>
         </div>
       </div>
 
-      {/* Slip content */}
-      <div className="max-w-2xl mx-auto px-8 pt-20 pb-12 font-body text-sm text-gray-800 no-print:pt-20" style={{ fontFamily: "Georgia, serif" }}>
+      {/* ── Invoice document ── */}
+      <div style={{
+        maxWidth: 780,
+        margin: "0 auto",
+        padding: "80px 48px 60px",
+        ...s,
+      }}>
 
-        {/* Header */}
-        <div className="flex items-start justify-between mb-10 pb-6 border-b border-gray-300">
+        {/* ── Header ── */}
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 40, paddingBottom: 28, borderBottom: "2px solid #1a0008" }}>
+          {/* Brand */}
           <div>
-            <p style={{ fontFamily: "Georgia, serif", fontSize: 28, fontWeight: 300, fontStyle: "italic", letterSpacing: "0.05em" }}>
+            <div style={{ fontSize: 34, fontWeight: 300, fontStyle: "italic", letterSpacing: "0.12em", color: "#1a0008", lineHeight: 1 }}>
               ILLUMYNAT
-            </p>
-            <p style={{ fontSize: 10, letterSpacing: "0.25em", textTransform: "uppercase", color: "#888", marginTop: 2 }}>
-              Handcrafted Candles
-            </p>
-          </div>
-          <div className="text-right">
-            <p style={{ fontSize: 10, letterSpacing: "0.2em", textTransform: "uppercase", color: "#888" }}>Packing Slip</p>
-            <p style={{ fontSize: 18, fontWeight: 300, marginTop: 2 }}>{order.orderNumber}</p>
-            <p style={{ fontSize: 11, color: "#888", marginTop: 2 }}>
-              {new Date(order.createdAt).toLocaleDateString("en-US", {
-                month: "long", day: "numeric", year: "numeric",
-              })}
-            </p>
-          </div>
-        </div>
-
-        {/* Ship to + tracking */}
-        <div className="grid grid-cols-2 gap-8 mb-10">
-          <div>
-            <p style={{ fontSize: 9, letterSpacing: "0.2em", textTransform: "uppercase", color: "#888", marginBottom: 6 }}>Ship To</p>
-            <p style={{ fontWeight: 500 }}>{order.shippingFirstName} {order.shippingLastName}</p>
-            {email && <p style={{ color: "#555", fontSize: 12 }}>{email}</p>}
-            <p style={{ marginTop: 4 }}>{order.shippingAddressLine1}</p>
-            {order.shippingAddressLine2 && <p>{order.shippingAddressLine2}</p>}
-            <p>{order.shippingCity}, {order.shippingState} {order.shippingZipCode}</p>
-            <p>{order.shippingCountry}</p>
-          </div>
-          {order.shipment && (
-            <div>
-              <p style={{ fontSize: 9, letterSpacing: "0.2em", textTransform: "uppercase", color: "#888", marginBottom: 6 }}>Tracking</p>
-              {order.shipment.carrier && <p style={{ fontWeight: 500 }}>{order.shipment.carrier}</p>}
-              {order.shipment.trackingNumber && (
-                <p style={{ fontFamily: "monospace", fontSize: 12, letterSpacing: "0.05em" }}>
-                  {order.shipment.trackingNumber}
-                </p>
-              )}
-              {order.shipment.estimatedDelivery && (
-                <p style={{ color: "#555", fontSize: 12, marginTop: 4 }}>
-                  Est. {new Date(order.shipment.estimatedDelivery).toLocaleDateString("en-US", {
-                    month: "long", day: "numeric", year: "numeric",
-                  })}
-                </p>
-              )}
             </div>
-          )}
+            <div style={{ fontSize: 9, letterSpacing: "0.3em", textTransform: "uppercase", color: "#8a5a62", marginTop: 6 }}>
+              Handcrafted Candles
+            </div>
+          </div>
+          {/* Invoice meta */}
+          <div style={{ textAlign: "right" }}>
+            <div style={{ fontSize: 9, letterSpacing: "0.25em", textTransform: "uppercase", color: "#8a5a62", marginBottom: 6 }}>Invoice</div>
+            <div style={{ fontSize: 22, fontWeight: 300, letterSpacing: "0.05em", color: "#1a0008" }}>{order.orderNumber}</div>
+            <div style={{ fontSize: 11, color: "#8a5a62", marginTop: 4 }}>
+              Issued: {fmt(order.createdAt)}
+            </div>
+            {confirmedPayment?.confirmedAt && (
+              <div style={{ fontSize: 11, color: "#8a5a62" }}>
+                Paid: {fmt(confirmedPayment.confirmedAt)}
+              </div>
+            )}
+            {/* Status badge */}
+            <div style={{
+              display: "inline-block", marginTop: 8,
+              padding: "3px 10px",
+              border: "1px solid #b8972a", color: "#b8972a",
+              fontSize: 9, letterSpacing: "0.2em", textTransform: "uppercase",
+            }}>
+              {order.status.replace("_", " ")}
+            </div>
+          </div>
         </div>
 
-        {/* Items table */}
-        <table style={{ width: "100%", borderCollapse: "collapse", marginBottom: 24 }}>
+        {/* ── Bill to / Ship to ── */}
+        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 32, marginBottom: 36 }}>
+          {/* Bill to */}
+          <div>
+            <div style={{ fontSize: 9, letterSpacing: "0.2em", textTransform: "uppercase", color: "#8a5a62", marginBottom: 10 }}>Bill To</div>
+            <div style={{ fontWeight: 600, fontSize: 14 }}>{customerName}</div>
+            {customerEmail && <div style={{ fontSize: 12, color: "#555", marginTop: 2 }}>{customerEmail}</div>}
+            {customerPhone && <div style={{ fontSize: 12, color: "#555" }}>{customerPhone}</div>}
+          </div>
+          {/* Ship to */}
+          <div>
+            <div style={{ fontSize: 9, letterSpacing: "0.2em", textTransform: "uppercase", color: "#8a5a62", marginBottom: 10 }}>Ship To</div>
+            <div style={{ fontWeight: 600, fontSize: 14 }}>{order.shippingFirstName} {order.shippingLastName}</div>
+            <div style={{ fontSize: 12, color: "#444", marginTop: 2, lineHeight: 1.7 }}>
+              {order.shippingAddressLine1}<br />
+              {order.shippingAddressLine2 && <>{order.shippingAddressLine2}<br /></>}
+              {order.shippingCity}, {order.shippingState} {order.shippingZipCode}<br />
+              {order.shippingCountry}
+            </div>
+          </div>
+        </div>
+
+        {/* Tracking row */}
+        {order.shipment && (order.shipment.carrier || order.shipment.trackingNumber) && (
+          <div style={{
+            marginBottom: 28, padding: "10px 14px",
+            background: "#fdfaf6", border: "1px solid #ead9d0",
+            display: "flex", gap: 24, fontSize: 12,
+          }}>
+            <span style={{ fontSize: 9, letterSpacing: "0.2em", textTransform: "uppercase", color: "#8a5a62", alignSelf: "center" }}>
+              Tracking
+            </span>
+            {order.shipment.carrier && <span style={{ fontWeight: 600 }}>{order.shipment.carrier}</span>}
+            {order.shipment.trackingNumber && (
+              <span style={{ fontFamily: "monospace", letterSpacing: "0.05em" }}>{order.shipment.trackingNumber}</span>
+            )}
+            {order.shipment.estimatedDelivery && (
+              <span style={{ color: "#666" }}>Est. {fmt(order.shipment.estimatedDelivery)}</span>
+            )}
+          </div>
+        )}
+
+        {/* ── Items table ── */}
+        <table style={{ width: "100%", borderCollapse: "collapse", marginBottom: 28 }}>
           <thead>
-            <tr style={{ borderBottom: "2px solid #222" }}>
-              {["Item", "SKU", "Qty", "Unit Price", "Subtotal"].map((h) => (
-                <th
-                  key={h}
-                  style={{
-                    padding: "6px 8px",
-                    textAlign: h === "Qty" || h === "Unit Price" || h === "Subtotal" ? "right" : "left",
-                    fontSize: 9,
-                    letterSpacing: "0.15em",
-                    textTransform: "uppercase",
-                    color: "#555",
-                    fontWeight: 600,
-                  }}
-                >
-                  {h}
+            <tr style={{ borderBottom: "2px solid #1a0008" }}>
+              {[
+                { label: "Description", align: "left"  },
+                { label: "SKU",         align: "left"  },
+                { label: "Qty",         align: "center"},
+                { label: "Unit Price",  align: "right" },
+                { label: "Total",       align: "right" },
+              ].map(({ label, align }) => (
+                <th key={label} style={{
+                  padding: "8px 10px", textAlign: align as "left" | "right" | "center",
+                  fontSize: 9, letterSpacing: "0.18em", textTransform: "uppercase",
+                  color: "#6b1a2a", fontWeight: 700,
+                }}>
+                  {label}
                 </th>
               ))}
             </tr>
           </thead>
           <tbody>
             {order.items.map((item, i) => (
-              <tr key={item.sku + i} style={{ borderBottom: "1px solid #e5e5e5" }}>
-                <td style={{ padding: "10px 8px", fontWeight: 500 }}>{item.name}</td>
-                <td style={{ padding: "10px 8px", fontFamily: "monospace", fontSize: 11, color: "#666" }}>{item.sku}</td>
-                <td style={{ padding: "10px 8px", textAlign: "right" }}>{item.quantity}</td>
-                <td style={{ padding: "10px 8px", textAlign: "right", color: "#555" }}>${toNum(item.price).toFixed(2)}</td>
-                <td style={{ padding: "10px 8px", textAlign: "right", fontWeight: 500 }}>${toNum(item.subtotal).toFixed(2)}</td>
-              </tr>
+              <>
+                <tr key={item.sku + i} style={{ borderBottom: "1px solid #ead9d0", background: i % 2 === 0 ? "#fff" : "#fdfaf6" }}>
+                  <td style={{ padding: "11px 10px", fontWeight: 600, fontSize: 13 }}>{item.name}</td>
+                  <td style={{ padding: "11px 10px", fontFamily: "monospace", fontSize: 11, color: "#888" }}>{item.sku}</td>
+                  <td style={{ padding: "11px 10px", textAlign: "center" }}>{item.quantity}</td>
+                  <td style={{ padding: "11px 10px", textAlign: "right", color: "#555" }}>${toNum(item.price).toFixed(2)}</td>
+                  <td style={{ padding: "11px 10px", textAlign: "right", fontWeight: 600 }}>${toNum(item.subtotal).toFixed(2)}</td>
+                </tr>
+                {item.customizations.map((c) => (
+                  <tr key={c.label} style={{ borderBottom: "1px solid #f0e8e4", background: i % 2 === 0 ? "#fff" : "#fdfaf6" }}>
+                    <td colSpan={3} style={{ padding: "3px 10px 6px 22px", fontSize: 11, color: "#888", fontStyle: "italic" }}>
+                      ↳ {c.label}: {c.value}
+                    </td>
+                    <td style={{ padding: "3px 10px 6px", textAlign: "right", fontSize: 11, color: "#888" }}>
+                      {toNum(c.priceModifier) !== 0 ? `+$${toNum(c.priceModifier).toFixed(2)}` : ""}
+                    </td>
+                    <td style={{ padding: "3px 10px 6px", textAlign: "right", fontSize: 11, color: "#888" }}>
+                      {toNum(c.priceModifier) !== 0 ? `+$${toNum(c.priceModifier).toFixed(2)}` : "—"}
+                    </td>
+                  </tr>
+                ))}
+              </>
             ))}
           </tbody>
         </table>
 
-        {/* Totals */}
-        <div style={{ display: "flex", justifyContent: "flex-end" }}>
-          <div style={{ width: 220 }}>
+        {/* ── Totals ── */}
+        <div style={{ display: "flex", justifyContent: "flex-end", marginBottom: 36 }}>
+          <div style={{ width: 260 }}>
             {[
-              { label: "Subtotal",  value: `$${toNum(order.subtotal).toFixed(2)}` },
-              ...(toNum(order.discountAmount) > 0 ? [{ label: "Discount", value: `-$${toNum(order.discountAmount).toFixed(2)}` }] : []),
-              { label: "Tax",       value: `$${toNum(order.taxAmount).toFixed(2)}` },
+              { label: "Subtotal", value: `$${toNum(order.subtotal).toFixed(2)}` },
+              ...(toNum(order.discountAmount) > 0 ? [{ label: "Discount", value: `-$${toNum(order.discountAmount).toFixed(2)}`, color: "#4a7c59" }] : []),
+              ...(toNum(order.giftCardAmount ?? 0) > 0 ? [{ label: "Gift Card", value: `-$${toNum(order.giftCardAmount ?? 0).toFixed(2)}`, color: "#4a7c59" }] : []),
+              { label: "Tax", value: `$${toNum(order.taxAmount).toFixed(2)}` },
             ].map((row) => (
-              <div key={row.label} style={{ display: "flex", justifyContent: "space-between", padding: "3px 0", color: "#555", fontSize: 12 }}>
+              <div key={row.label} style={{
+                display: "flex", justifyContent: "space-between",
+                padding: "5px 0", fontSize: 12, color: (row as { color?: string }).color ?? "#666",
+                borderBottom: "1px solid #ead9d0",
+              }}>
                 <span>{row.label}</span>
                 <span>{row.value}</span>
               </div>
             ))}
-            <div style={{ display: "flex", justifyContent: "space-between", padding: "8px 0 0", borderTop: "2px solid #222", fontWeight: 600, fontSize: 15, marginTop: 4 }}>
-              <span>Total</span>
+            {/* Total */}
+            <div style={{
+              display: "flex", justifyContent: "space-between",
+              padding: "12px 0 6px", borderTop: "2px solid #1a0008",
+              fontSize: 18, fontWeight: 700, color: "#1a0008", marginTop: 2,
+            }}>
+              <span style={{ fontSize: 10, letterSpacing: "0.2em", textTransform: "uppercase", alignSelf: "center" }}>Total Due</span>
               <span>${toNum(order.total).toFixed(2)}</span>
             </div>
+            {/* Payment method */}
+            {confirmedPayment && (
+              <div style={{
+                marginTop: 8, padding: "8px 12px",
+                background: "#f0fdf4", border: "1px solid #bbf7d0",
+                display: "flex", justifyContent: "space-between",
+                fontSize: 11, color: "#166534",
+              }}>
+                <span style={{ letterSpacing: "0.1em", textTransform: "uppercase" }}>
+                  Paid via {confirmedPayment.method.toLowerCase()}
+                </span>
+                <span style={{ fontWeight: 700 }}>${toNum(confirmedPayment.amount).toFixed(2)}</span>
+              </div>
+            )}
           </div>
         </div>
 
-        {/* Customer notes */}
+        {/* ── Customer notes ── */}
         {order.customerNotes && (
-          <div style={{ marginTop: 32, padding: 14, backgroundColor: "#f9f9f9", border: "1px solid #e5e5e5" }}>
-            <p style={{ fontSize: 9, letterSpacing: "0.2em", textTransform: "uppercase", color: "#888", marginBottom: 6 }}>Customer Note</p>
+          <div style={{
+            marginBottom: 36, padding: "14px 16px",
+            background: "#fdfaf6", border: "1px solid #ead9d0",
+          }}>
+            <div style={{ fontSize: 9, letterSpacing: "0.2em", textTransform: "uppercase", color: "#8a5a62", marginBottom: 6 }}>
+              Customer Note
+            </div>
             <p style={{ fontSize: 13, color: "#444", fontStyle: "italic" }}>{order.customerNotes}</p>
           </div>
         )}
 
-        {/* Footer */}
-        <div style={{ marginTop: 48, textAlign: "center", color: "#aaa", fontSize: 10, letterSpacing: "0.15em" }}>
-          <p>Thank you for your order · illumynat.com</p>
+        {/* ── Footer ── */}
+        <div style={{
+          borderTop: "1px solid #ead9d0", paddingTop: 20,
+          display: "flex", justifyContent: "space-between", alignItems: "center",
+        }}>
+          <div style={{ fontSize: 10, color: "#aaa", letterSpacing: "0.15em", textTransform: "uppercase" }}>
+            Thank you for your order
+          </div>
+          <div style={{ fontSize: 10, color: "#aaa", letterSpacing: "0.1em" }}>
+            illumynat.com
+          </div>
         </div>
       </div>
     </>

@@ -102,6 +102,18 @@ enum ReviewStatus {
   REJECTED  // not approved
 }
 
+enum AdminNotifType {
+  NEW_ORDER
+  NEW_CUSTOMER
+  NEWSLETTER_SIGNUP
+  NEW_MESSAGE
+}
+
+enum ThreadStatus {
+  OPEN
+  CLOSED
+}
+
 enum ReturnStatus {
   REQUESTED
   APPROVED
@@ -147,12 +159,14 @@ model Profile {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  addresses      Address[]
-  orders         Order[]
-  giftCards      GiftCard[]
-  wishlistItems  WishlistItem[]
-  reviews        ProductReview[]
-  loyaltyAccount LoyaltyAccount?
+  addresses             Address[]
+  orders                Order[]
+  giftCards             GiftCard[]
+  wishlistItems         WishlistItem[]
+  reviews               ProductReview[]
+  loyaltyAccount        LoyaltyAccount?
+  customerNotifications CustomerNotification[]
+  contactThreads        ContactThread[]
 
   @@map("profiles")
 }
@@ -850,6 +864,74 @@ model ReturnItem {
   reason   String?
 
   @@map("return_items")
+}
+
+// ─────────────────────────────────────────
+// CONTACT / MESSAGING
+// ─────────────────────────────────────────
+
+model ContactThread {
+  id         String       @id @default(uuid()) @db.Uuid
+  profileId  String?      @db.Uuid
+  profile    Profile?     @relation(fields: [profileId], references: [id], onDelete: SetNull)
+
+  guestName  String?
+  guestEmail String?
+
+  subject    String
+  topic      String?
+  status     ThreadStatus @default(OPEN)
+
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  messages   ContactMessage[]
+
+  @@map("contact_threads")
+}
+
+model ContactMessage {
+  id        String        @id @default(uuid()) @db.Uuid
+  threadId  String        @db.Uuid
+  thread    ContactThread @relation(fields: [threadId], references: [id], onDelete: Cascade)
+
+  body      String
+  fromAdmin Boolean       @default(false)
+  readAt    DateTime?
+
+  createdAt DateTime @default(now())
+
+  @@map("contact_messages")
+}
+
+// ─────────────────────────────────────────
+// NOTIFICATIONS
+// ─────────────────────────────────────────
+
+model AdminNotification {
+  id        String         @id @default(uuid()) @db.Uuid
+  type      AdminNotifType
+  title     String
+  body      String
+  metadata  Json?          // { orderId, orderNumber, profileId, email, amount }
+  isRead    Boolean        @default(false)
+  createdAt DateTime       @default(now())
+
+  @@map("admin_notifications")
+}
+
+model CustomerNotification {
+  id        String   @id @default(uuid()) @db.Uuid
+  profileId String   @db.Uuid
+  profile   Profile  @relation(fields: [profileId], references: [id], onDelete: Cascade)
+
+  title     String
+  body      String
+  metadata  Json?    // { orderId, orderNumber, status, href }
+  isRead    Boolean  @default(false)
+  createdAt DateTime @default(now())
+
+  @@map("customer_notifications")
 }
 
 // ─────────────────────────────────────────

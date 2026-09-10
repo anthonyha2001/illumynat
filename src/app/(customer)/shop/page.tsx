@@ -1,6 +1,7 @@
 import { Suspense } from "react";
 import { Container } from "@/components/ui/Container";
 import { ProductCard } from "@/components/customer/ProductCard";
+import { FadeIn, FadeInStagger, FadeInItem } from "@/components/ui/FadeIn";
 import { getProducts, getDistinctScentFamilies, type ProductSortKey } from "@/lib/data/products";
 import { ShopFilters } from "./ShopFilters";
 import { Spinner } from "@/components/ui/Spinner";
@@ -47,17 +48,19 @@ export default async function ShopPage({ searchParams }: Props) {
       {/* Page header */}
       <div className="border-b border-border-subtle bg-bg">
         <Container className="py-10 md:py-14">
-          <p className="font-body text-[11px] tracking-[0.25em] uppercase text-accent mb-3">
-            Our Collection
-          </p>
-          <h1 className="font-display text-4xl md:text-5xl font-light italic text-text">
-            All Candles
-          </h1>
-          {params.search && (
-            <p className="mt-2 font-body text-sm text-text-muted">
-              Showing results for &ldquo;{params.search}&rdquo;
+          <FadeIn>
+            <p className="font-body text-[11px] tracking-[0.25em] uppercase text-accent mb-3">
+              Our Collection
             </p>
-          )}
+            <h1 className="font-display text-4xl md:text-5xl font-light italic text-text">
+              All Candles
+            </h1>
+            {params.search && (
+              <p className="mt-2 font-body text-sm text-text-muted">
+                Showing results for &ldquo;{params.search}&rdquo;
+              </p>
+            )}
+          </FadeIn>
         </Container>
       </div>
 
@@ -94,11 +97,13 @@ export default async function ShopPage({ searchParams }: Props) {
               </div>
             ) : (
               <Suspense>
-                <div className="grid grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-12">
+                <FadeInStagger className="grid grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-12">
                   {products.map((product, i) => (
-                    <ProductCard key={product.id} product={product} priority={i < 3} initialWishlisted={wishlistedIds.has(product.id)} />
+                    <FadeInItem key={product.id}>
+                      <ProductCard product={product} priority={i < 3} initialWishlisted={wishlistedIds.has(product.id)} />
+                    </FadeInItem>
                   ))}
-                </div>
+                </FadeInStagger>
               </Suspense>
             )}
           </div>

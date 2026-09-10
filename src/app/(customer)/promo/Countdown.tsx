@@ -50,10 +50,10 @@ export function Countdown({ expiresAt }: Props) {
             <p className="font-display text-4xl md:text-5xl font-light text-text-inverse leading-none tabular-nums">
               {pad(val)}
             </p>
-            <p className="font-body text-[10px] tracking-[0.2em] uppercase text-white/40 mt-1">{label}</p>
+            <p className="font-body text-[10px] tracking-[0.2em] uppercase text-text-inverse/40 mt-1">{label}</p>
           </div>
           {i < units.length - 1 && (
-            <p className="font-display text-3xl text-white/30 mb-1">:</p>
+            <p className="font-display text-3xl text-text-inverse/30 mb-1">:</p>
           )}
         </div>
       ))}

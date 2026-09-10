@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Input } from "@/components/ui/Input";
 import { Button } from "@/components/ui/Button";
+import { ImageUploader } from "@/components/admin/ImageUploader";
 
 interface CategoryFormData {
   name: string;
@@ -108,7 +109,16 @@ export function CategoryForm({ initial, categoryId }: Props) {
           />
         </div>
 
-        <Input label="Hero Image URL" value={form.imageUrl} onChange={set("imageUrl")} placeholder="https://…" />
+        <div className="flex flex-col gap-1.5">
+          <label className="font-body text-[11px] font-medium tracking-[0.1em] uppercase text-text-subtle">
+            Hero Image
+          </label>
+          <ImageUploader
+            maxImages={1}
+            urls={form.imageUrl ? [form.imageUrl] : []}
+            onChange={(urls) => setForm((f) => ({ ...f, imageUrl: urls[0] ?? "" }))}
+          />
+        </div>
 
         <label className="flex items-center gap-3 cursor-pointer pt-1">
           <input

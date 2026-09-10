@@ -364,6 +364,21 @@ function Steps({ current }: { current: 1 | 2 }) {
   );
 }
 
+// ── Identity card shown to logged-in users ─────────────────
+function IdentityCard({ firstName, lastName, email }: { firstName: string; lastName: string; email: string }) {
+  return (
+    <div className="flex items-center gap-3 px-4 py-3 bg-surface border border-border-subtle mb-1">
+      <div className="w-8 h-8 rounded-full bg-accent flex items-center justify-center shrink-0">
+        <span className="font-display text-sm font-light text-text-on-gold">{firstName[0]}</span>
+      </div>
+      <div>
+        <p className="font-body text-sm text-text">{firstName} {lastName}</p>
+        <p className="font-body text-[11px] text-text-muted">{email}</p>
+      </div>
+    </div>
+  );
+}
+
 // ── Main checkout client ───────────────────────────────────
 interface CheckoutClientProps {
   prefill?: {
@@ -518,11 +533,21 @@ export function CheckoutClient({ prefill, settings }: CheckoutClientProps) {
 
         {step === 1 && (
           <form onSubmit={handleShippingSubmit} className="space-y-5">
-            <div className="grid grid-cols-2 gap-4">
-              <Input label="First Name" required value={form.firstName} onChange={set("firstName")} />
-              <Input label="Last Name"  required value={form.lastName}  onChange={set("lastName")} />
-            </div>
-            <Input label="Email" type="email" required value={form.email} onChange={set("email")} />
+            {prefill ? (
+              <IdentityCard
+                firstName={prefill.firstName}
+                lastName={prefill.lastName}
+                email={prefill.email}
+              />
+            ) : (
+              <>
+                <div className="grid grid-cols-2 gap-4">
+                  <Input label="First Name" required value={form.firstName} onChange={set("firstName")} />
+                  <Input label="Last Name"  required value={form.lastName}  onChange={set("lastName")} />
+                </div>
+                <Input label="Email" type="email" required value={form.email} onChange={set("email")} />
+              </>
+            )}
             <Input label="Phone" type="tel" value={form.phone} onChange={set("phone")} />
 
             <div className="pt-2 pb-1">

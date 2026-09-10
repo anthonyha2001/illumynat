@@ -1,8 +1,7 @@
 import Link from "next/link";
 import { Container } from "@/components/ui/Container";
 import { Divider } from "@/components/ui/Divider";
-import { Input } from "@/components/ui/Input";
-import { Button } from "@/components/ui/Button";
+import { NewsletterForm } from "@/components/customer/NewsletterForm";
 
 const SHOP_LINKS = [
   { label: "All Products",       href: "/shop" },
@@ -13,10 +12,11 @@ const SHOP_LINKS = [
 ];
 
 const COMPANY_LINKS = [
-  { label: "Our Story",    href: "/our-story" },
-  { label: "Ingredients",  href: "/ingredients" },
-  { label: "Sustainability",href: "/sustainability" },
-  { label: "Press",        href: "/press" },
+  { label: "Our Story",     href: "/our-story" },
+  { label: "Reviews",       href: "/reviews" },
+  { label: "Ingredients",   href: "/ingredients" },
+  { label: "Sustainability", href: "/sustainability" },
+  { label: "Press",         href: "/press" },
 ];
 
 const HELP_LINKS = [
@@ -65,7 +65,7 @@ export function Footer() {
             <p className="font-display text-4xl md:text-5xl font-light italic leading-tight text-text-inverse">
               Scent is the strongest<br />form of memory.
             </p>
-            <p className="font-body text-sm text-white/50 leading-relaxed max-w-sm">
+            <p className="font-body text-sm text-text-inverse/50 leading-relaxed max-w-sm">
               Each ILLUMYNAT candle is hand-poured in small batches using the
               finest raw materials, crafted to become part of your daily ritual.
             </p>
@@ -74,28 +74,18 @@ export function Footer() {
           {/* Newsletter */}
           <div className="space-y-4 lg:pt-2">
             <div className="space-y-1">
-              <p className="font-body text-[11px] tracking-[0.18em] uppercase text-white/50">
+              <p className="font-body text-[11px] tracking-[0.18em] uppercase text-text-inverse/50">
                 The ILLUMYNAT Circle
               </p>
               <p className="font-display text-2xl font-light text-text-inverse">
                 Join our community
               </p>
             </div>
-            <p className="font-body text-sm text-white/50 leading-relaxed">
+            <p className="font-body text-sm text-text-inverse/50 leading-relaxed">
               New collections, scent stories, and exclusive offers — delivered
               with intention.
             </p>
-            <form className="flex gap-3">
-              <Input
-                type="email"
-                placeholder="your@email.com"
-                className="flex-1 bg-white/5 border-white/15 text-text-inverse placeholder:text-white/30 focus:border-accent"
-                aria-label="Email for newsletter"
-              />
-              <Button variant="primary" size="md" type="submit">
-                Join
-              </Button>
-            </form>
+            <NewsletterForm />
           </div>
         </div>
 
@@ -107,13 +97,13 @@ export function Footer() {
               ILLUMYNAT
             </Link>
             <div className="flex items-center gap-4 pt-2">
-              <a href="#" aria-label="Instagram" className="text-white/40 hover:text-accent transition-colors duration-200">
+              <a href="#" aria-label="Instagram" className="text-text-inverse/40 hover:text-accent transition-colors duration-200">
                 <IconInstagram />
               </a>
-              <a href="#" aria-label="Pinterest" className="text-white/40 hover:text-accent transition-colors duration-200">
+              <a href="#" aria-label="Pinterest" className="text-text-inverse/40 hover:text-accent transition-colors duration-200">
                 <IconPinterest />
               </a>
-              <a href="#" aria-label="TikTok" className="text-white/40 hover:text-accent transition-colors duration-200">
+              <a href="#" aria-label="TikTok" className="text-text-inverse/40 hover:text-accent transition-colors duration-200">
                 <IconTiktok />
               </a>
             </div>
@@ -121,11 +111,11 @@ export function Footer() {
 
           {/* Shop */}
           <div className="space-y-4">
-            <p className="font-body text-[10px] tracking-[0.2em] uppercase text-white/30">Shop</p>
+            <p className="font-body text-[10px] tracking-[0.2em] uppercase text-text-inverse/30">Shop</p>
             <ul className="space-y-3">
               {SHOP_LINKS.map((l) => (
                 <li key={l.href}>
-                  <Link href={l.href} className="font-body text-sm text-white/60 hover:text-text-inverse transition-colors duration-200">
+                  <Link href={l.href} className="font-body text-sm text-text-inverse/60 hover:text-text-inverse transition-colors duration-200">
                     {l.label}
                   </Link>
                 </li>
@@ -135,11 +125,11 @@ export function Footer() {
 
           {/* Company */}
           <div className="space-y-4">
-            <p className="font-body text-[10px] tracking-[0.2em] uppercase text-white/30">Company</p>
+            <p className="font-body text-[10px] tracking-[0.2em] uppercase text-text-inverse/30">Company</p>
             <ul className="space-y-3">
               {COMPANY_LINKS.map((l) => (
                 <li key={l.href}>
-                  <Link href={l.href} className="font-body text-sm text-white/60 hover:text-text-inverse transition-colors duration-200">
+                  <Link href={l.href} className="font-body text-sm text-text-inverse/60 hover:text-text-inverse transition-colors duration-200">
                     {l.label}
                   </Link>
                 </li>
@@ -149,11 +139,11 @@ export function Footer() {
 
           {/* Help */}
           <div className="space-y-4">
-            <p className="font-body text-[10px] tracking-[0.2em] uppercase text-white/30">Help</p>
+            <p className="font-body text-[10px] tracking-[0.2em] uppercase text-text-inverse/30">Help</p>
             <ul className="space-y-3">
               {HELP_LINKS.map((l) => (
                 <li key={l.href}>
-                  <Link href={l.href} className="font-body text-sm text-white/60 hover:text-text-inverse transition-colors duration-200">
+                  <Link href={l.href} className="font-body text-sm text-text-inverse/60 hover:text-text-inverse transition-colors duration-200">
                     {l.label}
                   </Link>
                 </li>
@@ -164,7 +154,7 @@ export function Footer() {
 
         {/* Bottom bar */}
         <div className="flex flex-col md:flex-row items-center justify-between gap-4 pt-8">
-          <p className="font-body text-[11px] text-white/30 tracking-wide">
+          <p className="font-body text-[11px] text-text-inverse/30 tracking-wide">
             © {new Date().getFullYear()} ILLUMYNAT. All rights reserved.
           </p>
           <div className="flex items-center gap-6">
@@ -172,7 +162,7 @@ export function Footer() {
               <Link
                 key={l}
                 href="#"
-                className="font-body text-[11px] text-white/30 hover:text-white/60 transition-colors duration-200 tracking-wide"
+                className="font-body text-[11px] text-text-inverse/30 hover:text-text-inverse/60 transition-colors duration-200 tracking-wide"
               >
                 {l}
               </Link>

@@ -40,7 +40,7 @@ export function ReviewActions({ reviewId, status }: Props) {
           disabled={!!loading}
           className={cn(
             "px-3 py-1.5 font-body text-[10px] tracking-widest uppercase border transition-colors duration-150",
-            "bg-success/10 text-success border-success/30 hover:bg-success hover:text-white disabled:opacity-50"
+            "bg-success/10 text-success border-success/30 hover:bg-success hover:text-text-inverse disabled:opacity-50"
           )}
         >
           {loading === "PUBLISHED" ? "…" : "Approve"}
@@ -52,7 +52,7 @@ export function ReviewActions({ reviewId, status }: Props) {
           disabled={!!loading}
           className={cn(
             "px-3 py-1.5 font-body text-[10px] tracking-widest uppercase border transition-colors duration-150",
-            "bg-error/10 text-error border-error/30 hover:bg-error hover:text-white disabled:opacity-50"
+            "bg-error/10 text-error border-error/30 hover:bg-error hover:text-text-inverse disabled:opacity-50"
           )}
         >
           {loading === "REJECTED" ? "…" : "Reject"}

@@ -29,27 +29,13 @@ export function ImageUploader({ urls, onChange, maxImages = 10 }: Props) {
     setUploading((prev) => [...prev, { id, name: file.name, progress: "uploading" }]);
 
     try {
-      // 1. Get signed upload URL from our API
-      const res = await fetch("/api/admin/upload", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ filename: file.name, contentType: file.type }),
-      });
+      const body = new FormData();
+      body.append("file", file);
+
+      const res = await fetch("/api/admin/upload", { method: "POST", body });
       const data = await res.json();
-      if (!res.ok) throw new Error(data.error ?? "Failed to get upload URL");
+      if (!res.ok) throw new Error(data.error ?? "Upload failed");
 
-      // 2. PUT file directly to Supabase Storage
-      const uploadRes = await fetch(data.signedUrl, {
-        method: "PUT",
-        headers: { "Content-Type": file.type },
-        body: file,
-      });
-      if (!uploadRes.ok) {
-        const body = await uploadRes.text().catch(() => "");
-        throw new Error(`Storage upload failed (${uploadRes.status})${body ? ": " + body : ""}`);
-      }
-
-      // 3. Add public URL to list
       onChange([...urls, data.publicUrl]);
       setUploading((prev) => prev.map((u) => u.id === id ? { ...u, progress: "done" } : u));
     } catch (err) {
@@ -100,7 +86,7 @@ export function ImageUploader({ urls, onChange, maxImages = 10 }: Props) {
                     type="button"
                     onClick={() => moveUrl(i, i - 1)}
                     title="Move left"
-                    className="w-6 h-6 bg-white text-text font-body text-[10px] flex items-center justify-center hover:bg-accent hover:text-text-on-gold transition-colors"
+                    className="w-6 h-6 bg-surface text-text font-body text-[10px] flex items-center justify-center hover:bg-accent hover:text-text-on-gold transition-colors"
                   >
                     ←
                   </button>
@@ -110,7 +96,7 @@ export function ImageUploader({ urls, onChange, maxImages = 10 }: Props) {
                     type="button"
                     onClick={() => moveUrl(i, i + 1)}
                     title="Move right"
-                    className="w-6 h-6 bg-white text-text font-body text-[10px] flex items-center justify-center hover:bg-accent hover:text-text-on-gold transition-colors"
+                    className="w-6 h-6 bg-surface text-text font-body text-[10px] flex items-center justify-center hover:bg-accent hover:text-text-on-gold transition-colors"
                   >
                     →
                   </button>

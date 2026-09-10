@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { Container } from "@/components/ui/Container";
+import { AnimateIn } from "@/components/ui/AnimateIn";
 
 export const metadata = {
   title: "Our Story — ILLUMYNAT",
@@ -71,7 +72,7 @@ export default function OurStoryPage() {
             Made by hand.<br />
             <span className="not-italic font-light text-accent">Meant to last.</span>
           </h1>
-          <p className="font-body text-sm text-white/50 max-w-sm leading-relaxed">
+          <p className="font-body text-sm text-text-inverse/50 max-w-sm leading-relaxed">
             ILLUMYNAT began with a question: why does a room smell like nothing?
             Four years and ten thousand pours later, we&apos;re still answering it.
           </p>
@@ -79,6 +80,7 @@ export default function OurStoryPage() {
       </div>
 
       {/* ── Origin story ── */}
+      <AnimateIn>
       <Container className="py-20 md:py-28">
         <div className="grid md:grid-cols-2 gap-12 md:gap-20 items-center">
           <div>
@@ -115,18 +117,20 @@ export default function OurStoryPage() {
               }}
             />
             <div className="absolute inset-0 flex items-center justify-center">
-              <span className="font-display text-8xl font-light italic text-white/10">I</span>
+              <span className="font-display text-8xl font-light italic text-text-inverse/10">I</span>
             </div>
             <div className="absolute bottom-6 left-6 right-6">
-              <p className="font-body text-[10px] tracking-widest uppercase text-white/30">
+              <p className="font-body text-[10px] tracking-widest uppercase text-text-inverse/30">
                 Studio, 2021
               </p>
             </div>
           </div>
         </div>
       </Container>
+      </AnimateIn>
 
       {/* ── Values ── */}
+      <AnimateIn>
       <div className="bg-bg-subtle border-y border-border-subtle">
         <Container className="py-20 md:py-28">
           <div className="text-center mb-14">
@@ -155,8 +159,10 @@ export default function OurStoryPage() {
           </div>
         </Container>
       </div>
+      </AnimateIn>
 
       {/* ── Timeline ── */}
+      <AnimateIn>
       <Container className="py-20 md:py-28">
         <div className="max-w-2xl mx-auto">
           <div className="text-center mb-14">
@@ -202,8 +208,10 @@ export default function OurStoryPage() {
           </div>
         </div>
       </Container>
+      </AnimateIn>
 
       {/* ── Pull quote ── */}
+      <AnimateIn animation="fade-in">
       <div className="bg-bg-dark">
         <Container className="py-20 md:py-28 text-center">
           <blockquote className="font-display text-3xl md:text-4xl font-light italic text-text-inverse leading-relaxed max-w-3xl mx-auto">
@@ -215,8 +223,10 @@ export default function OurStoryPage() {
           </p>
         </Container>
       </div>
+      </AnimateIn>
 
       {/* ── CTA ── */}
+      <AnimateIn>
       <Container className="py-20 md:py-24 text-center">
         <h2 className="font-display text-3xl md:text-4xl font-light italic text-text mb-6">
           Ready to find yours?
@@ -236,6 +246,7 @@ export default function OurStoryPage() {
           </Link>
         </div>
       </Container>
+      </AnimateIn>
     </div>
   );
 }

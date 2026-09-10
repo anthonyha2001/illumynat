@@ -109,13 +109,13 @@ export function ScentFamilySection() {
 
                   {/* Content */}
                   <div className="relative z-10 p-5 md:p-7">
-                    <p className="font-body text-[10px] tracking-[0.2em] uppercase text-white/50 mb-1.5">
+                    <p className="font-body text-[10px] tracking-[0.2em] uppercase text-text-inverse/50 mb-1.5">
                       Scent family
                     </p>
-                    <h3 className="font-display text-2xl md:text-3xl font-light text-white leading-tight mb-2">
+                    <h3 className="font-display text-2xl md:text-3xl font-light text-text-inverseleading-tight mb-2">
                       {family.label}
                     </h3>
-                    <p className="font-body text-xs text-white/60 leading-relaxed">
+                    <p className="font-body text-xs text-text-inverse/60 leading-relaxed">
                       {family.description}
                     </p>
 
@@ -123,7 +123,7 @@ export function ScentFamilySection() {
                     <motion.div
                       initial={{ opacity: 0, x: -8 }}
                       whileHover={{ opacity: 1, x: 0 }}
-                      className="mt-4 flex items-center gap-2 text-white/80 text-[11px] tracking-[0.12em] uppercase font-body"
+                      className="mt-4 flex items-center gap-2 text-text-inverse/80 text-[11px] tracking-[0.12em] uppercase font-body"
                     >
                       Explore
                       <svg className="w-3.5 h-3.5" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth={1.5}>

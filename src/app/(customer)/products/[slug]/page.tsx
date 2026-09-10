@@ -1,5 +1,6 @@
 import { notFound } from "next/navigation";
 import { Container } from "@/components/ui/Container";
+import { AnimateIn } from "@/components/ui/AnimateIn";
 import { getProductBySlug } from "@/lib/data/products";
 import { createClient } from "@/lib/supabase/server";
 import { prisma } from "@/lib/prisma";
@@ -82,19 +83,23 @@ export default async function ProductPage({ params }: Props) {
       </section>
 
       {/* ── Story + fragrance notes ── */}
-      <ProductStory
-        story={product.story}
-        fragranceNotes={product.fragranceNotes}
-        name={product.name}
-      />
+      <AnimateIn>
+        <ProductStory
+          story={product.story}
+          fragranceNotes={product.fragranceNotes}
+          name={product.name}
+        />
+      </AnimateIn>
 
       {/* ── Reviews ── */}
-      <ProductReviews
-        reviews={product.reviews}
-        productId={product.id}
-        canReview={canReview}
-        eligibleOrderId={eligibleOrderId}
-      />
+      <AnimateIn>
+        <ProductReviews
+          reviews={product.reviews}
+          productId={product.id}
+          canReview={canReview}
+          eligibleOrderId={eligibleOrderId}
+        />
+      </AnimateIn>
     </>
   );
 }

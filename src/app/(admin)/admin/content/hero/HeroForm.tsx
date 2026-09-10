@@ -183,12 +183,12 @@ export function HeroForm({ initial }: { initial: HeroContent }) {
             {form.headline || "—"}<br />
             <span className="not-italic text-accent">{form.headlineAccent}</span>
           </h2>
-          <p className="font-body text-xs text-white/50 max-w-xs mb-5 leading-relaxed">{form.subCopy}</p>
+          <p className="font-body text-xs text-text-inverse/50 max-w-xs mb-5 leading-relaxed">{form.subCopy}</p>
           <div className="flex items-center gap-5">
             <span className="px-4 py-2 bg-accent text-text-on-gold font-body text-[10px] tracking-widest uppercase">
               {form.primaryCtaLabel || "CTA"}
             </span>
-            <span className="font-body text-[10px] tracking-widest uppercase text-white/40">
+            <span className="font-body text-[10px] tracking-widest uppercase text-text-inverse/40">
               {form.secondaryCtaLabel}
             </span>
           </div>

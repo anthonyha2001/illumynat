@@ -102,7 +102,7 @@ export function HeroSection({ content = HERO_DEFAULTS }: { content?: HeroContent
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.45, ease: [0.21, 0.47, 0.32, 0.98] }}
-            className="font-body text-sm text-white/60 leading-relaxed max-w-sm mb-8 md:mb-10 hidden sm:block"
+            className="font-body text-sm text-text-inverse/60 leading-relaxed max-w-sm mb-8 md:mb-10 hidden sm:block"
           >
             {content.subCopy}
           </motion.p>
@@ -117,7 +117,7 @@ export function HeroSection({ content = HERO_DEFAULTS }: { content?: HeroContent
             <Button href={content.primaryCtaHref} variant="primary" size="lg">{content.primaryCtaLabel}</Button>
             <Link
               href={content.secondaryCtaHref}
-              className="font-body text-[11px] tracking-[0.2em] uppercase text-white/50 hover:text-white/90 transition-colors duration-200"
+              className="font-body text-[11px] tracking-[0.2em] uppercase text-text-inverse/50 hover:text-text-inverse/90 transition-colors duration-200"
             >
               {content.secondaryCtaLabel}
             </Link>
@@ -130,13 +130,13 @@ export function HeroSection({ content = HERO_DEFAULTS }: { content?: HeroContent
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 1, delay: 1.1 }}
-        className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-white/30"
+        className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-text-inverse/30"
       >
         <span className="font-body text-[10px] tracking-[0.2em] uppercase">Scroll</span>
         <motion.div
           animate={{ y: [0, 6, 0] }}
           transition={{ duration: 1.8, repeat: Infinity, ease: "easeInOut" }}
-          className="w-px h-8 bg-gradient-to-b from-white/30 to-transparent"
+          className="w-px h-8 bg-gradient-to-b from-text-inverse/30 to-transparent"
         />
       </motion.div>
     </section>

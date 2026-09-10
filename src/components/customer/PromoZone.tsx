@@ -14,7 +14,7 @@ export function PromoZone({ promo }: Props) {
   const badgeClass =
     promo.theme === "GOLD"  ? "border-text-on-gold/30 text-text-on-gold/80" :
     promo.theme === "LIGHT" ? "border-border text-text-muted" :
-                              "border-white/20 text-white/60";
+                              "border-text-inverse/20 text-text-inverse/60";
 
   const ctaClass =
     promo.theme === "GOLD"  ? "text-text-on-gold underline underline-offset-2 hover:opacity-70" :

@@ -64,7 +64,7 @@ export default async function PromoPage() {
             </h1>
 
             {promo.pageSubtitle && (
-              <p className="font-body text-base text-white/55 leading-relaxed max-w-md mx-auto">
+              <p className="font-body text-base text-text-inverse/55 leading-relaxed max-w-md mx-auto">
                 {promo.pageSubtitle}
               </p>
             )}

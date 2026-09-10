@@ -1,6 +1,8 @@
 import Image from "next/image";
 import Link from "next/link";
 import { Container } from "@/components/ui/Container";
+import { FadeIn } from "@/components/ui/FadeIn";
+import { AnimateIn } from "@/components/ui/AnimateIn";
 import { getActiveCategories } from "@/lib/data/products";
 
 export const metadata = { title: "Collections — ILLUMYNAT" };
@@ -13,16 +15,18 @@ export default async function CollectionsPage() {
       {/* Header */}
       <div className="border-b border-border-subtle">
         <Container className="py-12 md:py-20 text-center">
-          <p className="font-body text-[11px] tracking-[0.25em] uppercase text-accent mb-4">
-            Curated for You
-          </p>
-          <h1 className="font-display text-4xl md:text-6xl font-light italic text-text mb-4">
-            Our Collections
-          </h1>
-          <p className="font-body text-sm text-text-muted max-w-md mx-auto leading-relaxed">
-            Each collection is built around a single emotional truth — a mood, a memory, a moment.
-            Find the one that speaks to you.
-          </p>
+          <FadeIn>
+            <p className="font-body text-[11px] tracking-[0.25em] uppercase text-accent mb-4">
+              Curated for You
+            </p>
+            <h1 className="font-display text-4xl md:text-6xl font-light italic text-text mb-4">
+              Our Collections
+            </h1>
+            <p className="font-body text-sm text-text-muted max-w-md mx-auto leading-relaxed">
+              Each collection is built around a single emotional truth — a mood, a memory, a moment.
+              Find the one that speaks to you.
+            </p>
+          </FadeIn>
         </Container>
       </div>
 
@@ -39,8 +43,8 @@ export default async function CollectionsPage() {
             {categories.map((cat, i) => {
               const isWide = categories.length % 2 !== 0 && i === categories.length - 1;
               return (
+                <AnimateIn key={cat.id} delay={i * 75}>
                 <Link
-                  key={cat.id}
                   href={`/collections/${cat.slug}`}
                   className={`group relative overflow-hidden bg-bg-subtle ${isWide ? "md:col-span-2" : ""}`}
                 >
@@ -73,15 +77,16 @@ export default async function CollectionsPage() {
                       {cat.name}
                     </h2>
                     {cat.description && (
-                      <p className="font-body text-sm text-white/60 leading-relaxed max-w-sm">
+                      <p className="font-body text-sm text-text-inverse/60 leading-relaxed max-w-sm">
                         {cat.description}
                       </p>
                     )}
-                    <span className="inline-block mt-4 font-body text-[11px] tracking-[0.2em] uppercase text-white/50 group-hover:text-accent transition-colors duration-300">
+                    <span className="inline-block mt-4 font-body text-[11px] tracking-[0.2em] uppercase text-text-inverse/50 group-hover:text-accent transition-colors duration-300">
                       Explore →
                     </span>
                   </div>
                 </Link>
+                </AnimateIn>
               );
             })}
           </div>
