@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { Container } from "@/components/ui/Container";
-import { Divider } from "@/components/ui/Divider";
 import { NewsletterForm } from "@/components/customer/NewsletterForm";
+import { ScrollCandle } from "@/components/customer/ScrollCandle";
 
 const SHOP_LINKS = [
   { label: "All Products",       href: "/shop" },
@@ -27,7 +27,6 @@ const HELP_LINKS = [
   { label: "Track Order",       href: "/account/orders" },
 ];
 
-// ── Social Icons ───────────────────────────────────────────
 function IconInstagram() {
   return (
     <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5}>
@@ -52,23 +51,29 @@ function IconTiktok() {
   );
 }
 
-// ── Footer ─────────────────────────────────────────────────
 export function Footer() {
   return (
     <footer className="bg-bg-dark text-text-inverse pt-20 pb-10 mt-auto">
       <Container>
 
-        {/* Top row — brand statement + newsletter */}
+        {/* Top row — brand + newsletter */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 pb-16 border-b border-white/10">
+
           {/* Brand */}
-          <div className="space-y-4">
-            <p className="font-display text-4xl md:text-5xl font-light italic leading-tight text-text-inverse">
-              Scent is the strongest<br />form of memory.
-            </p>
-            <p className="font-body text-sm text-text-inverse/50 leading-relaxed max-w-sm">
-              Each LUMYNAT candle is hand-poured in small batches using the
-              finest raw materials, crafted to become part of your daily ritual.
-            </p>
+          <div className="flex gap-8 items-start">
+            {/* Candle accent beside tagline */}
+            <div aria-hidden="true" className="flex-shrink-0 pt-1 hidden sm:block">
+              <ScrollCandle className="w-7 h-20 text-white/[0.14]" variant="watermark" />
+            </div>
+            <div className="space-y-4">
+              <p className="font-display text-4xl md:text-5xl font-light italic leading-tight text-text-inverse">
+                Scent is the strongest<br />form of memory.
+              </p>
+              <p className="font-body text-sm text-text-inverse/50 leading-relaxed max-w-sm">
+                Each LUMYNAT candle is hand-poured in small batches using the
+                finest raw materials, crafted to become part of your daily ritual.
+              </p>
+            </div>
           </div>
 
           {/* Newsletter */}

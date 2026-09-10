@@ -6,6 +6,7 @@ import { AnimateIn } from "@/components/ui/AnimateIn";
 import { FadeIn } from "@/components/ui/FadeIn";
 import Link from "next/link";
 import { cn } from "@/utils/cn";
+import { PageHero } from "@/components/customer/PageHero";
 
 const CATEGORIES = [
   {
@@ -162,21 +163,11 @@ export default function FAQPage() {
   return (
     <div className="min-h-screen bg-bg">
 
-      {/* Header */}
-      <div className="border-b border-border-subtle">
-        <Container className="py-14 md:py-20">
-          <FadeIn>
-            <p className="font-body text-[11px] tracking-[0.25em] uppercase text-accent mb-4">Help</p>
-            <h1 className="font-display text-4xl md:text-6xl font-light italic text-text mb-4">
-              Frequently asked<br />questions.
-            </h1>
-            <p className="font-body text-sm text-text-muted max-w-md leading-relaxed">
-              Everything you need to know about ordering, products, returns, and gifting.
-              Can&apos;t find what you&apos;re looking for? <Link href="/contact" className="text-accent hover:underline underline-offset-2">Contact us</Link>.
-            </p>
-          </FadeIn>
-        </Container>
-      </div>
+      <PageHero
+        eyebrow="Help"
+        title="Frequently asked questions."
+        description="Everything you need to know about ordering, products, returns, and gifting."
+      />
 
       <Container className="py-10 md:py-16">
         <div className="flex flex-col md:flex-row gap-10 md:gap-16">

@@ -2,11 +2,8 @@ import { Container } from "@/components/ui/Container";
 import { FadeIn, FadeInStagger, FadeInItem } from "@/components/ui/FadeIn";
 import { ProductCard } from "@/components/customer/ProductCard";
 import { Button } from "@/components/ui/Button";
+import { ScrollCandle, CandleOrnament } from "@/components/customer/ScrollCandle";
 import type { ProductListItem } from "@/lib/data/products";
-
-// ── CollectionSection ──────────────────────────────────────
-// Receives server-fetched products from the homepage Server Component.
-// Renders them in a responsive 4-column grid with stagger animation.
 
 interface CollectionSectionProps {
   title: string;
@@ -28,14 +25,24 @@ export function CollectionSection({
   if (products.length === 0) return null;
 
   return (
-    <section className="py-24 md:py-32 bg-bg">
-      <Container>
+    <section className="relative py-24 md:py-32 bg-bg overflow-hidden">
 
+      {/* Accent candle — floats right of section, visible on md+ */}
+      <div
+        aria-hidden="true"
+        className="absolute right-6 md:right-14 lg:right-20 top-1/2 -translate-y-1/2
+                   pointer-events-none select-none hidden md:block"
+      >
+        <ScrollCandle className="w-9 h-24 text-accent/[0.18]" variant="accent" />
+      </div>
+
+      <Container>
         {/* Header */}
         <FadeIn className="flex flex-col sm:flex-row items-start sm:items-end justify-between gap-6 mb-14">
-          <div className="space-y-2">
+          <div className="space-y-3">
+            {eyebrow && <CandleOrnament className="text-accent" />}
             {eyebrow && (
-              <span className="font-body text-[10px] tracking-[0.25em] uppercase text-accent">
+              <span className="block font-body text-[10px] tracking-[0.28em] uppercase text-accent">
                 {eyebrow}
               </span>
             )}
@@ -59,7 +66,6 @@ export function CollectionSection({
             </FadeInItem>
           ))}
         </FadeInStagger>
-
       </Container>
     </section>
   );

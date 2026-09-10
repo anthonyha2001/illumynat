@@ -3,6 +3,7 @@ import { AnimateIn } from "@/components/ui/AnimateIn";
 import { FadeIn } from "@/components/ui/FadeIn";
 import { prisma } from "@/lib/prisma";
 import Link from "next/link";
+import { PageHero } from "@/components/customer/PageHero";
 
 export const metadata = {
   title: "Customer Reviews — LUMYNAT",
@@ -59,20 +60,11 @@ export default async function ReviewsPage() {
   return (
     <div className="min-h-screen bg-bg">
 
-      {/* Hero */}
-      <div className="border-b border-border-subtle">
-        <Container className="py-14 md:py-20">
-          <FadeIn>
-            <p className="font-body text-[11px] tracking-[0.25em] uppercase text-accent mb-4">Verified Purchases</p>
-            <h1 className="font-display text-4xl md:text-6xl font-light italic text-text mb-4">
-              Customer Reviews
-            </h1>
-            <p className="font-body text-sm text-text-muted max-w-md leading-relaxed">
-              Every review comes from a verified purchase. We publish all approved reviews — positive and otherwise.
-            </p>
-          </FadeIn>
-        </Container>
-      </div>
+      <PageHero
+        eyebrow="Verified Purchases"
+        title="Customer Reviews"
+        description="Every review comes from a verified purchase. We publish all approved reviews — positive and otherwise."
+      />
 
       {/* Summary */}
       {total > 0 && (

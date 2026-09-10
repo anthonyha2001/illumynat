@@ -4,6 +4,7 @@ import { Container } from "@/components/ui/Container";
 import { FadeIn } from "@/components/ui/FadeIn";
 import { AnimateIn } from "@/components/ui/AnimateIn";
 import { getActiveCategories } from "@/lib/data/products";
+import { PageHero } from "@/components/customer/PageHero";
 
 export const metadata = { title: "Collections — LUMYNAT" };
 
@@ -12,23 +13,12 @@ export default async function CollectionsPage() {
 
   return (
     <div className="min-h-screen bg-bg">
-      {/* Header */}
-      <div className="border-b border-border-subtle">
-        <Container className="py-12 md:py-20 text-center">
-          <FadeIn>
-            <p className="font-body text-[11px] tracking-[0.25em] uppercase text-accent mb-4">
-              Curated for You
-            </p>
-            <h1 className="font-display text-4xl md:text-6xl font-light italic text-text mb-4">
-              Our Collections
-            </h1>
-            <p className="font-body text-sm text-text-muted max-w-md mx-auto leading-relaxed">
-              Each collection is built around a single emotional truth — a mood, a memory, a moment.
-              Find the one that speaks to you.
-            </p>
-          </FadeIn>
-        </Container>
-      </div>
+      <PageHero
+        eyebrow="Curated for You"
+        title="Our Collections"
+        description="Each collection is built around a single emotional truth — a mood, a memory, a moment."
+        centered
+      />
 
       {/* Collection grid */}
       <Container className="py-14 md:py-20">

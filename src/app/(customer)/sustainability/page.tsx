@@ -1,7 +1,7 @@
 import { Container } from "@/components/ui/Container";
 import { AnimateIn } from "@/components/ui/AnimateIn";
-import { FadeIn } from "@/components/ui/FadeIn";
 import Link from "next/link";
+import { PageHero } from "@/components/customer/PageHero";
 
 export const metadata = {
   title: "Sustainability — LUMYNAT",
@@ -42,28 +42,12 @@ export default function SustainabilityPage() {
   return (
     <div className="min-h-screen bg-bg">
 
-      {/* Hero */}
-      <div className="relative overflow-hidden bg-bg-dark">
-        <div
-          className="absolute inset-0"
-          style={{ background: "radial-gradient(ellipse 90% 70% at 40% 60%, #0e2015 0%, #080e0a 60%, #040806 100%)" }}
-        />
-        <div className="absolute inset-0 flex flex-col items-center justify-center text-center px-6 py-28 md:py-40">
-          <FadeIn>
-            <p className="font-body text-[11px] tracking-[0.3em] uppercase text-accent mb-5">
-              Our Responsibility
-            </p>
-            <h1 className="font-display text-5xl md:text-7xl font-light italic text-text-inverse leading-[1.05] mb-6">
-              Made with care.<br />
-              <span className="not-italic text-accent">Left with less.</span>
-            </h1>
-            <p className="font-body text-sm text-text-inverse/50 max-w-sm mx-auto leading-relaxed">
-              Sustainability is not a campaign. It is the set of decisions we make
-              every time we source a material, design a package, or ship an order.
-            </p>
-          </FadeIn>
-        </div>
-      </div>
+      <PageHero
+        eyebrow="Our Responsibility"
+        title="Made with care. Left with less."
+        description="Sustainability is not a campaign. It is the set of decisions we make every time we source a material, design a package, or ship an order."
+        centered
+      />
 
       {/* Numbers */}
       <AnimateIn>

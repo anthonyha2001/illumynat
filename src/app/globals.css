@@ -237,11 +237,66 @@ body {
   to   { background-position:  200% center; }
 }
 
+/* ── Decorative SVG motion ─────────────────────────────────── */
+
+/* Sparkle twinkle: subtle scale + clockwise rotation, no opacity change
+   (opacity lives in the Tailwind color-alpha so the two don't fight)    */
+@keyframes sparkle-pulse {
+  0%, 100% { transform: scale(1)    rotate(0deg); }
+  50%       { transform: scale(1.22) rotate(20deg); }
+}
+
+/* Organic float: gentle vertical oscillation for botanical elements */
+@keyframes float-gentle {
+  0%, 100% { transform: translateY(0px)  rotate(var(--float-rot, 0deg)); }
+  50%       { transform: translateY(-8px) rotate(var(--float-rot, 0deg)); }
+}
+
+/* Breathe: opacity pulse for ambient fill elements (rings, glows) */
+@keyframes breathe {
+  0%, 100% { opacity: var(--breathe-lo, 0.06); }
+  60%       { opacity: var(--breathe-hi, 0.13); }
+}
+
+/* Ring drift: near-imperceptible clockwise rotation, adds depth */
+@keyframes rotate-very-slow {
+  to { transform: rotate(360deg); }
+}
+
+/* Draw-in left: horizontal line reveals from left → right */
+@keyframes draw-left {
+  from { transform: scaleX(0); transform-origin: left; }
+  to   { transform: scaleX(1); transform-origin: left; }
+}
+
 /* Utility classes */
-.animate-fade-up    { animation: fade-up    0.55s var(--ease-luxury) both; }
-.animate-fade-in    { animation: fade-in    0.35s ease both; }
-.animate-slide-down { animation: slide-down 0.28s var(--ease-luxury) both; }
-.animate-scale-in   { animation: scale-in   0.28s var(--ease-luxury) both; }
+.animate-fade-up       { animation: fade-up           0.55s var(--ease-luxury) both; }
+.animate-fade-in       { animation: fade-in            0.35s ease both; }
+.animate-slide-down    { animation: slide-down         0.28s var(--ease-luxury) both; }
+.animate-scale-in      { animation: scale-in           0.28s var(--ease-luxury) both; }
+.animate-sparkle       { animation: sparkle-pulse      4.2s  ease-in-out infinite; }
+.animate-sparkle-slow  { animation: sparkle-pulse      6.5s  ease-in-out infinite; }
+.animate-float         { animation: float-gentle       7s    ease-in-out infinite; }
+.animate-breathe       { animation: breathe            5.5s  ease-in-out infinite; }
+.animate-rotate-slow   { animation: rotate-very-slow  32s    linear    infinite; }
+
+
+/* ── Candle flame ──────────────────────────────────────────── */
+/* Idle micro-flicker: the flame breathes when nothing else is happening */
+@keyframes flame-flicker {
+  0%,  100% { transform: scaleY(1)    scaleX(1);    }
+  35%        { transform: scaleY(1.07) scaleX(0.94); }
+  65%        { transform: scaleY(0.94) scaleX(1.05); }
+}
+/* Applied to the flame path; transform-origin anchors at flame base */
+.animate-flame {
+  animation: flame-flicker 2.4s ease-in-out infinite;
+}
+/* Wrapper group: lets CSS rotate + CSS scale compose correctly in SVG */
+.flame-pivot {
+  transform-box: fill-box;
+  transform-origin: center bottom;
+}
 
 /* Stagger helpers — apply to children via selector or manually */
 .animation-delay-75  { animation-delay:  75ms; }
@@ -250,6 +305,36 @@ body {
 .animation-delay-300 { animation-delay: 300ms; }
 .animation-delay-400 { animation-delay: 400ms; }
 .animation-delay-500 { animation-delay: 500ms; }
+
+/* Scent-card hover: thin border draws in from top-left corner */
+.scent-card-border::before,
+.scent-card-border::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.35s ease;
+}
+.scent-card-border::before {
+  border-top: 1px solid rgba(255,255,255,0.25);
+  border-left: 1px solid rgba(255,255,255,0.25);
+  transform: scaleX(0) scaleY(0);
+  transform-origin: top left;
+  transition: transform 0.4s var(--ease-luxury), opacity 0.3s ease;
+}
+.scent-card-border::after {
+  border-bottom: 1px solid rgba(255,255,255,0.25);
+  border-right: 1px solid rgba(255,255,255,0.25);
+  transform: scaleX(0) scaleY(0);
+  transform-origin: bottom right;
+  transition: transform 0.4s var(--ease-luxury) 0.05s, opacity 0.3s ease 0.05s;
+}
+.group:hover .scent-card-border::before,
+.group:hover .scent-card-border::after {
+  opacity: 1;
+  transform: scaleX(1) scaleY(1);
+}
 
 /* Button press micro-feedback */
 button:not(:disabled):active,

@@ -2,6 +2,7 @@ import { Container } from "@/components/ui/Container";
 import { AnimateIn } from "@/components/ui/AnimateIn";
 import { FadeIn } from "@/components/ui/FadeIn";
 import Link from "next/link";
+import { PageHero } from "@/components/customer/PageHero";
 
 export const metadata = {
   title: "Press — LUMYNAT",
@@ -53,20 +54,11 @@ export default function PressPage() {
   return (
     <div className="min-h-screen bg-bg">
 
-      {/* Hero */}
-      <div className="border-b border-border-subtle">
-        <Container className="py-16 md:py-24 text-center">
-          <FadeIn>
-            <p className="font-body text-[11px] tracking-[0.3em] uppercase text-accent mb-5">In the Media</p>
-            <h1 className="font-display text-5xl md:text-6xl font-light italic text-text mb-4">
-              Press
-            </h1>
-            <p className="font-body text-sm text-text-muted max-w-md mx-auto leading-relaxed">
-              Editorial coverage, features, and what the world is saying about LUMYNAT.
-            </p>
-          </FadeIn>
-        </Container>
-      </div>
+      <PageHero
+        eyebrow="In the Media"
+        title="Press"
+        description="Editorial coverage, features, and what the world is saying about LUMYNAT."
+      />
 
       {/* As seen in */}
       <AnimateIn animation="fade-in">

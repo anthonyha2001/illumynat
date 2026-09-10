@@ -2,6 +2,7 @@ import { createClient } from "@/lib/supabase/server";
 import { prisma } from "@/lib/prisma";
 import { Container } from "@/components/ui/Container";
 import ContactForm from "./ContactForm";
+import { PageHero } from "@/components/customer/PageHero";
 
 export const metadata = { title: "Contact Us — LUMYNAT" };
 
@@ -19,21 +20,11 @@ export default async function ContactPage() {
 
   return (
     <div className="min-h-screen bg-bg">
-      <div className="border-b border-border-subtle">
-        <Container className="py-14 md:py-20">
-          <p className="font-body text-[11px] tracking-[0.25em] uppercase text-accent mb-4">Get in Touch</p>
-          <h1 className="font-display text-4xl md:text-6xl font-light italic text-text mb-4">
-            Contact us.
-          </h1>
-          <p className="font-body text-sm text-text-muted max-w-md leading-relaxed">
-            We respond to every message within 24 hours on business days.
-            For urgent matters, reach us directly at{" "}
-            <a href="mailto:hello@lumynat.com" className="text-accent hover:underline underline-offset-2">
-              hello@lumynat.com
-            </a>.
-          </p>
-        </Container>
-      </div>
+      <PageHero
+        eyebrow="Get in Touch"
+        title="Contact us."
+        description="We respond to every message within 24 hours on business days."
+      />
 
       <Container className="py-14 md:py-20">
         <div className="grid md:grid-cols-2 gap-16 md:gap-24 items-start">

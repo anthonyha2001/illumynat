@@ -1,7 +1,7 @@
 import { Container } from "@/components/ui/Container";
 import { AnimateIn } from "@/components/ui/AnimateIn";
-import { FadeIn } from "@/components/ui/FadeIn";
 import Link from "next/link";
+import { PageHero } from "@/components/customer/PageHero";
 
 export const metadata = {
   title: "Shipping & Returns — LUMYNAT",
@@ -40,20 +40,11 @@ export default function ShippingPage() {
   return (
     <div className="min-h-screen bg-bg">
 
-      {/* Header */}
-      <div className="border-b border-border-subtle">
-        <Container className="py-14 md:py-20">
-          <FadeIn>
-            <p className="font-body text-[11px] tracking-[0.25em] uppercase text-accent mb-4">Policies</p>
-            <h1 className="font-display text-4xl md:text-6xl font-light italic text-text mb-4">
-              Shipping & Returns
-            </h1>
-            <p className="font-body text-sm text-text-muted max-w-md leading-relaxed">
-              Every order is packed by hand and inspected before it leaves our studio. Here is everything you need to know about delivery and returns.
-            </p>
-          </FadeIn>
-        </Container>
-      </div>
+      <PageHero
+        eyebrow="Policies"
+        title="Shipping & Returns"
+        description="Every order is packed by hand and inspected before it leaves our studio."
+      />
 
       {/* Shipping options */}
       <Container className="py-16 md:py-20">

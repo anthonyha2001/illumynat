@@ -1,7 +1,7 @@
 import { Container } from "@/components/ui/Container";
 import { AnimateIn } from "@/components/ui/AnimateIn";
-import { FadeIn } from "@/components/ui/FadeIn";
 import Link from "next/link";
+import { PageHero } from "@/components/customer/PageHero";
 
 export const metadata = {
   title: "Care Guide — LUMYNAT",
@@ -62,21 +62,11 @@ export default function CareGuidePage() {
   return (
     <div className="min-h-screen bg-bg">
 
-      {/* Header */}
-      <div className="bg-bg-subtle border-b border-border-subtle">
-        <Container className="py-14 md:py-20">
-          <FadeIn>
-            <p className="font-body text-[11px] tracking-[0.25em] uppercase text-accent mb-4">Care Guide</p>
-            <h1 className="font-display text-4xl md:text-6xl font-light italic text-text mb-4">
-              Get the most from<br />your candle.
-            </h1>
-            <p className="font-body text-sm text-text-muted max-w-md leading-relaxed">
-              A well-cared-for candle burns cleaner, smells stronger, and lasts significantly longer.
-              These six steps will make the difference.
-            </p>
-          </FadeIn>
-        </Container>
-      </div>
+      <PageHero
+        eyebrow="Care Guide"
+        title="Get the most from your candle."
+        description="A well-cared-for candle burns cleaner, smells stronger, and lasts significantly longer."
+      />
 
       {/* Steps */}
       <Container className="py-16 md:py-24">

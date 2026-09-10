@@ -2,6 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { Container } from "@/components/ui/Container";
 import { AnimateIn } from "@/components/ui/AnimateIn";
+import { PageHero } from "@/components/customer/PageHero";
 import { ProductCard } from "@/components/customer/ProductCard";
 import { getFeaturedProducts } from "@/lib/data/products";
 import { getActiveGiftSets } from "@/lib/data/giftSets";
@@ -49,45 +50,18 @@ export default async function GiftingPage() {
   return (
     <div className="min-h-screen bg-bg">
 
-      {/* ── Hero ── */}
-      <div className="relative overflow-hidden bg-bg-dark">
-        <div
-          className="absolute inset-0"
-          style={{
-            background:
-              "radial-gradient(ellipse 80% 80% at 30% 60%, #3d2e1e 0%, #1a1108 55%, #0a0804 100%)",
-          }}
-        />
-        <div
-          className="absolute inset-0 opacity-20"
-          style={{
-            backgroundImage:
-              "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.4'/%3E%3C/svg%3E\")",
-            backgroundSize: "200px 200px",
-          }}
-        />
-        <Container className="relative z-10 py-24 md:py-36">
-          <div className="max-w-xl">
-            <p className="font-body text-[11px] tracking-[0.3em] uppercase text-accent mb-5">
-              For Someone Special
-            </p>
-            <h1 className="font-display text-5xl md:text-7xl font-light italic text-text-inverse leading-[1.05] mb-6">
-              The gift of<br />
-              <span className="not-italic text-accent">atmosphere.</span>
-            </h1>
-            <p className="font-body text-sm text-text-inverse/50 leading-relaxed max-w-sm mb-10">
-              An LUMYNAT candle is not a placeholder gift. It is a considered one —
-              something the recipient will light on purpose, in a room they want to feel different.
-            </p>
-            <Link
-              href="/shop"
-              className="inline-block font-body text-[11px] tracking-[0.2em] uppercase bg-accent text-text-on-gold px-8 py-4 hover:bg-accent-dark transition-colors duration-200"
-            >
-              Shop All Candles
-            </Link>
-          </div>
-        </Container>
-      </div>
+      <PageHero
+        eyebrow="For Someone Special"
+        title="The gift of atmosphere."
+        description="A LUMYNAT candle is not a placeholder gift. It is a considered one — something the recipient will light on purpose, in a room they want to feel different."
+      >
+        <Link
+          href="/shop"
+          className="inline-block font-body text-[11px] tracking-[0.2em] uppercase bg-accent text-text-on-gold px-8 py-4 hover:bg-accent-dark transition-colors duration-200 mt-2"
+        >
+          Shop All Candles
+        </Link>
+      </PageHero>
 
       {/* ── Gift sets ── */}
       {giftSets.length > 0 && (

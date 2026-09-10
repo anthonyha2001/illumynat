@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Container } from "@/components/ui/Container";
 import { AnimateIn } from "@/components/ui/AnimateIn";
+import { PageHero } from "@/components/customer/PageHero";
 
 export const metadata = {
   title: "Our Story — LUMYNAT",
@@ -46,38 +47,12 @@ export default function OurStoryPage() {
   return (
     <div className="min-h-screen bg-bg">
 
-      {/* ── Hero ── */}
-      <div className="relative h-[70vh] min-h-[500px] overflow-hidden bg-bg-dark">
-        <div
-          className="absolute inset-0"
-          style={{
-            background:
-              "radial-gradient(ellipse 90% 90% at 60% 50%, #3d2e1e 0%, #1a1108 60%, #0a0804 100%)",
-          }}
-        />
-        {/* Noise texture */}
-        <div
-          className="absolute inset-0 opacity-20"
-          style={{
-            backgroundImage:
-              "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.4'/%3E%3C/svg%3E\")",
-            backgroundSize: "200px 200px",
-          }}
-        />
-        <div className="absolute inset-0 flex flex-col items-center justify-center text-center px-6">
-          <p className="font-body text-[11px] tracking-[0.3em] uppercase text-accent mb-6">
-            Est. 2019
-          </p>
-          <h1 className="font-display text-5xl md:text-7xl font-light italic text-text-inverse leading-[1.05] mb-6">
-            Made by hand.<br />
-            <span className="not-italic font-light text-accent">Meant to last.</span>
-          </h1>
-          <p className="font-body text-sm text-text-inverse/50 max-w-sm leading-relaxed">
-            LUMYNAT began with a question: why does a room smell like nothing?
-            Four years and ten thousand pours later, we&apos;re still answering it.
-          </p>
-        </div>
-      </div>
+      <PageHero
+        eyebrow="Est. 2019"
+        title="Made by hand. Meant to last."
+        description="LUMYNAT began with a question: why does a room smell like nothing? Four years and ten thousand pours later, we're still answering it."
+        centered
+      />
 
       {/* ── Origin story ── */}
       <AnimateIn>

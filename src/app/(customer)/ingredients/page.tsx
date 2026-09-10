@@ -1,7 +1,7 @@
 import { Container } from "@/components/ui/Container";
 import { AnimateIn } from "@/components/ui/AnimateIn";
-import { FadeIn } from "@/components/ui/FadeIn";
 import Link from "next/link";
+import { PageHero } from "@/components/customer/PageHero";
 
 export const metadata = {
   title: "Ingredients — LUMYNAT",
@@ -56,28 +56,12 @@ export default function IngredientsPage() {
   return (
     <div className="min-h-screen bg-bg">
 
-      {/* Hero */}
-      <div className="relative overflow-hidden bg-bg-dark">
-        <div
-          className="absolute inset-0"
-          style={{ background: "radial-gradient(ellipse 80% 80% at 70% 40%, #2a1a0e 0%, #12080a 60%, #0a0408 100%)" }}
-        />
-        <div className="absolute inset-0 flex flex-col items-center justify-center text-center px-6 py-28 md:py-40">
-          <FadeIn>
-            <p className="font-body text-[11px] tracking-[0.3em] uppercase text-accent mb-5">
-              Full Transparency
-            </p>
-            <h1 className="font-display text-5xl md:text-7xl font-light italic text-text-inverse leading-[1.05] mb-6">
-              What&apos;s inside<br />
-              <span className="not-italic text-accent">every candle.</span>
-            </h1>
-            <p className="font-body text-sm text-text-inverse/50 max-w-sm mx-auto leading-relaxed">
-              We believe you have the right to know exactly what you burn in your home.
-              Here is every ingredient we use, and why we chose it.
-            </p>
-          </FadeIn>
-        </div>
-      </div>
+      <PageHero
+        eyebrow="Full Transparency"
+        title="What's inside every candle."
+        description="We believe you have the right to know exactly what you burn in your home."
+        centered
+      />
 
       {/* Ingredients */}
       <Container className="py-20 md:py-28">

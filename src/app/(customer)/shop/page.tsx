@@ -2,6 +2,7 @@ import { Suspense } from "react";
 import { Container } from "@/components/ui/Container";
 import { ProductCard } from "@/components/customer/ProductCard";
 import { FadeIn, FadeInStagger, FadeInItem } from "@/components/ui/FadeIn";
+import { PageHero } from "@/components/customer/PageHero";
 import { getProducts, getDistinctScentFamilies, type ProductSortKey } from "@/lib/data/products";
 import { ShopFilters } from "./ShopFilters";
 import { Spinner } from "@/components/ui/Spinner";
@@ -45,24 +46,11 @@ export default async function ShopPage({ searchParams }: Props) {
 
   return (
     <div className="min-h-screen bg-bg">
-      {/* Page header */}
-      <div className="border-b border-border-subtle bg-bg">
-        <Container className="py-10 md:py-14">
-          <FadeIn>
-            <p className="font-body text-[11px] tracking-[0.25em] uppercase text-accent mb-3">
-              Our Collection
-            </p>
-            <h1 className="font-display text-4xl md:text-5xl font-light italic text-text">
-              All Candles
-            </h1>
-            {params.search && (
-              <p className="mt-2 font-body text-sm text-text-muted">
-                Showing results for &ldquo;{params.search}&rdquo;
-              </p>
-            )}
-          </FadeIn>
-        </Container>
-      </div>
+      <PageHero
+        eyebrow="Our Collection"
+        title="All Candles"
+        description={params.search ? `Showing results for "${params.search}"` : undefined}
+      />
 
       <Container className="py-10 md:py-14">
         <div className="flex flex-col md:flex-row gap-10 md:gap-14">
