@@ -129,16 +129,11 @@ export function AdminNotificationBell() {
                 <span className="font-body text-[10px] bg-accent text-text-on-gold px-1.5 py-0.5">{unread} new</span>
               )}
             </div>
-            <div className="flex items-center gap-3">
-              {unread > 0 && (
-                <button onClick={markAllRead} className="font-body text-[10px] tracking-widest uppercase text-text-muted hover:text-accent transition-colors duration-150">
-                  Mark all read
-                </button>
-              )}
-              <Link href="/admin/notifications" onClick={() => setOpen(false)} className="font-body text-[10px] tracking-widest uppercase text-accent hover:underline underline-offset-2">
-                View all
-              </Link>
-            </div>
+            {unread > 0 && (
+              <button onClick={markAllRead} className="font-body text-[10px] tracking-widest uppercase text-text-muted hover:text-accent transition-colors duration-150">
+                Mark all read
+              </button>
+            )}
           </div>
 
           {/* List */}
@@ -199,6 +194,20 @@ export function AdminNotificationBell() {
                 );
               })
             )}
+          </div>
+
+          {/* Footer */}
+          <div className="border-t border-border-subtle px-4 py-3">
+            <Link
+              href="/admin/notifications"
+              onClick={() => setOpen(false)}
+              className="flex items-center justify-center gap-2 w-full font-body text-[10px] tracking-[0.14em] uppercase text-text-muted hover:text-accent transition-colors duration-150 py-1"
+            >
+              <svg className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round">
+                <path d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
+              </svg>
+              View all notifications
+            </Link>
           </div>
         </div>
       )}
