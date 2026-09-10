@@ -140,7 +140,7 @@
   --color-gold:          var(--color-gold);
   --color-gold-light:    var(--color-gold-light);
   --color-gold-dark:     var(--color-gold-dark);
-  --color-gold-pale:     var(--color-gold-pale);
+  --color-gold-pale:     var(--color-accent-pale);
 
   /* Burgundy */
   --color-burgundy:      var(--color-burgundy);
