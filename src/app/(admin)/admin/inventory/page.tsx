@@ -13,16 +13,22 @@ function toNum(v: unknown): number {
   return 0;
 }
 
+const ALL_TABS = ["finished", "materials", "top-sellers", "turnover"] as const;
+type InventoryTab = typeof ALL_TABS[number];
+
 interface Props {
   searchParams: Promise<{ tab?: string }>;
 }
 
 export default async function AdminInventoryPage({ searchParams }: Props) {
   const { tab } = await searchParams;
-  const activeTab = tab === "materials" ? "materials" : "finished";
+  const activeTab: InventoryTab = ALL_TABS.includes(tab as InventoryTab) ? (tab as InventoryTab) : "finished";
 
-  const [finishedGoods, rawMaterials] = await Promise.all([
-    prisma.finishedGoods.findMany({
+  const needsGoods     = activeTab === "finished" || activeTab === "top-sellers" || activeTab === "turnover";
+  const needsMaterials = activeTab === "materials";
+
+  const [finishedGoods, rawMaterials, topSellerRows] = await Promise.all([
+    needsGoods ? prisma.finishedGoods.findMany({
       orderBy: { product: { name: "asc" } },
       select: {
         id: true,
@@ -57,8 +63,9 @@ export default async function AdminInventoryPage({ searchParams }: Props) {
           },
         },
       },
-    }),
-    prisma.rawMaterial.findMany({
+    }) : Promise.resolve([]),
+
+    needsMaterials ? prisma.rawMaterial.findMany({
       where: { isActive: true },
       orderBy: { name: "asc" },
       select: {
@@ -70,7 +77,16 @@ export default async function AdminInventoryPage({ searchParams }: Props) {
         consumptionUnit: true,
         updatedAt: true,
       },
-    }),
+    }) : Promise.resolve([]),
+
+    // Top sellers: total units sold per product
+    (activeTab === "top-sellers" || activeTab === "turnover")
+      ? prisma.orderItem.groupBy({
+          by: ["productId"],
+          _sum: { quantity: true },
+          orderBy: { _sum: { quantity: "desc" } },
+        })
+      : Promise.resolve([]),
   ]);
 
   function recipeUnitCost(fg: typeof finishedGoods[number]): number | null {
@@ -155,21 +171,29 @@ export default async function AdminInventoryPage({ searchParams }: Props) {
       </div>
 
       {/* Tabs */}
-      <div className="flex gap-1 mb-6">
-        {(["finished", "materials"] as const).map((t) => (
-          <Link
-            key={t}
-            href={`/admin/inventory${t === "finished" ? "" : "?tab=materials"}`}
-            className={cn(
-              "px-4 py-2 font-body text-[10px] tracking-[0.12em] uppercase border transition-colors duration-150",
-              activeTab === t
-                ? "bg-accent text-text-on-gold border-accent"
-                : "bg-surface text-text-muted border-border hover:border-accent hover:text-accent"
-            )}
-          >
-            {t === "finished" ? "Finished Goods" : "Raw Materials"}
-          </Link>
-        ))}
+      <div className="flex gap-1 flex-wrap mb-6">
+        {(["finished", "materials", "top-sellers", "turnover"] as const).map((t) => {
+          const labels: Record<string, string> = {
+            "finished":    "Finished Goods",
+            "materials":   "Raw Materials",
+            "top-sellers": "Top Sellers",
+            "turnover":    "Turnover",
+          };
+          return (
+            <Link
+              key={t}
+              href={t === "finished" ? "/admin/inventory" : `/admin/inventory?tab=${t}`}
+              className={cn(
+                "px-4 py-2 font-body text-[10px] tracking-[0.12em] uppercase border transition-colors duration-150",
+                activeTab === t
+                  ? "bg-accent text-text-on-gold border-accent"
+                  : "bg-surface text-text-muted border-border hover:border-accent hover:text-accent"
+              )}
+            >
+              {labels[t]}
+            </Link>
+          );
+        })}
       </div>
 
       {/* Finished Goods tab */}
@@ -321,6 +345,127 @@ export default async function AdminInventoryPage({ searchParams }: Props) {
           )}
         </div>
       )}
+
+      {/* ── Top Sellers tab ── */}
+      {activeTab === "top-sellers" && (() => {
+        const sellerMap = new Map((topSellerRows as { productId: string; _sum: { quantity: number | null } }[]).map((r) => [r.productId, r._sum.quantity ?? 0]));
+        const ranked = finishedGoods
+          .map((fg) => ({ fg, sold: sellerMap.get(fg.product.id) ?? 0 }))
+          .sort((a, b) => b.sold - a.sold);
+        const maxSold = ranked[0]?.sold || 1;
+        return (
+          <div className="bg-surface border border-border-subtle overflow-hidden">
+            <table className="w-full">
+              <thead>
+                <tr className="border-b border-border-subtle">
+                  {["#", "Product", "SKU", "Units Sold", "On Hand", "Sell-through", "Revenue", ""].map((h) => (
+                    <th key={h} className="px-4 py-3 text-left font-body text-[10px] tracking-[0.15em] uppercase text-text-muted">{h}</th>
+                  ))}
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-border-subtle">
+                {ranked.map(({ fg, sold }, i) => {
+                  const price   = toNum(fg.product.price);
+                  const revenue = sold * price;
+                  const total   = sold + fg.quantityOnHand;
+                  const sellThrough = total > 0 ? Math.round((sold / total) * 100) : 0;
+                  return (
+                    <tr key={fg.id} className="hover:bg-bg-subtle transition-colors duration-100 group">
+                      <td className="px-4 py-3">
+                        <span className={cn("font-display text-lg font-light", i < 3 ? "text-accent" : "text-text-faint")}>{i + 1}</span>
+                      </td>
+                      <td className="px-4 py-3 font-body text-sm font-medium text-text">{fg.product.name}</td>
+                      <td className="px-4 py-3 font-mono text-[11px] text-text-muted">{fg.product.sku}</td>
+                      <td className="px-4 py-3">
+                        <div className="flex items-center gap-3">
+                          <span className="font-display text-base font-light text-text">{sold.toLocaleString()}</span>
+                          <div className="flex-1 max-w-[80px] h-1 bg-border-subtle overflow-hidden">
+                            <div className="h-full bg-accent transition-all" style={{ width: `${(sold / maxSold) * 100}%` }} />
+                          </div>
+                        </div>
+                      </td>
+                      <td className={`px-4 py-3 font-body text-sm ${fg.quantityOnHand === 0 ? "text-error font-medium" : fg.quantityOnHand <= 5 ? "text-warning font-medium" : "text-text"}`}>
+                        {fg.quantityOnHand}
+                      </td>
+                      <td className="px-4 py-3">
+                        <div className="flex items-center gap-2">
+                          <div className="w-16 h-1.5 bg-border-subtle overflow-hidden">
+                            <div className="h-full bg-accent/60" style={{ width: `${sellThrough}%` }} />
+                          </div>
+                          <span className="font-body text-[11px] text-text-muted">{sellThrough}%</span>
+                        </div>
+                      </td>
+                      <td className="px-4 py-3 font-display text-base font-light text-accent">${revenue.toLocaleString("en-US", { minimumFractionDigits: 2 })}</td>
+                      <td className="px-4 py-3">
+                        <Link href={`/admin/products/${fg.product.id}`} className="font-body text-[11px] tracking-widest uppercase text-text-muted hover:text-accent transition-colors opacity-0 group-hover:opacity-100">Edit →</Link>
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+            {ranked.length === 0 && (
+              <div className="py-16 text-center"><p className="font-display text-2xl font-light text-text-muted">No sales data yet.</p></div>
+            )}
+          </div>
+        );
+      })()}
+
+      {/* ── Turnover tab ── */}
+      {activeTab === "turnover" && (() => {
+        const sellerMap = new Map((topSellerRows as { productId: string; _sum: { quantity: number | null } }[]).map((r) => [r.productId, r._sum.quantity ?? 0]));
+        const rows = finishedGoods.map((fg) => {
+          const sold     = sellerMap.get(fg.product.id) ?? 0;
+          const stock    = fg.quantityOnHand;
+          const avgInv   = stock + sold / 2; // simplified average inventory
+          const ratio    = avgInv > 0 ? sold / avgInv : 0;
+          const daysToSell = sold > 0 ? Math.round((stock / (sold / 365)) ) : null;
+          return { fg, sold, stock, ratio, daysToSell };
+        }).sort((a, b) => b.ratio - a.ratio);
+        return (
+          <div className="bg-surface border border-border-subtle overflow-hidden">
+            <table className="w-full">
+              <thead>
+                <tr className="border-b border-border-subtle">
+                  {["Product", "SKU", "Units Sold", "On Hand", "Turnover Ratio", "Days to Sell", "Health", ""].map((h) => (
+                    <th key={h} className="px-4 py-3 text-left font-body text-[10px] tracking-[0.15em] uppercase text-text-muted">{h}</th>
+                  ))}
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-border-subtle">
+                {rows.map(({ fg, sold, stock, ratio, daysToSell }) => {
+                  const health = ratio >= 4 ? "Fast" : ratio >= 1.5 ? "Healthy" : ratio > 0 ? "Slow" : "Dead";
+                  const healthCls = health === "Fast" ? "bg-success/10 text-success border-success/20"
+                    : health === "Healthy" ? "bg-accent/10 text-accent border-accent/20"
+                    : health === "Slow"    ? "bg-warning/10 text-warning border-warning/20"
+                    :                        "bg-error/10 text-error border-error/20";
+                  return (
+                    <tr key={fg.id} className="hover:bg-bg-subtle transition-colors duration-100 group">
+                      <td className="px-4 py-3 font-body text-sm font-medium text-text">{fg.product.name}</td>
+                      <td className="px-4 py-3 font-mono text-[11px] text-text-muted">{fg.product.sku}</td>
+                      <td className="px-4 py-3 font-body text-sm text-text">{sold.toLocaleString()}</td>
+                      <td className={`px-4 py-3 font-body text-sm ${stock === 0 ? "text-error font-medium" : stock <= 5 ? "text-warning font-medium" : "text-text"}`}>{stock}</td>
+                      <td className="px-4 py-3 font-display text-base font-light text-text">{ratio.toFixed(2)}×</td>
+                      <td className="px-4 py-3 font-body text-sm text-text-muted">
+                        {daysToSell !== null ? `${daysToSell} days` : <span className="text-text-faint italic text-[11px]">No sales</span>}
+                      </td>
+                      <td className="px-4 py-3">
+                        <span className={cn("font-body text-[10px] tracking-widest uppercase border px-2 py-0.5", healthCls)}>{health}</span>
+                      </td>
+                      <td className="px-4 py-3">
+                        <Link href={`/admin/products/${fg.product.id}`} className="font-body text-[11px] tracking-widest uppercase text-text-muted hover:text-accent transition-colors opacity-0 group-hover:opacity-100">Edit →</Link>
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+            {rows.length === 0 && (
+              <div className="py-16 text-center"><p className="font-display text-2xl font-light text-text-muted">No inventory data.</p></div>
+            )}
+          </div>
+        );
+      })()}
     </div>
   );
 }
