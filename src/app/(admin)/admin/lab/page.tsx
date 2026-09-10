@@ -36,11 +36,28 @@ export default async function LabPage({ searchParams }: Props) {
   const bStatus = params.status;
 
   // ── Fetch based on active tab ────────────────────────────
-  const [products, batches] = await Promise.all([
-    tab === "products" || tab === "recipes"
+  const [recipes, products, batches] = await Promise.all([
+    tab === "recipes"
+      ? prisma.recipe.findMany({
+          orderBy: { createdAt: "desc" },
+          select: {
+            id: true, name: true, createdAt: true,
+            product: { select: { id: true, name: true, sku: true, status: true } },
+            versions: {
+              orderBy: { versionNumber: "desc" },
+              take: 1,
+              select: {
+                versionNumber: true, status: true, waxWeight: true,
+                _count: { select: { ingredients: true } },
+              },
+            },
+          },
+        })
+      : Promise.resolve([]),
+
+    tab === "products"
       ? prisma.product.findMany({
-          where:   tab === "products" ? undefined : { status: { not: "ARCHIVED" } },
-          orderBy: tab === "products" ? { createdAt: "desc" } : { name: "asc" },
+          orderBy: { createdAt: "desc" },
           select: {
             id: true, sku: true, name: true, status: true, price: true,
             scentFamily: true,
@@ -50,10 +67,11 @@ export default async function LabPage({ searchParams }: Props) {
             _count:        { select: { orderItems: true } },
             recipe: {
               select: {
+                id: true,
                 versions: {
                   orderBy: { versionNumber: "desc" },
                   take: 1,
-                  select: { versionNumber: true, status: true, _count: { select: { ingredients: true } } },
+                  select: { versionNumber: true, status: true },
                 },
               },
             },
@@ -95,6 +113,12 @@ export default async function LabPage({ searchParams }: Props) {
           <h1 className="font-display text-4xl font-light italic text-text">The Lab</h1>
         </div>
 
+        {tab === "recipes" && (
+          <Link href="/admin/recipes/new"
+            className="px-5 py-2.5 bg-accent text-text-on-gold font-body text-[11px] tracking-[0.15em] uppercase hover:opacity-90 transition-opacity">
+            + New Recipe
+          </Link>
+        )}
         {tab === "production" && (
           <Link href="/admin/production/new"
             className="px-5 py-2.5 bg-accent text-text-on-gold font-body text-[11px] tracking-[0.15em] uppercase hover:opacity-90 transition-opacity">
@@ -131,8 +155,8 @@ export default async function LabPage({ searchParams }: Props) {
           );
         })}
         <p className="ml-4 font-body text-[11px] text-text-faint">
-          {tab === "recipes"    && "Create or manage a recipe for each product."}
-          {tab === "products"   && "Product doesn't exist yet? Create it here, then add its recipe."}
+          {tab === "recipes"    && "The recipe is the source — define the formula first, then assign it to a product."}
+          {tab === "products"   && "A product is the finalized, sellable version of a recipe. Link a recipe to a product here."}
           {tab === "production" && "Select a product + recipe version to start a production batch."}
         </p>
       </div>
@@ -143,36 +167,53 @@ export default async function LabPage({ searchParams }: Props) {
           <table className="w-full">
             <thead>
               <tr className="border-b border-border-subtle">
-                {["Product", "SKU", "Latest Version", "Ingredients", "Recipe Status", ""].map((h) => (
+                {["Recipe Name", "Wax Weight", "Latest Version", "Ingredients", "Status", "Linked Product", ""].map((h) => (
                   <th key={h} className="px-4 py-3 text-left font-body text-[10px] tracking-[0.15em] uppercase text-text-muted">{h}</th>
                 ))}
               </tr>
             </thead>
             <tbody className="divide-y divide-border-subtle">
-              {(products as typeof products).map((p) => {
-                const latest    = p.recipe?.versions[0];
-                const hasRecipe = !!latest;
+              {(recipes as typeof recipes).map((r) => {
+                const latest = r.versions[0];
                 return (
-                  <tr key={p.id} className="hover:bg-bg-subtle transition-colors duration-100 group">
-                    <td className="px-4 py-3 font-body text-sm font-medium text-text">{p.name}</td>
-                    <td className="px-4 py-3 font-mono text-[12px] text-text-muted">{p.sku}</td>
-                    <td className="px-4 py-3 font-body text-sm text-text-muted">{hasRecipe ? `v${latest.versionNumber}` : "—"}</td>
-                    <td className="px-4 py-3 font-body text-sm text-text-muted text-center">{hasRecipe ? latest._count.ingredients : "—"}</td>
+                  <tr key={r.id} className="hover:bg-bg-subtle transition-colors duration-100 group">
+                    <td className="px-4 py-3 font-body text-sm font-medium text-text">{r.name}</td>
+                    <td className="px-4 py-3 font-body text-sm text-text-muted">
+                      {latest?.waxWeight ? `${Number(latest.waxWeight)}g` : "—"}
+                    </td>
+                    <td className="px-4 py-3 font-body text-sm text-text-muted">
+                      {latest ? `v${latest.versionNumber}` : "—"}
+                    </td>
+                    <td className="px-4 py-3 font-body text-sm text-text-muted text-center">
+                      {latest ? latest._count.ingredients : "—"}
+                    </td>
                     <td className="px-4 py-3">
-                      {!hasRecipe ? (
-                        <span className="font-body text-[10px] tracking-widest uppercase border px-2 py-0.5 bg-bg-subtle text-text-muted border-border">No Recipe</span>
-                      ) : (
+                      {latest ? (
                         <span className={cn("font-body text-[10px] tracking-widest uppercase border px-2 py-0.5", STATUS_CLS[latest.status] ?? "")}>
                           {latest.status}
                         </span>
+                      ) : (
+                        <span className="font-body text-[10px] tracking-widest uppercase border px-2 py-0.5 bg-bg-subtle text-text-muted border-border">No versions</span>
+                      )}
+                    </td>
+                    <td className="px-4 py-3">
+                      {r.product ? (
+                        <div>
+                          <Link href={`/admin/products/${r.product.id}`} className="font-body text-sm text-text hover:text-accent transition-colors">
+                            {r.product.name}
+                          </Link>
+                          <p className="font-mono text-[10px] text-text-muted">{r.product.sku}</p>
+                        </div>
+                      ) : (
+                        <span className="font-body text-[11px] italic text-text-faint">Not assigned</span>
                       )}
                     </td>
                     <td className="px-4 py-3 text-right">
                       <Link
-                        href={`/admin/recipes/${p.id}`}
+                        href={`/admin/recipes/${r.id}`}
                         className="font-body text-[11px] tracking-widest uppercase text-text-muted hover:text-accent transition-colors duration-150 opacity-0 group-hover:opacity-100"
                       >
-                        {hasRecipe ? "Manage →" : "Create Recipe →"}
+                        Edit →
                       </Link>
                     </td>
                   </tr>
@@ -180,11 +221,11 @@ export default async function LabPage({ searchParams }: Props) {
               })}
             </tbody>
           </table>
-          {products.length === 0 && (
+          {recipes.length === 0 && (
             <div className="py-16 text-center">
-              <p className="font-display text-2xl font-light text-text-muted">No products found.</p>
-              <Link href="/admin/lab?tab=products" className="mt-3 inline-block font-body text-sm text-accent hover:underline">
-                Create a product first →
+              <p className="font-display text-2xl font-light text-text-muted">No recipes yet.</p>
+              <Link href="/admin/recipes/new" className="mt-3 inline-block font-body text-sm text-accent hover:underline">
+                Create your first recipe →
               </Link>
             </div>
           )}
@@ -210,8 +251,7 @@ export default async function LabPage({ searchParams }: Props) {
               </thead>
               <tbody className="divide-y divide-border-subtle">
                 {(products as typeof products).map((p) => {
-                  const qty       = p.finishedGoods?.quantityOnHand ?? null;
-                  const hasRecipe = !!p.recipe?.versions[0];
+                  const qty = p.finishedGoods?.quantityOnHand ?? null;
                   return (
                     <tr key={p.id} className="hover:bg-bg-subtle transition-colors duration-100 group">
                       <td className="px-4 py-3">
@@ -234,9 +274,9 @@ export default async function LabPage({ searchParams }: Props) {
                       </td>
                       <td className="px-4 py-3 font-body text-sm text-text-muted">{p._count.orderItems}</td>
                       <td className="px-4 py-3">
-                        {hasRecipe
-                          ? <Link href={`/admin/recipes/${p.id}`} className="font-body text-[10px] tracking-widest uppercase text-accent hover:underline underline-offset-2">View →</Link>
-                          : <Link href={`/admin/lab?tab=recipes`} className="font-body text-[10px] tracking-widest uppercase text-text-muted hover:text-accent transition-colors">Add recipe</Link>
+                        {p.recipe?.id
+                          ? <Link href={`/admin/recipes/${p.recipe.id}`} className="font-body text-[10px] tracking-widest uppercase text-accent hover:underline underline-offset-2">View →</Link>
+                          : <Link href="/admin/recipes/new" className="font-body text-[10px] tracking-widest uppercase text-text-muted hover:text-accent transition-colors">Add recipe</Link>
                         }
                       </td>
                       <td className="px-4 py-3">
